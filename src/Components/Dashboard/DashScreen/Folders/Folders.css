@@ -1,0 +1,24 @@
+.folders {
+	padding: var(--sectionpad);
+}
+.folders .secHeader,
+.folders .filter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.folders .secTitle {
+	font-size: 1.5rem;
+	font-weight: 300;
+}
+.folders .filter {
+	font-size: 1rem;
+	font-weight: 300;
+}
+.folders .folderBox {
+	height: 130px;
+	border-radius: 8px;
+	padding: 1.2rem;
+	display: flex;
+	flex-direction: column;
+}

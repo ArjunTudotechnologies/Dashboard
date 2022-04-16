@@ -1,0 +1,75 @@
+.dropBtn {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 8px 16px;
+	/* width: 5.688rem; */
+	height: 3.5rem;
+	cursor: pointer;
+	background: #ffffff;
+	box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+	border-radius: 8px;
+	justify-content: center;
+	/* position: relative; */
+	z-index: 1;
+}
+.dropBtn .label {
+	font-family: "Public Sans";
+	font-style: normal;
+	font-weight: 600;
+	font-size: 1rem;
+	line-height: 19px;
+	color: #000000;
+	margin-right: 11.75px;
+}
+/* .dropBtn:focus-within + .dropOptions {
+	display: block;
+} */
+.dropOptions {
+	/* display: none; */
+	position: absolute;
+	width: 21.014rem;
+	height: 8rem;
+	left: 0px;
+	/* align-items: center; */
+	justify-content: center;
+	top: 115%;
+	padding: 0rem 40px;
+	background: #ffffff;
+	box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.15);
+	border-radius: 20px;
+	z-index: 500;
+}
+.OptioninnerWrapper {
+	min-height: 2rem;
+	max-height: 6rem;
+	overflow-y: scroll;
+	/* display: flex;
+	flex-direction: column;
+	justify-content: center; */
+	/* align-items: center; */
+}
+
+.OptioninnerWrapper::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.OptioninnerWrapper {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+.dropOptions label {
+	font-family: "Public Sans";
+	font-style: normal;
+	font-weight: 600;
+	font-size: 1.25rem;
+	line-height: 140%;
+	color: #000000;
+}
+
+@media (max-width: 600px) {
+	.dropOptions.location {
+		left: auto;
+	}
+}

@@ -1,0 +1,30 @@
+.dashScreen {
+	background-color: #b0abab1a;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.dashScreen .header {
+	background-color: white;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	padding: var(--sectionpad);
+	justify-content: space-between;
+}
+.dashScreen .header .screenTitle {
+	font-size: 1.1rem;
+	font-weight: 500;
+}
+.dashScreen .header .userProfile {
+	display: flex;
+	align-items: center;
+}
+.dashScreen .header .userImage {
+	display: inline-block;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+}
