@@ -5,7 +5,6 @@ import {
 	FormControl,
 	InputGroup,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Login.css";
@@ -16,6 +15,8 @@ import {
 	PassInputs,
 	PhoneInputs,
 } from "../ModularComponents/Inputs/Inputs";
+import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function Login() {
 	const { logo } = useSelector((state) => state.logo);
