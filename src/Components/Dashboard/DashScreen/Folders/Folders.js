@@ -5,6 +5,7 @@ import {
 	faAngleDown,
 	faEllipsisVertical,
 	faFolderOpen,
+	faFolderPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Folders() {
@@ -17,110 +18,124 @@ export default function Folders() {
 					<FontAwesomeIcon icon={faAngleDown} />
 				</div>
 			</div>
-			<div>
-				<div className='row g-5 row-cols-2 row-cols-lg-5'>
-					<div className='col '>
-						<div className='bg-white folderBox'>
-							<div className='d-flex align-items-center justify-content-between'>
-								<FontAwesomeIcon
-									className='fa-2x text-info'
-									icon={faFolderOpen}
-								/>
-								<FontAwesomeIcon
-									className='fa-1x'
-									icon={faEllipsisVertical}
-								/>
+			<div className='w-100 my-2'>
+				<div className='folderStructure d-flex flex-wrap  w-100 justify-content-between'>
+					<div className='col-md-9 col-12 row mb-2  g-5 row-cols-1 row-cols-lg-4 '>
+						<div className='col '>
+							<div className='bg-white folderBox'>
+								<div className='d-flex align-items-center justify-content-between'>
+									<FontAwesomeIcon
+										className='fa-2x '
+										icon={faFolderOpen}
+									/>
+									<FontAwesomeIcon
+										className='fa-1x'
+										icon={faEllipsisVertical}
+									/>
+								</div>
+								<div className='mt-auto'>
+									<h6 className='folderName'>
+										Personal Data
+									</h6>
+									<div className='folderDetails d-flex justify-content-between align-items-center'>
+										<div className='noOfFiles'>
+											200 Files
+										</div>
+										<div className='size'>100 MB</div>
+									</div>
+								</div>
 							</div>
-							<div className='mt-auto'>
-								<h6 className='folderName'>Personal Data</h6>
-								<div className='folderDetails d-flex justify-content-between align-items-center'>
-									<div className='noOfFiles'>200 Files</div>
-									<div className='size'>100 MB</div>
+						</div>
+						<div className='col '>
+							<div className='bg-white folderBox'>
+								<div className='d-flex align-items-center justify-content-between'>
+									<FontAwesomeIcon
+										className='fa-2x '
+										icon={faFolderOpen}
+									/>
+									<FontAwesomeIcon
+										className='fa-1x'
+										icon={faEllipsisVertical}
+									/>
+								</div>
+								<div className='mt-auto'>
+									<h6 className='folderName'>
+										Contact Details
+									</h6>
+									<div className='folderDetails d-flex justify-content-between align-items-center'>
+										<div className='noOfFiles'>
+											200 Files
+										</div>
+										<div className='size'>100 MB</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className='col '>
+							<div className='bg-white folderBox'>
+								<div className='d-flex align-items-center justify-content-between'>
+									<FontAwesomeIcon
+										className='fa-2x'
+										icon={faFolderOpen}
+									/>
+									<FontAwesomeIcon
+										className='fa-1x'
+										icon={faEllipsisVertical}
+									/>
+								</div>
+								<div className='mt-auto'>
+									<h6 className='folderName'>Attendence</h6>
+									<div className='folderDetails d-flex justify-content-between align-items-center'>
+										<div className='noOfFiles'>
+											200 Files
+										</div>
+										<div className='size'>100 MB</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className='col '>
+							<div className='bg-white folderBox'>
+								<div className='d-flex align-items-center justify-content-between'>
+									<FontAwesomeIcon
+										className='fa-2x '
+										icon={faFolderOpen}
+									/>
+									<FontAwesomeIcon
+										className='fa-1x'
+										icon={faEllipsisVertical}
+									/>
+								</div>
+								<div className='mt-auto'>
+									<h6 className='folderName'>
+										Personal Data
+									</h6>
+									<div className='folderDetails d-flex justify-content-between align-items-center'>
+										<div className='noOfFiles'>
+											200 Files
+										</div>
+										<div className='size'>100 MB</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className='col '>
-						<div className='bg-white folderBox'>
+					<div className='col-md-3 g-3 col-12'>
+						<div className=' folderBox align-items-center'>
 							<div className='d-flex align-items-center justify-content-between'>
 								<FontAwesomeIcon
-									className='fa-2x text-secondary'
-									icon={faFolderOpen}
-								/>
-								<FontAwesomeIcon
-									className='fa-1x'
-									icon={faEllipsisVertical}
+									className='fa-4x '
+									icon={faFolderPlus}
 								/>
 							</div>
-							<div className='mt-auto'>
-								<h6 className='folderName'>Contact Details</h6>
-								<div className='folderDetails d-flex justify-content-between align-items-center'>
+							<div className='mt-3'>
+								<h6 className='folderName   fw-bolder'>
+									Create New Folder
+								</h6>
+								{/* <div className='folderDetails d-flex justify-content-between align-items-center'>
 									<div className='noOfFiles'>200 Files</div>
 									<div className='size'>100 MB</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className='col '>
-						<div className='bg-white folderBox'>
-							<div className='d-flex align-items-center justify-content-between'>
-								<FontAwesomeIcon
-									className='fa-2x text-warning'
-									icon={faFolderOpen}
-								/>
-								<FontAwesomeIcon
-									className='fa-1x'
-									icon={faEllipsisVertical}
-								/>
-							</div>
-							<div className='mt-auto'>
-								<h6 className='folderName'>Attendence</h6>
-								<div className='folderDetails d-flex justify-content-between align-items-center'>
-									<div className='noOfFiles'>200 Files</div>
-									<div className='size'>100 MB</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className='col '>
-						<div className='bg-white folderBox'>
-							<div className='d-flex align-items-center justify-content-between'>
-								<FontAwesomeIcon
-									className='fa-2x text-success'
-									icon={faFolderOpen}
-								/>
-								<FontAwesomeIcon
-									className='fa-1x'
-									icon={faEllipsisVertical}
-								/>
-							</div>
-							<div className='mt-auto'>
-								<h6 className='folderName'>Personal Data</h6>
-								<div className='folderDetails d-flex justify-content-between align-items-center'>
-									<div className='noOfFiles'>200 Files</div>
-									<div className='size'>100 MB</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className='col '>
-						<div className='bg-white folderBox'>
-							<div className='d-flex align-items-center justify-content-between'>
-								<FontAwesomeIcon
-									className='fa-2x text-danger'
-									icon={faFolderOpen}
-								/>
-								<FontAwesomeIcon
-									className='fa-1x'
-									icon={faEllipsisVertical}
-								/>
-							</div>
-							<div className='mt-auto'>
-								<h6 className='folderName'>Personal Data</h6>
-								<div className='folderDetails d-flex justify-content-between align-items-center'>
-									<div className='noOfFiles'>200 Files</div>
-									<div className='size'>100 MB</div>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>

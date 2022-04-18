@@ -21,4 +21,51 @@
 	padding: 1.2rem;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	box-shadow: 0px 0px 12px #d3d3d3;
+	/* align-items: center; */
+}
+
+.folders .folderStructure .col-md-9 {
+	width: 84%;
+}
+.folders .folderStructure .col-md-3 .folderBox {
+	background-color: #eceefb;
+	color: #5b64ed;
+}
+/* .folders .folderStructure .col-md-3 .folderBox {
+	background-color: #eceefb;
+} */
+.folders .folderStructure .col-md-9 > .col:nth-child(1) {
+	color: #5784ed;
+}
+.folders .folderStructure .col-md-9 > .col:nth-child(2) {
+	color: #45cbd6;
+}
+.folders .folderStructure .col-md-9 > .col:nth-child(3) {
+	color: #f8c83f;
+}
+.folders .folderStructure .col-md-9 > .col:nth-child(4) {
+	color: #ef8bb1;
+}
+.folders .folderStructure .col-md-9 > .col .folderName {
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+.folders .folderStructure .col-md-9 > .col .folderDetails {
+	color: #a19a9a;
+	font-weight: 600;
+}
+.folders .folderStructure .col-md-3 {
+	width: 16%;
+	/* padding-right: calc(var(--bs-gutter-x) * 0.5);
+	padding-left: calc(var(--bs-gutter-x) * 0.5); */
+}
+@media (max-width: 600px) {
+	.folders .folderStructure .col-md-9 {
+		width: inherit;
+	}
+	.folders .folderStructure .col-md-3 {
+		width: inherit;
+	}
 }

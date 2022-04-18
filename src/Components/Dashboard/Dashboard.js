@@ -4,11 +4,17 @@ import SideMenu from "./SideMenu/SideMenu";
 
 export default function Dashboard() {
 	return (
-		<div className='d-flex vh-100'>
-			<div className='col-2  position-relative'>
+		<div
+			className='d-flex'
+			style={{
+				minHeight: "100vh",
+				maxHeight: "max-content",
+				height: "auto",
+			}}>
+			<div className='col-sm-2 d-none d-sm-block   position-relative'>
 				<SideMenu />
 			</div>
-			<div className='col-10 position-relative'>
+			<div className='col-sm-10 col-12  position-relative'>
 				<DashScreen />
 			</div>
 		</div>
