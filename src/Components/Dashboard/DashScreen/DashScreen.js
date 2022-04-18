@@ -3,6 +3,7 @@ import React from "react";
 import "./DashScreen.css";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import Folders from "./Folders/Folders";
+import Files from "./Files/Files";
 
 export default function DashScreen() {
 	return (
@@ -19,6 +20,7 @@ export default function DashScreen() {
 				</div>
 			</div>
 			<Folders />
+			<Files />
 		</div>
 	);
 }
