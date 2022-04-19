@@ -73,13 +73,21 @@ export default function SideMenu({ url }) {
 							<FontAwesomeIcon icon={faAngleRight} />
 						</div>
 						<div className='submenu mt-2'>
-							<div className='mt-2'>
-								<UilUser size='16' color='#000' />
-								<span className='ms-2'>Personal Details</span>
+							<div className='mt-2 d-flex align-items-start'>
+								<div style={{ height: "20px" }}>
+									<UilUser size='16' color='#000' />
+								</div>
+								<div className='ms-2'>
+									<span className=''>Personal Details</span>
+								</div>
 							</div>
-							<div className='mt-2'>
-								<UilShieldPlus size='16' color='#000' />
-								<span className='ms-2'>Insurance Claims</span>
+							<div className='mt-2 d-flex align-items-start'>
+								<div style={{ height: "20px" }}>
+									<UilShieldPlus size='16' color='#000' />
+								</div>
+								<div className='ms-2'>
+									<span className=''>Insurance Claims</span>
+								</div>
 							</div>
 							<div className='mt-2 d-flex align-items-start'>
 								<div style={{ height: "20px" }}>
