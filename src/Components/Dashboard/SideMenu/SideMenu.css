@@ -1,10 +1,10 @@
 .sidemenu {
-	position: fixed;
+	/* position: fixed; */
 	background: white;
-	top: 0;
-	left: 0;
+	/* top: 0; */
+	/* left: 0; */
 	/* right: 0; */
-	bottom: 0;
+	/* bottom: 0; */
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -14,6 +14,7 @@
 	font-weight: 600;
 	z-index: 800;
 }
+
 .sidemenu .menuItemWrapper {
 	height: 15rem;
 	display: flex;
@@ -24,6 +25,7 @@
 .sidemenu .menuItemWrapper .item {
 	margin-bottom: 1.5rem;
 	cursor: pointer;
+	width: 100%;
 }
 .sidemenu .mainMenuItem {
 	display: flex;
@@ -38,7 +40,11 @@
 	overflow-y: hidden;
 	background-color: #f8f7fd;
 }
-.sidemenu .mainMenuItem + .submenu.active {
+.sidemenu .item:nth-child(2) .mainMenuItem + .submenu.active {
 	/* padding-left: 1.5rem; */
-	height: 70px;
+	height: 100px;
+}
+.sidemenu .item:nth-child(3) .mainMenuItem + .submenu.active {
+	/* padding-left: 1.5rem; */
+	height: 130px;
 }

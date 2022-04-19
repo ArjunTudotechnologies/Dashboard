@@ -1,6 +1,8 @@
 import {
 	faAngleDown,
+	faDownload,
 	faEllipsisVertical,
+	faEye,
 	faListDots,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +14,7 @@ export default function Files() {
 	const listData = [
 		{
 			fileImg: "/assets/images/pdf.png",
-			fileName: "Jhon Doe Employee.pdf",
+			fileName: "Anupam Employee.pdf",
 			fileSize: "128KB",
 			lastViewed: "12/04/2020",
 			folderName: "Personal data",
@@ -20,15 +22,15 @@ export default function Files() {
 		},
 		{
 			fileImg: "/assets/images/pdf.png",
-			fileName: "Jhon Doe .pdf",
+			fileName: "Ritesh deshmukh .pdf",
 			fileSize: "128KB",
 			lastViewed: "12/04/2020",
-			folderName: "Attendence",
+			folderName: "Invoices",
 			folderColor: "#f8c83f",
 		},
 		{
 			fileImg: "/assets/images/xls.png",
-			fileName: "Jhon Doe Employee.xls",
+			fileName: "Saman Agarwal.xls",
 			fileSize: "128KB",
 			lastViewed: "12/04/2020",
 			folderName: "Contact Details",
@@ -36,18 +38,18 @@ export default function Files() {
 		},
 		{
 			fileImg: "/assets/images/word.png",
-			fileName: "Jhon Doe Employee.doc",
+			fileName: "Pooja.doc",
 			fileSize: "128KB",
 			lastViewed: "12/04/2020",
-			folderName: "Personal data",
-			folderColor: "#5784ed",
+			folderName: "Agreements",
+			folderColor: "#ef8bb1",
 		},
 		{
 			fileImg: "/assets/images/pdf.png",
-			fileName: "Jhon Doe Employee.pdf",
+			fileName: "Anuska.pdf",
 			fileSize: "128KB",
 			lastViewed: "12/04/2020",
-			folderName: "Personal data",
+			folderName: "Invoices",
 			folderColor: "#f8c83f",
 		},
 	];
@@ -102,9 +104,9 @@ export default function Files() {
 			<div className='listWrapper '>
 				<div className='d-flex tableHead pb-2'>
 					<div className='col-4 '>File name</div>
-					<div className='col-2 '>Folder name</div>
-					<div className='col-2 '>File size</div>
-					<div className='col-2 '>Last viewed</div>
+					<div className='col-3 '>Folder name</div>
+					{/* <div className='col-2 '>File size</div> */}
+					<div className='col-3 '>Last viewed</div>
 					<div className='col-2 '>Actions</div>
 					{/* <div className='col-2 '>d</div> */}
 				</div>
@@ -126,27 +128,43 @@ export default function Files() {
 											<span>{item.fileName}</span>
 										</div>
 										<div
-											className='col-2 foldername'
+											className='col-3 foldername d-flex align-items-center '
 											style={{ color: item.folderColor }}>
 											{item.folderName}
 										</div>
-										<div className='col-2 filesize'>
+										{/* <div className='col-2 filesize'>
 											128KB
-										</div>
-										<div className='col-2 lastview'>
+										</div> */}
+										<div className='col-3 lastview d-flex align-items-center '>
 											{item.lastViewed}
 										</div>
-										<div className='col-2 '>
-											<div className='d-flex'>
-												<span className='col actionText '>
-													Share
+										<div className='col-2   d-flex align-items-center'>
+											<div className='d-flex align-items-center w-100'>
+												<span
+													className='col actionText '
+													style={{
+														cursor: "pointer",
+													}}>
+													<FontAwesomeIcon
+														icon={faEye}
+													/>
 												</span>
 												{/* <span>|</span> */}
-												<span className='col px-3 border-2 border-start text-center border-end actionText'>
-													Convert
+												<span
+													className='col px-3 border-2 border-start text-center border-end actionText'
+													style={{
+														cursor: "pointer",
+													}}>
+													<FontAwesomeIcon
+														icon={faDownload}
+													/>
 												</span>
 												{/* <span>|</span> */}
-												<span className='col text-center'>
+												<span
+													className='col text-center'
+													style={{
+														cursor: "pointer",
+													}}>
 													<FontAwesomeIcon
 														className='fa-1x'
 														icon={

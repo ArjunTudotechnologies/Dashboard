@@ -28,10 +28,10 @@ export default function Folders() {
 										className='fa-2x '
 										icon={faFolderOpen}
 									/>
-									<FontAwesomeIcon
+									{/* <FontAwesomeIcon
 										className='fa-1x'
 										icon={faEllipsisVertical}
-									/>
+									/> */}
 								</div>
 								<div className='mt-auto'>
 									<h6 className='folderName'>
@@ -41,7 +41,7 @@ export default function Folders() {
 										<div className='noOfFiles'>
 											200 Files
 										</div>
-										<div className='size'>100 MB</div>
+										{/* <div className='size'>100 MB</div> */}
 									</div>
 								</div>
 							</div>
@@ -53,10 +53,10 @@ export default function Folders() {
 										className='fa-2x '
 										icon={faFolderOpen}
 									/>
-									<FontAwesomeIcon
+									{/* <FontAwesomeIcon
 										className='fa-1x'
 										icon={faEllipsisVertical}
-									/>
+									/> */}
 								</div>
 								<div className='mt-auto'>
 									<h6 className='folderName'>
@@ -66,7 +66,7 @@ export default function Folders() {
 										<div className='noOfFiles'>
 											200 Files
 										</div>
-										<div className='size'>100 MB</div>
+										{/* <div className='size'>100 MB</div> */}
 									</div>
 								</div>
 							</div>
@@ -78,18 +78,18 @@ export default function Folders() {
 										className='fa-2x'
 										icon={faFolderOpen}
 									/>
-									<FontAwesomeIcon
+									{/* <FontAwesomeIcon
 										className='fa-1x'
 										icon={faEllipsisVertical}
-									/>
+									/> */}
 								</div>
 								<div className='mt-auto'>
-									<h6 className='folderName'>Attendence</h6>
+									<h6 className='folderName'>Invoices</h6>
 									<div className='folderDetails d-flex justify-content-between align-items-center'>
 										<div className='noOfFiles'>
 											200 Files
 										</div>
-										<div className='size'>100 MB</div>
+										{/* <div className='size'>100 MB</div> */}
 									</div>
 								</div>
 							</div>
@@ -101,20 +101,18 @@ export default function Folders() {
 										className='fa-2x '
 										icon={faFolderOpen}
 									/>
-									<FontAwesomeIcon
+									{/* <FontAwesomeIcon
 										className='fa-1x'
 										icon={faEllipsisVertical}
-									/>
+									/> */}
 								</div>
 								<div className='mt-auto'>
-									<h6 className='folderName'>
-										Personal Data
-									</h6>
+									<h6 className='folderName'>Agreements</h6>
 									<div className='folderDetails d-flex justify-content-between align-items-center'>
 										<div className='noOfFiles'>
 											200 Files
 										</div>
-										<div className='size'>100 MB</div>
+										{/* <div className='size'>100 MB</div> */}
 									</div>
 								</div>
 							</div>

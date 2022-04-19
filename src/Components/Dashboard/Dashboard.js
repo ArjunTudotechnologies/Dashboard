@@ -11,10 +11,10 @@ export default function Dashboard() {
 				maxHeight: "max-content",
 				height: "auto",
 			}}>
-			<div className='col-sm-2 d-none d-sm-block   position-relative'>
+			<div className='col-sm-3 d-none d-sm-block   position-relative'>
 				<SideMenu />
 			</div>
-			<div className='col-sm-10 col-12  position-relative'>
+			<div className='col-sm-9 col-12  position-relative'>
 				<DashScreen />
 			</div>
 		</div>

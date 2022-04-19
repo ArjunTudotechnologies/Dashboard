@@ -36,9 +36,9 @@
 	border-bottom: 1px solid #d3d3d2;
 }
 .files .tableItems {
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-	font-weight: 700;
+	padding-top: 0.8rem;
+	padding-bottom: 0.8rem;
+	font-weight: 500;
 	font-size: 1.1rem;
 }
 .files .tableItems .actionText {

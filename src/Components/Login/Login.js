@@ -34,14 +34,14 @@ export default function Login() {
 	};
 	return (
 		<div className='login position-relative'>
-			<div className='mask1 position-absolute'></div>
-			<div className='mask2 position-absolute'></div>
+			{/* <div className='mask1 position-absolute'></div>
+			<div className='mask2 position-absolute'></div> */}
 			<div className='inputs_wrapper'>
 				<div className='d-flex justify-content-center my-3'>
 					{logo ? (
 						<div className='' style={{ width: "25%" }}>
 							<img
-								src={logo}
+								src='/assets/images/logo.png'
 								className='img-fluid'
 								alt=''
 								srcset=''
@@ -55,8 +55,7 @@ export default function Login() {
 				</div>
 				<h3 className='text-center title'>Login</h3>
 				<p className='text-center login_brief'>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Leo
-					aliquam, faucibus morbi ut.
+					Please login to access the files
 				</p>
 				<NormalInputs
 					placeholder={"example@gmail.com"}
