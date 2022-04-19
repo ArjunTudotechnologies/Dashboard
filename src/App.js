@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./Components/Dashboard/Dashboard.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
+import FilesPage from "./Components/FilesPage/FilesPage";
 function App() {
 	return (
 		<Router>
@@ -18,6 +19,9 @@ function App() {
 				<Route path='/dashboard'>
 					<Dashboard />
 				</Route>
+				{/* <Route path='/filepage'>
+					<FilesPage />
+				</Route> */}
 			</Switch>
 		</Router>
 	);

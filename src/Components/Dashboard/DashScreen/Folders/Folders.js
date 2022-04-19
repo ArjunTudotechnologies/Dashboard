@@ -39,7 +39,7 @@ export default function Folders() {
 									</h6>
 									<div className='folderDetails d-flex justify-content-between align-items-center'>
 										<div className='noOfFiles'>
-											200 Files
+											100 Files
 										</div>
 										{/* <div className='size'>100 MB</div> */}
 									</div>
@@ -87,7 +87,7 @@ export default function Folders() {
 									<h6 className='folderName'>Invoices</h6>
 									<div className='folderDetails d-flex justify-content-between align-items-center'>
 										<div className='noOfFiles'>
-											200 Files
+											120 Files
 										</div>
 										{/* <div className='size'>100 MB</div> */}
 									</div>
@@ -110,7 +110,7 @@ export default function Folders() {
 									<h6 className='folderName'>Agreements</h6>
 									<div className='folderDetails d-flex justify-content-between align-items-center'>
 										<div className='noOfFiles'>
-											200 Files
+											250 Files
 										</div>
 										{/* <div className='size'>100 MB</div> */}
 									</div>

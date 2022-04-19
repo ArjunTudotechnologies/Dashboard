@@ -39,12 +39,15 @@
 	transition: all 1s ease-in-out;
 	overflow-y: hidden;
 	background-color: #f8f7fd;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
 }
 .sidemenu .item:nth-child(2) .mainMenuItem + .submenu.active {
 	/* padding-left: 1.5rem; */
-	height: 100px;
+	height: 130px;
 }
 .sidemenu .item:nth-child(3) .mainMenuItem + .submenu.active {
 	/* padding-left: 1.5rem; */
-	height: 130px;
+	height: 160px;
 }

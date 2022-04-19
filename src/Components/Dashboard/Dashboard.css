@@ -1,0 +1,15 @@
+.dashboard .col-sm-3 {
+	width: 20%;
+}
+.dashboard .col-sm-9 {
+	width: 80%;
+}
+
+@media (max-width: 600px) {
+	.dashboard .col-sm-3 {
+		width: 0;
+	}
+	.dashboard .col-sm-9 {
+		width:100%;
+	}
+}

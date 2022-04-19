@@ -38,7 +38,15 @@ export default function Login() {
 			<div className='mask2 position-absolute'></div> */}
 			<div className='inputs_wrapper'>
 				<div className='d-flex justify-content-center my-3'>
-					{logo ? (
+					<div className='' style={{ width: "25%" }}>
+						<img
+							src='/assets/images/logo.png'
+							className='img-fluid'
+							alt=''
+							srcset=''
+						/>
+					</div>
+					{/* {logo ? (
 						<div className='' style={{ width: "25%" }}>
 							<img
 								src='/assets/images/logo.png'
@@ -51,7 +59,7 @@ export default function Login() {
 						<div className='bg-secondary p-3 d-flex align-items-center justify-content-center w-50'>
 							<h3 className='text-center m-0 '>LOGO</h3>
 						</div>
-					)}
+					)} */}
 				</div>
 				<h3 className='text-center title'>Login</h3>
 				<p className='text-center login_brief'>

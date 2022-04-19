@@ -24,6 +24,7 @@ body {
 }
 a {
 	text-decoration: none !important;
+	color: inherit !important;
 }
 .search_wrapper {
 	display: flex;

@@ -19,8 +19,9 @@ import React from "react";
 import "./SideMenu.css";
 import UilUsersAlt from "../../../../node_modules/@iconscout/react-unicons/icons/uil-users-alt";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function SideMenu() {
+export default function SideMenu({ url }) {
 	// const location = React.useLocation();
 	const history = useHistory();
 	const dropBtn = React.useRef(null);
@@ -55,60 +56,70 @@ export default function SideMenu() {
 			</div>
 			<div className='menuItemWrapper w-100'>
 				<div className=' item'>
-					<div className='mainMenuItem'>
-						<UilEstate size='16' color='#000' />
-						<span className='ms-2'>Home</span>
-					</div>
+					<Link to={`${url}`}>
+						<div className='mainMenuItem'>
+							<UilEstate size='16' color='#000' />
+							<span className='ms-2'>Home</span>
+						</div>
+					</Link>
 				</div>
 				<div className=' item'>
-					<div className='mainMenuItem' onClick={(e) => hide(e)}>
-						<UilUser size='16' color='#000' />
-						<span className='ms-2 me-4 d-inline-block'>
-							Employee Files
-						</span>
-						<FontAwesomeIcon icon={faAngleRight} />
-					</div>
-					<div className='submenu mt-2'>
-						<div className='mt-2'>
+					<Link to={`${url}/employeefiles`}>
+						<div className='mainMenuItem' onClick={(e) => hide(e)}>
 							<UilUser size='16' color='#000' />
-							<span className='ms-2'>Personal Details</span>
+							<span className='ms-2 me-4 d-inline-block'>
+								Employee Files
+							</span>
+							<FontAwesomeIcon icon={faAngleRight} />
 						</div>
-						<div className='mt-2'>
-							<UilShieldPlus size='16' color='#000' />
-							<span className='ms-2'>Insurance Claims</span>
+						<div className='submenu mt-2'>
+							<div className='mt-2'>
+								<UilUser size='16' color='#000' />
+								<span className='ms-2'>Personal Details</span>
+							</div>
+							<div className='mt-2'>
+								<UilShieldPlus size='16' color='#000' />
+								<span className='ms-2'>Insurance Claims</span>
+							</div>
+							<div className='mt-2 d-flex align-items-start'>
+								<div style={{ height: "20px" }}>
+									<UilBill size='16' color='#000' />
+								</div>
+								<div className='ms-2'>
+									Miscellaneous Expenses
+								</div>
+							</div>
 						</div>
-						<div className='mt-2'>
-							<UilBill size='16' color='#000' />
-							<span className='ms-2'>Miscellaneous Expenses</span>
-						</div>
-					</div>
+					</Link>
 				</div>
 				<div className=' item'>
-					<div className='mainMenuItem' onClick={(e) => hide(e)}>
-						<UilUsersAlt size='16' color='#000' />
-						<span className='ms-2 me-4 d-inline-block'>
-							Client Files
-						</span>
-						<FontAwesomeIcon icon={faAngleRight} />
-					</div>
-					<div className='submenu mt-2'>
-						<div className='mt-2'>
-							<UilAt size='16' color='#000' />
-							<span className='ms-2'>Contact Details</span>
+					<Link to={`${url}/clientfiles`}>
+						<div className='mainMenuItem' onClick={(e) => hide(e)}>
+							<UilUsersAlt size='16' color='#000' />
+							<span className='ms-2 me-4 d-inline-block'>
+								Client Files
+							</span>
+							<FontAwesomeIcon icon={faAngleRight} />
 						</div>
-						<div className='mt-2'>
-							<UilFileContract size='16' color='#000' />
-							<span className='ms-2'>Agreements</span>
+						<div className='submenu mt-2'>
+							<div className='mt-2'>
+								<UilAt size='16' color='#000' />
+								<span className='ms-2'>Contact Details</span>
+							</div>
+							<div className='mt-2'>
+								<UilFileContract size='16' color='#000' />
+								<span className='ms-2'>Agreements</span>
+							</div>
+							<div className='mt-2'>
+								<UilInvoice size='16' color='#000' />
+								<span className='ms-2'>Invoices</span>
+							</div>
+							<div className='mt-2'>
+								<UilFile size='16' color='#000' />
+								<span className='ms-2'>Transit files</span>
+							</div>
 						</div>
-						<div className='mt-2'>
-							<UilInvoice size='16' color='#000' />
-							<span className='ms-2'>Invoices</span>
-						</div>
-						<div className='mt-2'>
-							<UilFile size='16' color='#000' />
-							<span className='ms-2'>Transit files</span>
-						</div>
-					</div>
+					</Link>
 				</div>
 				<div className=' item'>
 					<div className='d-flex align-items-center' onClick={logout}>
