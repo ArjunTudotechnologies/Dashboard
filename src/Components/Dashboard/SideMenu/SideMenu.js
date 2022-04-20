@@ -14,6 +14,7 @@ import {
 	UilAt,
 	UilFileContract,
 	UilSignOutAlt,
+	UilTimes,
 } from "@iconscout/react-unicons";
 import React from "react";
 import "./SideMenu.css";
@@ -41,8 +42,22 @@ export default function SideMenu({ url }) {
 		// target.style.height = "max-content";
 		target.classList.toggle("active");
 	};
+	const sideBarOpen = () => {
+		const sidebar = document.querySelector(".sidebarWrapper");
+		const SideMenu = document.querySelector(".sidemenu");
+		sidebar.classList.toggle("open");
+		SideMenu.classList.toggle("d-none");
+		// setTimeout(() => {
+		// }, 700);
+	};
 	return (
-		<div className='sidemenu h-100'>
+		<div className='sidemenu d-none d-sm-block h-100 position-relative'>
+			<span
+				className='position-absolute d-sm-none d-block'
+				onClick={sideBarOpen}
+				style={{ top: "1.5rem", right: "2rem", cursor: "pointer" }}>
+				<UilTimes size='16' color='#000' />
+			</span>
 			<div
 				className='mb-3'
 				style={{ width: "100%", textAlign: "center" }}>

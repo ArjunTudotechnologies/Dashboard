@@ -16,7 +16,7 @@ export default function Dashboard() {
 				maxHeight: "max-content",
 				height: "auto",
 			}}>
-			<div className='col-sm-3 d-none d-sm-block   position-relative'>
+			<div className='sidebarWrapper col-sm-3  d-sm-block   position-relative'>
 				<SideMenu url={url} />
 			</div>
 			<div className='col-sm-9 col-12  position-relative'>

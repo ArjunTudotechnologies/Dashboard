@@ -63,8 +63,18 @@
 }
 @media (max-width: 600px) {
 	.folders .folderStructure .col-md-9 {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
 		width: inherit;
+		flex-wrap: nowrap !important;
+		overflow-x: auto;
+		margin-left: 0;
+		margin-right: 0;
 	}
+	.folders .folderBox {
+		box-shadow: 0 2px 5px #d3d3d3;
+	}
+
 	.folders .folderStructure .col-md-3 {
 		width: inherit;
 	}

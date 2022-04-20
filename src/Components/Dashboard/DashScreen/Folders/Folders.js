@@ -20,7 +20,7 @@ export default function Folders() {
 			</div>
 			<div className='w-100 my-2'>
 				<div className='folderStructure d-flex flex-wrap  w-100 justify-content-between'>
-					<div className='col-md-9 col-12 row mb-2  g-5 row-cols-1 row-cols-lg-4 '>
+					<div className='col-md-9 col-12 row mb-2 g-2  g-sm-5 row-cols-2 row-cols-lg-4 '>
 						<div className='col '>
 							<div className='bg-white folderBox'>
 								<div className='d-flex align-items-center justify-content-between'>
