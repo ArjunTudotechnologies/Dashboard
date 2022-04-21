@@ -9,8 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import "./Files.css";
 import useWrapperHeight from "../../../../CustomHooks/useWrapperHeight";
+import { useSelector } from "react-redux";
 
 export default function Files() {
+	const { loading } = useSelector((state) => state.loading);
+
 	const listData = [
 		{
 			fileImg: "/assets/images/pdf.png",
@@ -84,13 +87,24 @@ export default function Files() {
 		const folders = document.querySelector(".folders");
 		const computedHeight =
 			parent.clientHeight - (hearder.clientHeight + folders.clientHeight);
+		console.log(
+			parent.clientHeight,
+			hearder.clientHeight,
+			folders.offsetHeight
+		);
 		const target = document.querySelector(".files");
 		target.style.height = computedHeight + "px";
 		ListWrapperHeight();
 	};
 	React.useEffect(() => {
-		dynamicHeight();
-	}, []);
+		console.log(loading);
+		if (!loading) {
+			dynamicHeight();
+			// setTimeout(() => {
+
+			// }, 3000);
+		}
+	}, [loading]);
 	return (
 		<div className='files '>
 			<div className='secHeader mb-3'>
@@ -105,10 +119,8 @@ export default function Files() {
 				<div className='d-flex tableHead pb-2'>
 					<div className='col-4 '>File name</div>
 					<div className='col-3 '>Folder name</div>
-					{/* <div className='col-2 '>File size</div> */}
 					<div className='col-3 '>Last viewed</div>
 					<div className='col-2 '>Actions</div>
-					{/* <div className='col-2 '>d</div> */}
 				</div>
 				<div className='listItems'>
 					{heightLoading
@@ -149,7 +161,6 @@ export default function Files() {
 														icon={faEye}
 													/>
 												</span>
-												{/* <span>|</span> */}
 												<span
 													className='col px-3 border-2 border-start text-center border-end actionText'
 													style={{
@@ -159,7 +170,6 @@ export default function Files() {
 														icon={faDownload}
 													/>
 												</span>
-												{/* <span>|</span> */}
 												<span
 													className='col text-center'
 													style={{
@@ -174,7 +184,6 @@ export default function Files() {
 												</span>
 											</div>
 										</div>
-										{/* <div className='col-2 '>d</div> */}
 									</div>
 								)
 						  )}

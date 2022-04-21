@@ -12,9 +12,7 @@ export default function Dashboard() {
 		<div
 			className='d-flex dashboard'
 			style={{
-				minHeight: "100vh",
-				maxHeight: "max-content",
-				height: "auto",
+				height: "100vh",
 			}}>
 			<div className='sidebarWrapper col-sm-3  d-sm-block   position-relative'>
 				<SideMenu url={url} />

@@ -28,7 +28,17 @@
 
 .folders .folderStructure .col-md-9 {
 	width: 84%;
+	overflow-x: auto;
+	flex-wrap: nowrap;
+	padding-bottom: 1rem;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none;
+	/* ; Firefox */
 }
+.folders .folderStructure .col-md-9::-webkit-scrollbar {
+	display: none;
+}
+
 .folders .folderStructure .col-md-3 .folderBox {
 	background-color: #eceefb;
 	color: #5b64ed;

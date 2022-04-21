@@ -18,6 +18,8 @@ import {
 import { Link } from "react-router-dom";
 import { NavLink, useHistory } from "react-router-dom";
 import axios from "axios";
+import { setUserId } from "../../Redux/LoginInfo";
+
 export default function Login() {
 	const { logo } = useSelector((state) => state.logo);
 	const dispatch = useDispatch();
@@ -25,10 +27,13 @@ export default function Login() {
 	const [passIcon, setPassIcon] = useState(false);
 	const [passType, setPassType] = useState(true);
 	const [err, setErr] = useState(null);
+
+	const { userId } = useSelector((state) => state.loginInfo);
 	// const [loginLogo, setLoginLogo] = useState(null);
 	useEffect(() => {
+		console.log(userId);
 		dispatch(getLogo());
-	}, [logo]);
+	}, [logo, userId]);
 	const [loginCred, SetLoginCred] = useState({});
 	const CaptureValue = (e) => {
 		// console.log(e.target.name);
@@ -48,7 +53,10 @@ export default function Login() {
 			.then((res) => {
 				// console.log(res.data);
 				const LoginData = res.data;
-				if (LoginData.uid) history.push("/dashboard");
+				if (LoginData.uid) {
+					dispatch(setUserId(LoginData.uid));
+					history.push("/dashboard");
+				}
 				setErr(null);
 			})
 			.catch((err) => {

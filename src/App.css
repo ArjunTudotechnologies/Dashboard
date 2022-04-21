@@ -45,6 +45,7 @@ a {
 input[type="checkbox"] {
 	transform: scale(1.15);
 }
+
 @media (max-width: 600px) {
 	.search_wrapper {
 		flex-direction: column;

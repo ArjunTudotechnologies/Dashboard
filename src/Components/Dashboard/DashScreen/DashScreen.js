@@ -6,8 +6,14 @@ import Folders from "./Folders/Folders";
 import Files from "./Files/Files";
 import Hamburger from "../../Hamburger/Hamburger";
 import TitleBar from "../TitleBar/TitleBar";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../../Redux/IsLoading";
 
 export default function DashScreen() {
+	const dispatch = useDispatch();
+	React.useEffect(() => {
+		dispatch(setLoading(true));
+	}, []);
 	return (
 		<div className='dashScreen'>
 			<div className='header'>
