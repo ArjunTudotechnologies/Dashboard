@@ -16,21 +16,46 @@ import {
 	PhoneInputs,
 } from "../ModularComponents/Inputs/Inputs";
 import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-
+import { NavLink, useHistory } from "react-router-dom";
+import axios from "axios";
 export default function Login() {
 	const { logo } = useSelector((state) => state.logo);
 	const dispatch = useDispatch();
-
+	const history = useHistory();
 	const [passIcon, setPassIcon] = useState(false);
 	const [passType, setPassType] = useState(true);
+	const [err, setErr] = useState(null);
 	// const [loginLogo, setLoginLogo] = useState(null);
 	useEffect(() => {
 		dispatch(getLogo());
 	}, [logo]);
-
-	const setLocal = () => {
-		dispatch(setLogo());
+	const [loginCred, SetLoginCred] = useState({});
+	const CaptureValue = (e) => {
+		// console.log(e.target.name);
+		const name = e.target.name;
+		const value = e.target.value;
+		SetLoginCred((prev) => {
+			const newData = { ...prev };
+			newData[name.toLowerCase()] = value;
+			return newData;
+		});
+	};
+	const Handlelogin = () => {
+		// dispatch(setLogo());
+		console.log(loginCred);
+		axios
+			.post("https://calm-beyond-84616.herokuapp.com/Login", loginCred)
+			.then((res) => {
+				// console.log(res.data);
+				const LoginData = res.data;
+				if (LoginData.uid) history.push("/dashboard");
+				setErr(null);
+			})
+			.catch((err) => {
+				const errMsg = err.response.data.message;
+				// alert(errMsg);
+				setErr(errMsg);
+			});
 	};
 	return (
 		<div className='login position-relative'>
@@ -46,39 +71,40 @@ export default function Login() {
 							srcset=''
 						/>
 					</div>
-					{/* {logo ? (
-						<div className='' style={{ width: "25%" }}>
-							<img
-								src='/assets/images/logo.png'
-								className='img-fluid'
-								alt=''
-								srcset=''
-							/>
-						</div>
-					) : (
-						<div className='bg-secondary p-3 d-flex align-items-center justify-content-center w-50'>
-							<h3 className='text-center m-0 '>LOGO</h3>
-						</div>
-					)} */}
 				</div>
 				<h3 className='text-center title'>Login</h3>
 				<p className='text-center login_brief'>
 					Please login to access the files
 				</p>
 				<NormalInputs
+					onBlur={CaptureValue}
 					placeholder={"example@gmail.com"}
 					label={"Email"}
 					type={"email"}
 				/>
 
-				<PassInputs placeholder={"Password"} label={"Password"} />
+				<PassInputs
+					onBlur={CaptureValue}
+					placeholder={"Password"}
+					label={"Password"}
+				/>
 
-				<Link
-					to='/dashboard'
-					onClick={setLocal}
-					className='d-flex justify-content-center d-inline-block'>
-					<a className=' mt-4 mb-3 custom_btn '>Login</a>
-				</Link>
+				<span
+					// to='/dashboard'
+
+					className='d-flex justify-content-center d-inline-block text-white'>
+					<span
+						style={{ cursor: "pointer" }}
+						onClick={Handlelogin}
+						className=' mt-4 mb-3 custom_btn '>
+						Login
+					</span>
+				</span>
+				{err && (
+					<div class='alert alert-danger' role='alert'>
+						{err}
+					</div>
+				)}
 				<div className='text-center mt-4'>
 					<a href='http://' target='_blank' rel='noopener noreferrer'>
 						Forgot your password?

@@ -25,6 +25,7 @@ export function NormalInputs({
 			<Form.Control
 				className='p-3'
 				onBlur={onBlur}
+				onChange={onBlur}
 				required={required}
 				name={label}
 				type={type}
@@ -156,7 +157,7 @@ export function SelectInputs({
 		</Form.Group>
 	);
 }
-export function PassInputs({ placeholder, label }) {
+export function PassInputs({ placeholder, label, onBlur }) {
 	const [passIcon, setPassIcon] = React.useState(false);
 	const [passType, setPassType] = React.useState(true);
 	return (
@@ -164,6 +165,9 @@ export function PassInputs({ placeholder, label }) {
 			<label htmlFor='pass'>{label}</label>
 			<div className='position-relative'>
 				<FormControl
+					name={label}
+					onBlur={onBlur}
+					onChange={onBlur}
 					className='p-3'
 					id='pass'
 					placeholder={placeholder}
