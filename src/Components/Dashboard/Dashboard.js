@@ -20,14 +20,14 @@ export default function Dashboard() {
 			<div className='col-sm-9 col-12  position-relative'>
 				<Switch>
 					<Route exact path={`${path}/`}>
-						<DashScreen />
+						<DashScreen url={url} />
 					</Route>
-					<Route exact path={`${path}/employeefiles`}>
+					<Route exact path={`${path}/:folderName`}>
 						<FilesPage />
 					</Route>
-					<Route exact path={`${path}/clientfiles`}>
+					{/* <Route exact path={`${path}/clientfiles`}>
 						<FilesPage />
-					</Route>
+					</Route> */}
 				</Switch>
 			</div>
 		</div>

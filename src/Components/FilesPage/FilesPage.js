@@ -1,20 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-// import "./DashScreen.css";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-// import Files from "../Dashboard/DashScreen/Files/Files";
 import Tables from "./Tables/Tables";
-// import Folders from "./Folders/Folders";
-// import Files from "./Files/Files";
 import "./FilesPage.css";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
+import { useParams } from "react-router-dom";
 
 export default function FilesPage() {
+	const { folderName } = useParams();
+	const splits = folderName.split("_");
+	console.log(splits);
+	let name = "";
+	splits.forEach((item, ind) => {
+		name += item.charAt(0).toUpperCase() + item.slice(1) + " ";
+	});
 	return (
 		<div className='FilesPage'>
 			<div className='header'>
-				{/* <div className='screenTitle'>Files</div> */}
-				<TitleBar title='Files' />
+				<TitleBar title={name} />
 				<div className='userProfile'>
 					<img
 						src='/assets/images/user.JPG'

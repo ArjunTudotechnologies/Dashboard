@@ -7,12 +7,26 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UilPlus } from "@iconscout/react-unicons";
-import React from "react";
+import React, { useState } from "react";
 import "./Tables.css";
+import firebase from "../../../Firebase/FirebaseConfig";
+// import { storage } from "../../../Firebase/FirebaseConfig";
+// import "firebase/firestore";
+
 // import "./Files.css";
 // import useWrapperHeight from "../../../../CustomHooks/useWrapperHeight";
 
+const storage = firebase.storage();
+const auth = firebase.auth();
+const projectFireStore = firebase.firestore();
+const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 export default function Tables() {
+	// console.log(firebase.storage);
+	const [url, setUrl] = useState("");
+	const [progress, setProgress] = useState(0);
+	const [docs, setDocs] = useState([]);
+	const [userUID, setUserUID] = useState("");
+	const [post, setPost] = useState("");
 	const listData = [
 		{
 			fileImg: "/assets/images/pdf.png",
@@ -55,6 +69,7 @@ export default function Tables() {
 			folderColor: "#f8c83f",
 		},
 	];
+	const [file, setFile] = React.useState(null);
 	const [heightLoading, setHeightLoading] = React.useState(true);
 	const getInnerHeight = (elm) => {
 		var computed = getComputedStyle(elm),
@@ -83,13 +98,59 @@ export default function Tables() {
 	const dynamicHeight = () => {
 		const parent = document.querySelector("body");
 		const hearder = document.querySelector(".FilesPage .header");
-		// const folders = document.querySelector(".folders");
 		const computedHeight = parent.clientHeight - hearder.clientHeight;
 		const target = document.querySelector(".FilesPage .files");
 		target.style.height = computedHeight + "px";
 		ListWrapperHeight();
-		// setHeightLoading(false);
 	};
+	const uploadHandle = () => {
+		const uploadInput = document.querySelector("#fileupload");
+		uploadInput.click();
+	};
+	const handleChange = (e) => {
+		const targetFile = e.target.files[0];
+		console.log(targetFile);
+		if (targetFile) {
+			setFile(targetFile);
+		}
+		handleUpload();
+	};
+	const handleUpload = () => {
+		const uploadTask = storage.ref(`images/${file.name}`).put(file);
+		const collectionRef = projectFireStore.collection("media");
+		const collectionRefPost = projectFireStore.collection("post");
+		uploadTask.on(
+			"state_changed",
+			(snapshot) => {
+				const progress = Math.round(
+					(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+				);
+				setProgress(progress);
+			},
+			(error) => {
+				console.log(error);
+			},
+			() => {
+				storage
+					.ref("images")
+					.child(file.name)
+					.getDownloadURL()
+					.then((url) => {
+						setUrl(url);
+						const createdAt = timestamp();
+						collectionRef.add({ uid: userUID, url, createdAt });
+						collectionRefPost.add({
+							uid: userUID,
+							text: post,
+							createdAt,
+						});
+						console.log(url);
+					});
+				setPost("");
+			}
+		);
+	};
+
 	React.useEffect(() => {
 		dynamicHeight();
 		// setHeightLoading(false);
@@ -103,10 +164,17 @@ export default function Tables() {
 					<span className='me-3'>Sort by</span>
 					<FontAwesomeIcon icon={faAngleDown} />
 					<span
+						onClick={uploadHandle}
 						style={{ cursor: "pointer" }}
 						// onClick={Handlelogin}
 						className=' ms-3 btn btn-info text-white '>
-						<span className="me-2">Add file</span>
+						<input
+							onChange={handleChange}
+							type='file'
+							id='fileupload'
+							hidden
+						/>
+						<span className='me-2'>Add file</span>
 						<UilPlus size='16' color='#fff' />
 					</span>
 				</div>
