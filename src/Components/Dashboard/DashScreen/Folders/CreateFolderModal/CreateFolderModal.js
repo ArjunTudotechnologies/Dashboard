@@ -7,10 +7,17 @@ export default function CreateFolderModal(props) {
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	const [name, setName] = React.useState(null);
+	const [createData, setCreateData] = React.useState({});
 	const handleModalInputBlur = (e) => {
-		setName(e.target.value);
-		console.log(name);
+		const name = e.target.name;
+		const value = e.target.value;
+		setCreateData((prev) => {
+			const newData = { ...prev };
+			newData[name.toLowerCase()] = value;
+			console.log(newData);
+			return newData;
+		});
+		console.log(createData);
 	};
 	return (
 		<Modal
@@ -27,18 +34,30 @@ export default function CreateFolderModal(props) {
 				<Container>
 					<NormalInputs
 						type='text'
+						placeholder='Parent name'
+						label='Parent'
+						onBlur={handleModalInputBlur}
+					/>
+					<NormalInputs
+						type='text'
 						placeholder='Folder name'
-						label='Folder Name'
+						label='Name'
+						onBlur={handleModalInputBlur}
+					/>
+					<NormalInputs
+						type='text'
+						placeholder='Color hex .ex:#dd3d3d'
+						label='Color'
 						onBlur={handleModalInputBlur}
 					/>
 				</Container>
 			</Modal.Body>
 			<Modal.Footer className='justify-content-center'>
 				<Button
-					onClick={() => {
-						props.onCreate(name);
-						// props.onHide();
-					}}>
+				onClick={() => {
+					props.onCreate(createData);
+				}}
+				>
 					Create
 				</Button>
 			</Modal.Footer>

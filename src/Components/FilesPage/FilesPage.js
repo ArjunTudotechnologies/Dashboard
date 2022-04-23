@@ -4,12 +4,17 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import Tables from "./Tables/Tables";
 import "./FilesPage.css";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
-export default function FilesPage() {
+export default function FilesPage(props) {
+	const location = useLocation();
 	const { folderName } = useParams();
+	const [folderId, setfolderId] = React.useState(location.parentId);
+	// console.log(location.parentId);
+	React.useEffect(() => {}, []);
+
 	const splits = folderName.split("_");
-	console.log(splits);
+	// console.log(splits);
 	let name = "";
 	splits.forEach((item, ind) => {
 		name += item.charAt(0).toUpperCase() + item.slice(1) + " ";

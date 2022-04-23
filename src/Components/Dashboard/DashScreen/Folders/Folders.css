@@ -46,7 +46,7 @@
 /* .folders .folderStructure .col-md-3 .folderBox {
 	background-color: #eceefb;
 } */
-.folders .folderStructure .col-md-9 > .col:nth-child(1) {
+/* .folders .folderStructure .col-md-9 > .col:nth-child(1) {
 	color: #5784ed;
 }
 .folders .folderStructure .col-md-9 > .col:nth-child(2) {
@@ -57,7 +57,7 @@
 }
 .folders .folderStructure .col-md-9 > .col:nth-child(4) {
 	color: #ef8bb1;
-}
+} */
 .folders .folderStructure .col-md-9 > .col .folderName {
 	font-size: 1.2rem;
 	font-weight: 600;

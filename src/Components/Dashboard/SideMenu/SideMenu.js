@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
 	faAngleRight,
 	faHandshake,
@@ -16,16 +17,17 @@ import {
 	UilSignOutAlt,
 	UilTimes,
 } from "@iconscout/react-unicons";
-import React from "react";
 import "./SideMenu.css";
 import UilUsersAlt from "../../../../node_modules/@iconscout/react-unicons/icons/uil-users-alt";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 export default function SideMenu({ url }) {
 	// const location = React.useLocation();
 	const history = useHistory();
 	const dropBtn = React.useRef(null);
+	const [employeefiles, setEmployeefiles] = useState([]);
+	const [clientfiles, setclientfiles] = useState([]);
 	const logout = () => {
 		history.push("/");
 	};
@@ -46,6 +48,39 @@ export default function SideMenu({ url }) {
 		sidebar.classList.toggle("open");
 		SideMenu.classList.toggle("d-none");
 	};
+	const Client = () => {
+		const userId = localStorage.getItem("userId");
+		axios
+			.get(
+				`https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}&parent=Client Files`
+			)
+			.then((res) => {
+				// console.log(res.data);
+				setclientfiles(res.data);
+				// dispatch(setLoading(false));
+			})
+
+			.catch((err) => console.log(err));
+	};
+	const Employee = () => {
+		const userId = localStorage.getItem("userId");
+		axios
+			.get(
+				`https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}&parent=Employee Files`
+			)
+			.then((res) => {
+				// console.log(res.data);
+				setEmployeefiles(res.data);
+				// dispatch(setLoading(false));
+			})
+
+			.catch((err) => console.log(err));
+	};
+	useEffect(() => {
+		Client();
+		Employee();
+	}, []);
+
 	return (
 		<div className='sidemenu d-none d-sm-block h-100 position-relative'>
 			<span
@@ -83,7 +118,23 @@ export default function SideMenu({ url }) {
 						<FontAwesomeIcon icon={faAngleRight} />
 					</div>
 					<div className='submenu mt-2'>
-						<Link to={`${url}/personal_details`}>
+						{employeefiles.map((item, ind) => {
+							return (
+								<Link to={`${url}/${item.data.name}`}>
+									<div className='mt-2 d-flex align-items-start'>
+										<div style={{ height: "20px" }}>
+											<UilUser size='16' color='#000' />
+										</div>
+										<div className='ms-2'>
+											<span className=''>
+												{item.data.name}
+											</span>
+										</div>
+									</div>
+								</Link>
+							);
+						})}
+						{/* <Link to={`${url}/personal_details`}>
 							<div className='mt-2 d-flex align-items-start'>
 								<div style={{ height: "20px" }}>
 									<UilUser size='16' color='#000' />
@@ -112,7 +163,7 @@ export default function SideMenu({ url }) {
 									Miscellaneous Expenses
 								</div>
 							</div>
-						</Link>
+						</Link> */}
 					</div>
 				</div>
 				<div className=' item'>
@@ -124,7 +175,28 @@ export default function SideMenu({ url }) {
 						<FontAwesomeIcon icon={faAngleRight} />
 					</div>
 					<div className='submenu mt-2'>
-						<Link to={`${url}/Contact_Details`}>
+						{clientfiles.map((item, ind) => {
+							console.log(item.docId);
+							return (
+								<Link
+									to={{
+										pathname: `${url}/${item.data.name}`,
+										parentId: item.docId,
+									}}>
+									<div className='mt-2 d-flex align-items-start'>
+										<div style={{ height: "20px" }}>
+											<UilUser size='16' color='#000' />
+										</div>
+										<div className='ms-2'>
+											<span className=''>
+												{item.data.name}
+											</span>
+										</div>
+									</div>
+								</Link>
+							);
+						})}
+						{/* <Link to={`${url}/Contact_Details`}>
 							<div className='mt-2'>
 								<UilAt size='16' color='#000' />
 								<span className='ms-2'>Contact Details</span>
@@ -147,7 +219,7 @@ export default function SideMenu({ url }) {
 								<UilFile size='16' color='#000' />
 								<span className='ms-2'>Transit files</span>
 							</div>
-						</Link>
+						</Link> */}
 					</div>
 				</div>
 				<div className=' item'>
