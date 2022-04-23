@@ -5,16 +5,35 @@ import Tables from "./Tables/Tables";
 import "./FilesPage.css";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
 import { useLocation, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function FilesPage(props) {
 	const location = useLocation();
-	const { folderName } = useParams();
-	const [folderId, setfolderId] = React.useState(location.parentId);
-	// console.log(location.parentId);
-	React.useEffect(() => {}, []);
+	const { parent, folder, folderid } = useParams();
+	// const [folder, setFolder] = React.useState("");
+	// const [parent, setParent] = React.useState("");
+	const [data, setData] = React.useState([]);
+	// const [folderId, setFolderId] = React.useState(location.folderId);
 
-	const splits = folderName.split("_");
-	// console.log(splits);
+	// console.log(parent, folder, folderid);
+	React.useEffect(() => {
+		const userId = localStorage.getItem("userId");
+
+		// console.log(parent, folder, folderid);
+		axios
+			.get(
+				`https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}&parent=${parent}&tags=${folder}`
+			)
+			.then((res) => {
+				setData(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [parent, folder, folderid, data]);
+
+	const splits = folder.split("_");
+
 	let name = "";
 	splits.forEach((item, ind) => {
 		name += item.charAt(0).toUpperCase() + item.slice(1) + " ";
@@ -32,7 +51,7 @@ export default function FilesPage(props) {
 					<FontAwesomeIcon icon={faAngleDown} />
 				</div>
 			</div>
-			<Tables />
+			<Tables item={data} folderId={folderid} params={useParams()} />
 		</div>
 	);
 }

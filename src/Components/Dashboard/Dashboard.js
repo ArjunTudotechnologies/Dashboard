@@ -22,7 +22,7 @@ export default function Dashboard() {
 					<Route exact path={`${path}/`}>
 						<DashScreen url={url} />
 					</Route>
-					<Route exact path={`${path}/:folderName`}>
+					<Route exact path={`${path}/:parent/:folder/:folderid`}>
 						<FilesPage />
 					</Route>
 					{/* <Route exact path={`${path}/clientfiles`}>

@@ -7,70 +7,43 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UilPlus } from "@iconscout/react-unicons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Tables.css";
 import firebase from "../../../Firebase/FirebaseConfig";
-// import { storage } from "../../../Firebase/FirebaseConfig";
-// import "firebase/firestore";
-
-// import "./Files.css";
-// import useWrapperHeight from "../../../../CustomHooks/useWrapperHeight";
+import axios from "axios";
 
 const storage = firebase.storage();
 const auth = firebase.auth();
 const projectFireStore = firebase.firestore();
 const timestamp = firebase.firestore.FieldValue.serverTimestamp;
-export default function Tables() {
-	// console.log(firebase.storage);
+
+export default function Tables(props) {
 	const [url, setUrl] = useState("");
 	const [progress, setProgress] = useState(0);
 	const [docs, setDocs] = useState([]);
 	const [userUID, setUserUID] = useState("");
 	const [post, setPost] = useState("");
-	const listData = [
-		{
-			fileImg: "/assets/images/pdf.png",
-			fileName: "Anupam Employee.pdf",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Personal data",
-			folderColor: "#5784ed",
-		},
-		{
-			fileImg: "/assets/images/pdf.png",
-			fileName: "Ritesh deshmukh .pdf",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Invoices",
-			folderColor: "#f8c83f",
-		},
-		{
-			fileImg: "/assets/images/xls.png",
-			fileName: "Saman Agarwal.xls",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Contact Details",
-			folderColor: "#45cbd6",
-		},
-		{
-			fileImg: "/assets/images/word.png",
-			fileName: "Pooja.doc",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Agreements",
-			folderColor: "#ef8bb1",
-		},
-		{
-			fileImg: "/assets/images/pdf.png",
-			fileName: "Anuska.pdf",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Invoices",
-			folderColor: "#f8c83f",
-		},
-	];
-	const [file, setFile] = React.useState(null);
-	const [heightLoading, setHeightLoading] = React.useState(true);
+	const [listData, setListData] = useState([]);
+	// const [file, setFile] = React.useState(null);
+	const [heightLoading, setHeightLoading] = useState(true);
+	console.log(props.params);
+	useEffect(() => {
+		setListData(props.item);
+		console.log(props, listData, heightLoading);
+		// console.log(listData);
+	}, [props.item, heightLoading]);
+	// const listData = [
+	// 	{
+	// 		fileImg: "/assets/images/pdf.png",
+	// 		fileName: "Anupam Employee.pdf",
+	// 		fileSize: "128KB",
+	// 		lastViewed: "12/04/2020",
+	// 		folderName: "Personal data",
+	// 		folderColor: "#5784ed",
+	// 	},
+
+	// ];
+
 	const getInnerHeight = (elm) => {
 		var computed = getComputedStyle(elm),
 			padding =
@@ -111,11 +84,11 @@ export default function Tables() {
 		const targetFile = e.target.files[0];
 		console.log(targetFile);
 		if (targetFile) {
-			setFile(targetFile);
+			// setFile(targetFile);
+			handleUpload(targetFile);
 		}
-		handleUpload();
 	};
-	const handleUpload = () => {
+	const handleUpload = (file) => {
 		const uploadTask = storage.ref(`images/${file.name}`).put(file);
 		const collectionRef = projectFireStore.collection("media");
 		const collectionRefPost = projectFireStore.collection("post");
@@ -131,20 +104,35 @@ export default function Tables() {
 				console.log(error);
 			},
 			() => {
+				const userId = localStorage.getItem("userId");
+
 				storage
 					.ref("images")
 					.child(file.name)
 					.getDownloadURL()
 					.then((url) => {
+						const filedata = {
+							createdBy: userId,
+							fileName: file.name,
+							path: [
+								{
+									folderId: props.params.folderid,
+									folderName: props.params.folder,
+								},
+							],
+							parent: props.params.parent,
+							url: url,
+							tags: props.params.folder,
+						};
 						setUrl(url);
-						const createdAt = timestamp();
-						collectionRef.add({ uid: userUID, url, createdAt });
-						collectionRefPost.add({
-							uid: userUID,
-							text: post,
-							createdAt,
-						});
-						console.log(url);
+
+						axios
+							.post(
+								"https://calm-beyond-84616.herokuapp.com/addUserFile",
+								filedata
+							)
+							.then((res) => console.log(res.data))
+							.catch((err) => console.log(err));
 					});
 				setPost("");
 			}
@@ -189,73 +177,72 @@ export default function Tables() {
 					{/* <div className='col-2 '>d</div> */}
 				</div>
 				<div className='listItems'>
-					{heightLoading
-						? ""
-						: [...listData, ...listData, ...listData].map(
-								(item, ind) => (
-									<div className='d-flex flex-wrap tableItems'>
-										<div className='col-4 d-flex align-items-center '>
-											<span className='me-3'>
-												<img
-													style={{ width: "20px" }}
-													src={item.fileImg}
-													alt=''
-													className='img-fluid'
-												/>
-											</span>{" "}
-											<span>{item.fileName}</span>
-										</div>
-										<div
-											className='col-3 foldername d-flex align-items-center '
-											style={{ color: item.folderColor }}>
-											{item.folderName}
-										</div>
-										{/* <div className='col-2 filesize'>
+					{!heightLoading &&
+						listData.map((item, ind) => {
+							const date = new Date(item.data.updatedAt.seconds)
+								.toLocaleString("en-Gb", { timeZone: "UTC" })
+								.split(",")[0];
+							console.log(date);
+
+							return (
+								<div className='d-flex flex-wrap tableItems'>
+									<div className='col-4 d-flex align-items-center '>
+										<span className='me-3'>
+											<img
+												style={{ width: "20px" }}
+												src={item.fileImg}
+												alt=''
+												className='img-fluid'
+											/>
+										</span>{" "}
+										<span>{item.data.fileName}</span>
+									</div>
+									<div
+										className='col-3 foldername d-flex align-items-center '
+										style={{ color: item.folderColor }}>
+										{item.data.tags}
+									</div>
+									{/* <div className='col-2 filesize'>
 											128KB
 										</div> */}
-										<div className='col-3 lastview d-flex align-items-center '>
-											{item.lastViewed}
-										</div>
-										<div className='col-2   d-flex align-items-center'>
-											<div className='d-flex align-items-center w-100'>
-												<span
-													className='col actionText '
-													style={{
-														cursor: "pointer",
-													}}>
-													<FontAwesomeIcon
-														icon={faEye}
-													/>
-												</span>
-												{/* <span>|</span> */}
-												<span
-													className='col px-3 border-2 border-start text-center border-end actionText'
-													style={{
-														cursor: "pointer",
-													}}>
-													<FontAwesomeIcon
-														icon={faDownload}
-													/>
-												</span>
-												{/* <span>|</span> */}
-												<span
-													className='col text-center'
-													style={{
-														cursor: "pointer",
-													}}>
-													<FontAwesomeIcon
-														className='fa-1x'
-														icon={
-															faEllipsisVertical
-														}
-													/>
-												</span>
-											</div>
-										</div>
-										{/* <div className='col-2 '>d</div> */}
+									<div className='col-3 lastview d-flex align-items-center '>
+										{date}
 									</div>
-								)
-						  )}
+									<div className='col-2   d-flex align-items-center'>
+										<div className='d-flex align-items-center w-100'>
+											<span
+												className='col actionText '
+												style={{
+													cursor: "pointer",
+												}}>
+												<FontAwesomeIcon icon={faEye} />
+											</span>
+
+											<span
+												className='col px-3 border-2 border-start text-center border-end actionText'
+												style={{
+													cursor: "pointer",
+												}}>
+												<FontAwesomeIcon
+													icon={faDownload}
+												/>
+											</span>
+
+											<span
+												className='col text-center'
+												style={{
+													cursor: "pointer",
+												}}>
+												<FontAwesomeIcon
+													className='fa-1x'
+													icon={faEllipsisVertical}
+												/>
+											</span>
+										</div>
+									</div>
+								</div>
+							);
+						})}
 				</div>
 			</div>
 		</div>

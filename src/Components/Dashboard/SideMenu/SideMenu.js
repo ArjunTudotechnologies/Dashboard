@@ -120,7 +120,10 @@ export default function SideMenu({ url }) {
 					<div className='submenu mt-2'>
 						{employeefiles.map((item, ind) => {
 							return (
-								<Link to={`${url}/${item.data.name}`}>
+								<Link
+									to={{
+										pathname: `${url}/Employee Files/${item.data.name}/${item.docId}`,
+									}}>
 									<div className='mt-2 d-flex align-items-start'>
 										<div style={{ height: "20px" }}>
 											<UilUser size='16' color='#000' />
@@ -134,36 +137,6 @@ export default function SideMenu({ url }) {
 								</Link>
 							);
 						})}
-						{/* <Link to={`${url}/personal_details`}>
-							<div className='mt-2 d-flex align-items-start'>
-								<div style={{ height: "20px" }}>
-									<UilUser size='16' color='#000' />
-								</div>
-								<div className='ms-2'>
-									<span className=''>Personal Details</span>
-								</div>
-							</div>
-						</Link>
-						<Link to={`${url}/Insurance_Claims`}>
-							<div className='mt-2 d-flex align-items-start'>
-								<div style={{ height: "20px" }}>
-									<UilShieldPlus size='16' color='#000' />
-								</div>
-								<div className='ms-2'>
-									<span className=''>Insurance Claims</span>
-								</div>
-							</div>
-						</Link>
-						<Link to={`${url}/Miscellaneous_Expenses`}>
-							<div className='mt-2 d-flex align-items-start'>
-								<div style={{ height: "20px" }}>
-									<UilBill size='16' color='#000' />
-								</div>
-								<div className='ms-2'>
-									Miscellaneous Expenses
-								</div>
-							</div>
-						</Link> */}
 					</div>
 				</div>
 				<div className=' item'>
@@ -180,8 +153,7 @@ export default function SideMenu({ url }) {
 							return (
 								<Link
 									to={{
-										pathname: `${url}/${item.data.name}`,
-										parentId: item.docId,
+										pathname: `${url}/Client Files/${item.data.name}/${item.docId}`,
 									}}>
 									<div className='mt-2 d-flex align-items-start'>
 										<div style={{ height: "20px" }}>
@@ -196,30 +168,6 @@ export default function SideMenu({ url }) {
 								</Link>
 							);
 						})}
-						{/* <Link to={`${url}/Contact_Details`}>
-							<div className='mt-2'>
-								<UilAt size='16' color='#000' />
-								<span className='ms-2'>Contact Details</span>
-							</div>
-						</Link>
-						<Link to={`${url}/Agreements`}>
-							<div className='mt-2'>
-								<UilFileContract size='16' color='#000' />
-								<span className='ms-2'>Agreements</span>
-							</div>
-						</Link>
-						<Link to={`${url}/Invoices`}>
-							<div className='mt-2'>
-								<UilInvoice size='16' color='#000' />
-								<span className='ms-2'>Invoices</span>
-							</div>
-						</Link>
-						<Link to={`${url}/Transit_files`}>
-							<div className='mt-2'>
-								<UilFile size='16' color='#000' />
-								<span className='ms-2'>Transit files</span>
-							</div>
-						</Link> */}
 					</div>
 				</div>
 				<div className=' item'>
