@@ -182,7 +182,8 @@ export default function Tables(props) {
 							const date = new Date(item.data.updatedAt.seconds)
 								.toLocaleString("en-Gb", { timeZone: "UTC" })
 								.split(",")[0];
-							console.log(date);
+							// console.log(date);
+							const imgType = item.data.fileName.split(".")[1];
 
 							return (
 								<div className='d-flex flex-wrap tableItems'>
@@ -190,7 +191,7 @@ export default function Tables(props) {
 										<span className='me-3'>
 											<img
 												style={{ width: "20px" }}
-												src={item.fileImg}
+												src={`/assets/images/${imgType}.png`}
 												alt=''
 												className='img-fluid'
 											/>

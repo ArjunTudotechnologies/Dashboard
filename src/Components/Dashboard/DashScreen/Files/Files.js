@@ -6,15 +6,26 @@ import {
 	faListDots,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Files.css";
 import useWrapperHeight from "../../../../CustomHooks/useWrapperHeight";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 export default function Files() {
 	const { loading } = useSelector((state) => state.loading);
+	const [listData, setListData] = useState([]);
+	useEffect(() => {
+		const userId = localStorage.getItem("userId");
+		axios
+			.get(
+				`https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}`
+			)
+			.then((res) => setListData(res.data))
+			.catch((err) => console.log(err));
+	}, []);
 
-	const listData = [
+	const files = [
 		{
 			fileImg: "/assets/images/pdf.png",
 			fileName: "Anupam Employee.pdf",
@@ -123,70 +134,73 @@ export default function Files() {
 					<div className='col-2 '>Actions</div>
 				</div>
 				<div className='listItems'>
-					{heightLoading
-						? ""
-						: [...listData, ...listData, ...listData].map(
-								(item, ind) => (
-									<div className='d-flex flex-wrap tableItems'>
-										<div className='col-4 d-flex align-items-center '>
-											<span className='me-3'>
-												<img
-													style={{ width: "20px" }}
-													src={item.fileImg}
-													alt=''
-													className='img-fluid'
-												/>
-											</span>{" "}
-											<span>{item.fileName}</span>
-										</div>
-										<div
-											className='col-3 foldername d-flex align-items-center '
-											style={{ color: item.folderColor }}>
-											{item.folderName}
-										</div>
-										{/* <div className='col-2 filesize'>
+					{!heightLoading &&
+						listData.map((item, ind) => {
+							const date = new Date(item.data.updatedAt.seconds)
+								.toLocaleString("en-Gb", { timeZone: "UTC" })
+								.split(",")[0];
+							console.log(date);
+							const imgType = item.data.fileName.split(".")[1];
+
+							return (
+								<div className='d-flex flex-wrap tableItems'>
+									<div className='col-4 d-flex align-items-center '>
+										<span className='me-3'>
+											<img
+												style={{ width: "20px" }}
+												src={`/assets/images/${imgType}.png`}
+												alt=''
+												className='img-fluid'
+											/>
+										</span>{" "}
+										<span>{item.data.fileName}</span>
+									</div>
+									<div
+										className='col-3 foldername d-flex align-items-center '
+										style={{ color: item.folderColor }}>
+										{item.data.tags}
+									</div>
+									{/* <div className='col-2 filesize'>
 											128KB
 										</div> */}
-										<div className='col-3 lastview d-flex align-items-center '>
-											{item.lastViewed}
-										</div>
-										<div className='col-2   d-flex align-items-center'>
-											<div className='d-flex align-items-center w-100'>
-												<span
-													className='col actionText '
-													style={{
-														cursor: "pointer",
-													}}>
-													<FontAwesomeIcon
-														icon={faEye}
-													/>
-												</span>
-												<span
-													className='col px-3 border-2 border-start text-center border-end actionText'
-													style={{
-														cursor: "pointer",
-													}}>
-													<FontAwesomeIcon
-														icon={faDownload}
-													/>
-												</span>
-												<span
-													className='col text-center'
-													style={{
-														cursor: "pointer",
-													}}>
-													<FontAwesomeIcon
-														className='fa-1x'
-														icon={
-															faEllipsisVertical
-														}
-													/>
-												</span>
-											</div>
+									<div className='col-3 lastview d-flex align-items-center '>
+										{date}
+									</div>
+									<div className='col-2   d-flex align-items-center'>
+										<div className='d-flex align-items-center w-100'>
+											<span
+												className='col actionText '
+												style={{
+													cursor: "pointer",
+												}}>
+												<FontAwesomeIcon icon={faEye} />
+											</span>
+
+											<span
+												className='col px-3 border-2 border-start text-center border-end actionText'
+												style={{
+													cursor: "pointer",
+												}}>
+												<FontAwesomeIcon
+													icon={faDownload}
+												/>
+											</span>
+
+											<span
+												className='col text-center'
+												style={{
+													cursor: "pointer",
+												}}>
+												<FontAwesomeIcon
+													className='fa-1x'
+													icon={faEllipsisVertical}
+												/>
+											</span>
 										</div>
 									</div>
-								)
-						  )}
+								</div>
+							);
+						})}
 				</div>
 			</div>
 		</div>
