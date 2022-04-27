@@ -11,12 +11,13 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../Redux/IsLoading";
 import CreateFolderModal from "./CreateFolderModal/CreateFolderModal";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
 export default function Folders() {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [folderData, setFolderData] = React.useState([]);
 	// const { userId } = useSelector((state) => state.loginInfo);
+	let { path, url } = useRouteMatch();
 
 	const dispatch = useDispatch();
 	const handleCreate = (createData) => {
@@ -45,7 +46,7 @@ export default function Folders() {
 			})
 
 			.catch((err) => console.log(err));
-	}, [folderData]);
+	}, []);
 	return (
 		<div className='folders'>
 			<CreateFolderModal
@@ -64,34 +65,40 @@ export default function Folders() {
 				<div className='folderStructure d-flex flex-wrap  w-100 justify-content-between'>
 					<div className='col-md-9 col-12 row mb-2 g-2  g-sm-5 row-cols-2 row-cols-lg-4 '>
 						{folderData.map((item, ind) => {
+							// console.log(item);
 							return (
-								<div
-									className='col '
-									style={{ color: item.data.color }}>
-									<div className='bg-white folderBox'>
-										<div className='d-flex align-items-center justify-content-between mb-4'>
-											<FontAwesomeIcon
-												className='fa-2x '
-												icon={faFolderOpen}
-											/>
-											{/* <FontAwesomeIcon
+								<Link
+									to={{
+										pathname: `${url}/${item.data.parent}/${item.data.name}/${item.docId}`,
+									}}>
+									<div
+										className='col '
+										style={{ color: item.data.color }}>
+										<div className='bg-white folderBox'>
+											<div className='d-flex align-items-center justify-content-between '>
+												<FontAwesomeIcon
+													className='fa-2x '
+													icon={faFolderOpen}
+												/>
+												{/* <FontAwesomeIcon
 										className='fa-1x'
 										icon={faEllipsisVertical}
 									/> */}
-										</div>
-										<div className='mt-auto'>
-											<h6 className='folderName '>
-												{item.data.name}
-											</h6>
-											<div className='folderDetails d-flex justify-content-between align-items-center'>
+											</div>
+											<div className='mt-auto'>
+												<h6 className='folderName '>
+													{item.data.name}
+												</h6>
+												{/* <div className='folderDetails d-flex justify-content-between align-items-center'>
 												<div className='noOfFiles'>
 													100 Files
 												</div>
-												{/* <div className='size'>100 MB</div> */}
+												<div className='size'>100 MB</div> 
+											</div> */}
 											</div>
 										</div>
 									</div>
-								</div>
+								</Link>
 							);
 						})}
 					</div>
