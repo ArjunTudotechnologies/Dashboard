@@ -23,7 +23,7 @@ export default function Files() {
 			)
 			.then((res) => setListData(res.data))
 			.catch((err) => console.log(err));
-	}, []);
+	}, [listData]);
 
 	const files = [
 		{
@@ -107,6 +107,14 @@ export default function Files() {
 		target.style.height = computedHeight + "px";
 		ListWrapperHeight();
 	};
+	const deleteFile = (id) => {
+		axios
+			.delete(
+				`https://calm-beyond-84616.herokuapp.com/deleteUserFile/${id}`
+			)
+			.then((res) => console.log(res.data))
+			.catch((err) => console.log(err));
+	};
 	React.useEffect(() => {
 		console.log(loading);
 		if (!loading) {
@@ -187,6 +195,9 @@ export default function Files() {
 											</span>
 
 											<span
+												onClick={() =>
+													deleteFile(item.docId)
+												}
 												className='col text-center'
 												style={{
 													cursor: "pointer",

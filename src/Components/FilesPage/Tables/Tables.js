@@ -139,7 +139,14 @@ export default function Tables(props) {
 			}
 		);
 	};
-
+	const deleteFile = (id) => {
+		axios
+			.delete(
+				`https://calm-beyond-84616.herokuapp.com/deleteUserFile/${id}`
+			)
+			.then((res) => console.log(res.data))
+			.catch((err) => console.log(err));
+	};
 	React.useEffect(() => {
 		dynamicHeight();
 		// setHeightLoading(false);
@@ -231,6 +238,9 @@ export default function Tables(props) {
 											</span>
 
 											<span
+												onClick={() =>
+													deleteFile(item.docId)
+												}
 												className='col text-center'
 												style={{
 													cursor: "pointer",
