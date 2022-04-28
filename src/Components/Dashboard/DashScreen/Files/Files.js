@@ -157,7 +157,7 @@ export default function Files() {
 									</div>
 									<div
 										className='col-3 foldername d-flex align-items-center '
-										style={{ color: item.folderColor }}>
+										style={{ color: item.data.color }}>
 										{item.data.tags}
 									</div>
 									{/* <div className='col-2 filesize'>

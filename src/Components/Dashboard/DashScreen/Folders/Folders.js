@@ -46,7 +46,7 @@ export default function Folders() {
 			})
 
 			.catch((err) => console.log(err));
-	}, []);
+	}, [folderData]);
 	return (
 		<div className='folders'>
 			<CreateFolderModal
@@ -70,8 +70,15 @@ export default function Folders() {
 								<Link
 									to={{
 										pathname: `${url}/${item.data.parent}/${item.data.name}/${item.docId}`,
+										color: item.data.color,
 									}}>
 									<div
+										onClick={() =>
+											localStorage.setItem(
+												"currentColor",
+												item.data.color
+											)
+										}
 										className='col '
 										style={{ color: item.data.color }}>
 										<div className='bg-white folderBox'>

@@ -105,7 +105,7 @@ export default function Tables(props) {
 			},
 			() => {
 				const userId = localStorage.getItem("userId");
-
+				const color = localStorage.getItem("currentColor");
 				storage
 					.ref("images")
 					.child(file.name)
@@ -123,6 +123,7 @@ export default function Tables(props) {
 							parent: props.params.parent,
 							url: url,
 							tags: props.params.folder,
+							color: color,
 						};
 						setUrl(url);
 
@@ -200,7 +201,7 @@ export default function Tables(props) {
 									</div>
 									<div
 										className='col-3 foldername d-flex align-items-center '
-										style={{ color: item.folderColor }}>
+										style={{ color: item.data.color }}>
 										{item.data.tags}
 									</div>
 									{/* <div className='col-2 filesize'>

@@ -10,16 +10,12 @@ import axios from "axios";
 export default function FilesPage(props) {
 	const location = useLocation();
 	const { parent, folder, folderid } = useParams();
-	// const [folder, setFolder] = React.useState("");
-	// const [parent, setParent] = React.useState("");
 	const [data, setData] = React.useState([]);
-	// const [folderId, setFolderId] = React.useState(location.folderId);
 
-	// console.log(parent, folder, folderid);
 	React.useEffect(() => {
 		const userId = localStorage.getItem("userId");
 
-		// console.log(parent, folder, folderid);
+		// console.log(localStorage.getItem("currentColor"));
 		axios
 			.get(
 				`https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}&parent=${parent}&tags=${folder}`

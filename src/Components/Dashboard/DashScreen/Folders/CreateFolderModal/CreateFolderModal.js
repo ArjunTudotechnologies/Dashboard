@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Container, Modal } from "react-bootstrap";
+import ColorPicker from "../../../../ColorPicker/ColorPicker";
 import { NormalInputs } from "../../../../ModularComponents/Inputs/Inputs";
 
 export default function CreateFolderModal(props) {
@@ -18,6 +19,14 @@ export default function CreateFolderModal(props) {
 			return newData;
 		});
 		console.log(createData);
+	};
+	const colorAdd = (color) => {
+		setCreateData((prev) => {
+			const newData = { ...prev };
+			newData["color"] = color;
+			// console.log(newData);
+			return newData;
+		});
 	};
 	return (
 		<Modal
@@ -44,20 +53,21 @@ export default function CreateFolderModal(props) {
 						label='Name'
 						onBlur={handleModalInputBlur}
 					/>
-					<NormalInputs
+					{/* <NormalInputs
 						type='text'
 						placeholder='Color hex .ex:#dd3d3d'
 						label='Color'
 						onBlur={handleModalInputBlur}
-					/>
+					/> */}
+					{/* <label>Color</label> */}
+					<ColorPicker addColor={colorAdd} />
 				</Container>
 			</Modal.Body>
 			<Modal.Footer className='justify-content-center'>
 				<Button
-				onClick={() => {
-					props.onCreate(createData);
-				}}
-				>
+					onClick={() => {
+						props.onCreate(createData);
+					}}>
 					Create
 				</Button>
 			</Modal.Footer>

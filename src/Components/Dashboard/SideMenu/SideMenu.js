@@ -155,7 +155,14 @@ export default function SideMenu({ url }) {
 									to={{
 										pathname: `${url}/Client Files/${item.data.name}/${item.docId}`,
 									}}>
-									<div className='mt-2 d-flex align-items-start'>
+									<div
+										onClick={() =>
+											localStorage.setItem(
+												"currentColor",
+												item.data.color
+											)
+										}
+										className='mt-2 d-flex align-items-start'>
 										<div style={{ height: "20px" }}>
 											<UilUser size='16' color='#000' />
 										</div>
