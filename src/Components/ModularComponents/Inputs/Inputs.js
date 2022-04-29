@@ -114,23 +114,22 @@ export function SelectInputs({
 	onBlur,
 	disabled,
 }) {
-	const selectDefHandler = () => {
-		const selectDef = $(".grayDefault");
-		selectDef.each((ind, obj) => {
-			const val = $(obj).val();
-			if (val == 0) {
-				$(obj).addClass("empty");
-			} else $(obj).removeClass("empty");
-			// console.log($(obj).val());
-		});
-	};
-	useEffect(() => {
-		selectDefHandler();
-		const selectDef = $(".grayDefault");
-		selectDef.change(() => {
-			selectDefHandler();
-		});
-	}, []);
+	// const selectDefHandler = () => {
+	// 	const selectDef = $(".grayDefault");
+	// 	selectDef.each((ind, obj) => {
+	// 		const val = $(obj).val();
+	// 		if (val == 0) {
+	// 			$(obj).addClass("empty");
+	// 		} else $(obj).removeClass("empty");
+	// 	});
+	// };
+	// useEffect(() => {
+	// 	selectDefHandler();
+	// 	const selectDef = $(".grayDefault");
+	// 	selectDef.change(() => {
+	// 		selectDefHandler();
+	// 	});
+	// }, []);
 
 	return (
 		<Form.Group className='' as={Col} md='' controlId=''>

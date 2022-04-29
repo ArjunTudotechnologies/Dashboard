@@ -30,10 +30,13 @@ export default function Folders() {
 		// console.log(data);
 		axios
 			.post("https://calm-beyond-84616.herokuapp.com/addUserFolder", data)
-			.then((res) => setModalShow(false))
+			.then((res) => {
+				setModalShow(false);
+				getData();
+			})
 			.catch((err) => console.log(err));
 	};
-	useEffect(() => {
+	const getData = () => {
 		const userId = localStorage.getItem("userId");
 		axios
 			.get(
@@ -46,7 +49,10 @@ export default function Folders() {
 			})
 
 			.catch((err) => console.log(err));
-	}, [folderData]);
+	};
+	useEffect(() => {
+		getData();
+	}, []);
 	return (
 		<div className='folders'>
 			<CreateFolderModal

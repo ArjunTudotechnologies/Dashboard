@@ -1,7 +1,10 @@
 import React from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import ColorPicker from "../../../../ColorPicker/ColorPicker";
-import { NormalInputs } from "../../../../ModularComponents/Inputs/Inputs";
+import {
+	NormalInputs,
+	SelectInputs,
+} from "../../../../ModularComponents/Inputs/Inputs";
 
 export default function CreateFolderModal(props) {
 	const [show, setShow] = React.useState(false);
@@ -10,8 +13,10 @@ export default function CreateFolderModal(props) {
 	const handleShow = () => setShow(true);
 	const [createData, setCreateData] = React.useState({});
 	const handleModalInputBlur = (e) => {
-		const name = e.target.name;
+		let name = e.target.name;
 		const value = e.target.value;
+		if (name === "Tag") name = "parent";
+		if (name === "Folder Name") name = "name";
 		setCreateData((prev) => {
 			const newData = { ...prev };
 			newData[name.toLowerCase()] = value;
@@ -43,24 +48,21 @@ export default function CreateFolderModal(props) {
 				<Container>
 					<NormalInputs
 						type='text'
-						placeholder='Parent name'
-						label='Parent'
-						onBlur={handleModalInputBlur}
-					/>
-					<NormalInputs
-						type='text'
 						placeholder='Folder name'
-						label='Name'
+						label='Folder Name'
 						onBlur={handleModalInputBlur}
 					/>
-					{/* <NormalInputs
-						type='text'
-						placeholder='Color hex .ex:#dd3d3d'
-						label='Color'
-						onBlur={handleModalInputBlur}
-					/> */}
-					{/* <label>Color</label> */}
 					<ColorPicker addColor={colorAdd} />
+					<SelectInputs
+						data={[
+							{ value: "Employee Files", name: "Employee Files" },
+							{ value: "Client Files", name: "Client Files" },
+						]}
+						type='text'
+						placeholder='Tag name'
+						label='Tag'
+						onBlur={handleModalInputBlur}
+					/>
 				</Container>
 			</Modal.Body>
 			<Modal.Footer className='justify-content-center'>
