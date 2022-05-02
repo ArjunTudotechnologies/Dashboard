@@ -11,10 +11,12 @@ import "./Files.css";
 import useWrapperHeight from "../../../../CustomHooks/useWrapperHeight";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Link, useRouteMatch } from "react-router-dom";
 
 export default function Files() {
 	const { loading } = useSelector((state) => state.loading);
 	const [listData, setListData] = useState([]);
+	const { path, url } = useRouteMatch();
 	useEffect(() => {
 		const userId = localStorage.getItem("userId");
 		axios
@@ -181,7 +183,13 @@ export default function Files() {
 												style={{
 													cursor: "pointer",
 												}}>
-												<FontAwesomeIcon icon={faEye} />
+												<Link
+													to={`${url}/viewpdf`}
+													className='d-inline-block'>
+													<FontAwesomeIcon
+														icon={faEye}
+													/>
+												</Link>
 											</span>
 
 											<span

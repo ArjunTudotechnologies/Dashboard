@@ -1,0 +1,31 @@
+.react-pdf__Page__textContent {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: none;
+}
+.Pdfview .header {
+	background-color: white;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	padding: var(--sectionpad);
+	justify-content: space-between;
+}
+.Pdfview .header .screenTitle {
+	font-size: 1.1rem;
+	font-weight: 500;
+}
+.Pdfview .header .userProfile {
+	display: flex;
+	align-items: center;
+}
+.Pdfview .header .userImage {
+	display: inline-block;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+}

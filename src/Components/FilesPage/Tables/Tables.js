@@ -11,6 +11,7 @@ import React, { useState, useEffect } from "react";
 import "./Tables.css";
 import firebase from "../../../Firebase/FirebaseConfig";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const storage = firebase.storage();
 const auth = firebase.auth();
@@ -224,7 +225,13 @@ export default function Tables(props) {
 												style={{
 													cursor: "pointer",
 												}}>
-												<FontAwesomeIcon icon={faEye} />
+												<Link
+													to={`/dashboard/viewpdf`}
+													className='d-inline-block'>
+													<FontAwesomeIcon
+														icon={faEye}
+													/>
+												</Link>
 											</span>
 
 											<span

@@ -6,6 +6,7 @@ import Dashboard from "./Components/Dashboard/Dashboard.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FilesPage from "./Components/FilesPage/FilesPage";
+import Pdfview from "./Components/Pdfview/Pdfview";
 function App() {
 	return (
 		<Router>
@@ -19,9 +20,9 @@ function App() {
 				<Route path='/dashboard'>
 					<Dashboard />
 				</Route>
-				{/* <Route path='/filepage'>
-					<FilesPage />
-				</Route> */}
+				<Route exact path='/pdfview'>
+					<Pdfview />
+				</Route>
 			</Switch>
 		</Router>
 	);

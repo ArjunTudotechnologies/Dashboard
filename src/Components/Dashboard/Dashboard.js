@@ -2,6 +2,7 @@ import React from "react";
 import { useRouteMatch } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import FilesPage from "../FilesPage/FilesPage";
+import Pdfview from "../Pdfview/Pdfview";
 import "./Dashboard.css";
 import DashScreen from "./DashScreen/DashScreen";
 import SideMenu from "./SideMenu/SideMenu";
@@ -25,9 +26,9 @@ export default function Dashboard() {
 					<Route exact path={`${path}/:parent/:folder/:folderid`}>
 						<FilesPage />
 					</Route>
-					{/* <Route exact path={`${path}/clientfiles`}>
-						<FilesPage />
-					</Route> */}
+					<Route exact path={`${path}/viewpdf`}>
+						<Pdfview />
+					</Route>
 				</Switch>
 			</div>
 		</div>
