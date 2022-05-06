@@ -35,8 +35,11 @@ function Pdfview() {
 			let ctx = item.getContext("2d");
 			// item.replaceWith(item.cloneNode(true));
 			item.removeEventListener("mousedown", startposition, true);
+			item.removeEventListener("touchstart", startposition, true);
 			item.removeEventListener("mouseup", item.finish, true);
+			item.removeEventListener("touchend", item.mfinish, true);
 			item.removeEventListener("mousemove", item.paint, true);
+			item.removeEventListener("touchmove", item.mpaint, true);
 		});
 	};
 
@@ -49,6 +52,8 @@ function Pdfview() {
 		// let Y = e.pageY + wrapper.scrollTop;
 		let Y = e.layerY;
 		// console.log(e);
+		console.log(e, X, bbox_rect.left);
+
 		ctx.lineTo(X, Y);
 		ctx.stroke();
 		if (
@@ -59,8 +64,42 @@ function Pdfview() {
 			ctx.beginPath();
 		}
 	};
+	const mpaint = (e, ctx) => {
+		e.preventDefault();
+		// alert("wah");
+		var canvas = document.querySelector(".react-pdf__Page__canvas");
+		var xratio = window.innerWidth / canvas.width;
+		var yratio = window.innerHeight / canvas.height;
+
+		var touch = e.touches[0];
+		if (!painting) return;
+		ctx.lineWidth = 1;
+		ctx.lineCap = "round";
+		// ctx.beginPath();
+		// ctx.rect(259, 800, 150, 100);
+		// ctx.stroke();
+		// const wrapper = document.querySelector(".wrapperCanvas");
+		let X = touch.clientX - canvas.offsetLeft;
+		// let Y = e.pageY + wrapper.scrollTop;
+		let Y = touch.clientY;
+		console.log(e, X, Y, bbox_rect.left, bbox_rect.top);
+		// alert(Y);
+		// console.log("m", X, Y);
+		ctx.lineTo(X / xratio, Y / yratio);
+		ctx.stroke();
+
+		// if (
+		// 	e.clientX - 10 < bbox_rect.left ||
+		// 	e.clientX + 10 > bbox_rect.right
+		// ) {
+		// 	painting = false;
+		// 	ctx.beginPath();
+		// }
+		// return false;
+	};
 	const startposition = (e) => {
 		painting = true;
+		// alert(e);
 		paint(e);
 	};
 	const finishedposition = (ctx) => {
@@ -77,14 +116,25 @@ function Pdfview() {
 			bbox_rect = item.getBoundingClientRect();
 
 			item.addEventListener("mousedown", startposition, true);
+			item.addEventListener("touchstart", startposition, true);
 			item.addEventListener(
 				"mouseup",
 				(item.finish = () => finishedposition(ctx)),
 				true
 			);
 			item.addEventListener(
+				"touchend",
+				(item.mfinish = () => finishedposition(ctx)),
+				true
+			);
+			item.addEventListener(
 				"mousemove",
 				(item.paint = (e) => paint(e, ctx)),
+				true
+			);
+			item.addEventListener(
+				"touchmove",
+				(item.mpaint = (e) => mpaint(e, ctx)),
 				true
 			);
 			// item.addEventListener("click", (e) => console.log("clicke", e));
@@ -145,6 +195,7 @@ function Pdfview() {
 						onLoadSuccess={onDocumentLoadSuccess}>
 						{Array.from(new Array(numPages), (el, index) => (
 							<Page
+								width='300'
 								key={`page_${index + 1}`}
 								pageNumber={index + 1}
 							/>
