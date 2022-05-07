@@ -18,7 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import { NavLink, useHistory } from "react-router-dom";
 import axios from "axios";
-import { setUserId } from "../../Redux/LoginInfo";
+import { setUserId, setIsAdmin } from "../../Redux/LoginInfo";
 
 export default function Login() {
 	const { logo } = useSelector((state) => state.logo);
@@ -53,8 +53,10 @@ export default function Login() {
 			.then((res) => {
 				// console.log(res.data);
 				const LoginData = res.data;
+				console.log(LoginData);
 				if (LoginData.uid) {
 					dispatch(setUserId(LoginData.uid));
+					dispatch(setIsAdmin(LoginData.isAdmin));
 					history.push("/dashboard");
 				}
 				setErr(null);
