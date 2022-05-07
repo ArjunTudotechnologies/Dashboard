@@ -1,17 +1,37 @@
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
+import ReactSignatureCanvas from "react-signature-canvas";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
 import "./Pdfview.css";
 function Pdfview() {
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
 	const [sign, setSign] = useState(false);
-
+	const [canvasWidth, setCanvasWidth] = useState(null);
+	const [canvasHeight, setCanvasHeight] = useState(null);
+	const [refer, setRefer] = useState([]);
+	const handlePdfviewerHeight = () => {
+		const whole = document.querySelector(".Pdfview");
+		const head = document.querySelector(".header");
+		const viewer = document.querySelector(".wrapperCanvas");
+		viewer.style.height = (whole.offsetHeight - head.offsetHeight) + "px";
+	};
+	React.useEffect(() => {
+		handlePdfviewerHeight();
+	}, []);
 	function onDocumentLoadSuccess({ numPages }) {
+		// alert("asfd");
 		setNumPages(numPages);
 		setPageNumber(1);
+		setTimeout(() => {
+			const canvas = document.querySelector(".react-pdf__Page__canvas");
+			const signature = document.querySelector(".sigCanvas");
+			console.log(signature);
+			setCanvasWidth(canvas.width);
+			setCanvasHeight(canvas.height);
+		}, 1000);
 	}
 
 	function changePage(offSet) {
@@ -27,132 +47,21 @@ function Pdfview() {
 	}
 	let bbox_rect;
 	let painting = false;
-	const removeDraw = () => {
-		console.log("undraw");
-		var canvasAll = document.querySelectorAll(".react-pdf__Page__canvas");
-		console.log(canvasAll);
-		canvasAll.forEach((item, ind) => {
-			let ctx = item.getContext("2d");
-			// item.replaceWith(item.cloneNode(true));
-			item.removeEventListener("mousedown", startposition, true);
-			item.removeEventListener("touchstart", startposition, true);
-			item.removeEventListener("mouseup", item.finish, true);
-			item.removeEventListener("touchend", item.mfinish, true);
-			item.removeEventListener("mousemove", item.paint, true);
-			item.removeEventListener("touchmove", item.mpaint, true);
-		});
-	};
 
-	const paint = (e, ctx) => {
-		if (!painting) return;
-		ctx.lineWidth = 1;
-		ctx.lineCap = "round";
-		// const wrapper = document.querySelector(".wrapperCanvas");
-		let X = e.pageX - bbox_rect.left;
-		// let Y = e.pageY + wrapper.scrollTop;
-		let Y = e.layerY;
-		// console.log(e);
-		console.log(e, X, bbox_rect.left);
-
-		ctx.lineTo(X, Y);
-		ctx.stroke();
-		if (
-			e.clientX - 10 < bbox_rect.left ||
-			e.clientX + 10 > bbox_rect.right
-		) {
-			painting = false;
-			ctx.beginPath();
-		}
-	};
-	const mpaint = (e, ctx) => {
-		e.preventDefault();
-		// alert("wah");
-		var canvas = document.querySelector(".react-pdf__Page__canvas");
-		var xratio = window.innerWidth / canvas.width;
-		var yratio = window.innerHeight / canvas.height;
-
-		var touch = e.touches[0];
-		if (!painting) return;
-		ctx.lineWidth = 1;
-		ctx.lineCap = "round";
-		// ctx.beginPath();
-		// ctx.rect(259, 800, 150, 100);
-		// ctx.stroke();
-		// const wrapper = document.querySelector(".wrapperCanvas");
-		let X = touch.clientX - canvas.offsetLeft;
-		// let Y = e.pageY + wrapper.scrollTop;
-		let Y = touch.clientY;
-		console.log(e, X, Y, bbox_rect.left, bbox_rect.top);
-		// alert(Y);
-		// console.log("m", X, Y);
-		ctx.lineTo(X / xratio, Y / yratio);
-		ctx.stroke();
-
-		// if (
-		// 	e.clientX - 10 < bbox_rect.left ||
-		// 	e.clientX + 10 > bbox_rect.right
-		// ) {
-		// 	painting = false;
-		// 	ctx.beginPath();
-		// }
-		// return false;
-	};
-	const startposition = (e) => {
-		painting = true;
-		// alert(e);
-		paint(e);
-	};
-	const finishedposition = (ctx) => {
-		painting = false;
-		ctx.beginPath();
-	};
-	const draw = () => {
-		console.log("draw");
-		var canvasAll = document.querySelectorAll(".react-pdf__Page__canvas");
-		console.log(canvasAll);
-		canvasAll.forEach((item, ind) => {
-			let ctx = item.getContext("2d");
-
-			bbox_rect = item.getBoundingClientRect();
-
-			item.addEventListener("mousedown", startposition, true);
-			item.addEventListener("touchstart", startposition, true);
-			item.addEventListener(
-				"mouseup",
-				(item.finish = () => finishedposition(ctx)),
-				true
-			);
-			item.addEventListener(
-				"touchend",
-				(item.mfinish = () => finishedposition(ctx)),
-				true
-			);
-			item.addEventListener(
-				"mousemove",
-				(item.paint = (e) => paint(e, ctx)),
-				true
-			);
-			item.addEventListener(
-				"touchmove",
-				(item.mpaint = (e) => mpaint(e, ctx)),
-				true
-			);
-			// item.addEventListener("click", (e) => console.log("clicke", e));
-		});
-	};
-	// window.onload = function () {
-	// 	setTimeout(() => {
-	// 		draw();
-	// 	}, 5000);
-	// };
 	const handleSign = () => {
 		const status = !sign;
+		console.log(refer, status);
+		const signature = document.querySelectorAll(".sigCanvas");
 		setSign(status);
-		if (status) {
-			console.log(status);
-			draw();
-		} else removeDraw();
+		// if (!status) {
+		// 	signature.forEach((item, ind) => {
+		// 		const context = item.getContext("2d");
+
+		// 		context.clearRect(0, 0, item.width, item.height);
+		// 	});
+		// }
 	};
+
 	return (
 		<div className='Pdfview vh-100'>
 			<div className='header'>
@@ -186,23 +95,42 @@ function Pdfview() {
 					<button onClick={changePageNext}>Next Page</button>
 				)}
 			</header> */}
-			<center>
-				<div
-					className=' wrapperCanvas py-3'
-					style={{ overflowY: "scroll", background: "#dbd8d0" }}>
-					<Document
-						file='/assets/Resume.pdf'
-						onLoadSuccess={onDocumentLoadSuccess}>
-						{Array.from(new Array(numPages), (el, index) => (
+
+			<div
+				className=' wrapperCanvas py-3 d-flex justify-content-center'
+				style={{ overflowY: "scroll", background: "#dbd8d0" }}>
+				<Document
+					file='/assets/zahin.pdf'
+					onLoadSuccess={onDocumentLoadSuccess}>
+					{Array.from(new Array(numPages), (el, index) => (
+						<div className=''>
 							<Page
-								width='300'
+								size='A4'
+								className='position-relative pdfmbl'
 								key={`page_${index + 1}`}
-								pageNumber={index + 1}
-							/>
-						))}
-					</Document>
-				</div>
-			</center>
+								pageNumber={index + 1}>
+								<ReactSignatureCanvas
+									ref={(ref) => {}}
+									penColor='black'
+									canvasProps={{
+										width:
+											canvasWidth != null
+												? canvasWidth
+												: 100,
+										height:
+											canvasHeight != null
+												? canvasHeight
+												: 100,
+										className: `sigCanvas position-absolute ${
+											sign ? "d-block" : "d-none"
+										}`,
+									}}
+								/>
+							</Page>
+						</div>
+					))}
+				</Document>
+			</div>
 		</div>
 	);
 }
