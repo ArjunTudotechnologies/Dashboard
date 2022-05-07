@@ -16,7 +16,7 @@ function Pdfview() {
 		const whole = document.querySelector(".Pdfview");
 		const head = document.querySelector(".header");
 		const viewer = document.querySelector(".wrapperCanvas");
-		viewer.style.height = (whole.offsetHeight - head.offsetHeight) + "px";
+		viewer.style.height = whole.offsetHeight - head.offsetHeight + "px";
 	};
 	React.useEffect(() => {
 		handlePdfviewerHeight();
@@ -100,7 +100,7 @@ function Pdfview() {
 				className=' wrapperCanvas py-3 d-flex justify-content-center'
 				style={{ overflowY: "scroll", background: "#dbd8d0" }}>
 				<Document
-					file='/assets/zahin.pdf'
+					file='/assets/Resume.pdf'
 					onLoadSuccess={onDocumentLoadSuccess}>
 					{Array.from(new Array(numPages), (el, index) => (
 						<div className=''>
