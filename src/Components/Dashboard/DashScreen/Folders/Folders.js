@@ -115,28 +115,30 @@ export default function Folders() {
 							);
 						})}
 					</div>
-					<div className='col-md-3 g-3 col-12'>
-						<div
-							className=' folderBox align-items-center'
-							style={{ cursor: "pointer" }}
-							onClick={() => setModalShow(true)}>
-							<div className='d-flex align-items-center justify-content-between'>
-								<FontAwesomeIcon
-									className='fa-4x '
-									icon={faFolderPlus}
-								/>
-							</div>
-							<div className='mt-3'>
-								<h6 className='folderName   fw-bolder'>
-									Create New Folder
-								</h6>
-								{/* <div className='folderDetails d-flex justify-content-between align-items-center'>
+					{localStorage.getItem("isAdmin") === "true" && (
+						<div className='col-md-3 g-3 col-12'>
+							<div
+								className=' folderBox align-items-center'
+								style={{ cursor: "pointer" }}
+								onClick={() => setModalShow(true)}>
+								<div className='d-flex align-items-center justify-content-between'>
+									<FontAwesomeIcon
+										className='fa-4x '
+										icon={faFolderPlus}
+									/>
+								</div>
+								<div className='mt-3'>
+									<h6 className='folderName   fw-bolder'>
+										Create New Folder
+									</h6>
+									{/* <div className='folderDetails d-flex justify-content-between align-items-center'>
 									<div className='noOfFiles'>200 Files</div>
 									<div className='size'>100 MB</div>
 								</div> */}
+								</div>
 							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
 		</div>

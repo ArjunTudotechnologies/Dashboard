@@ -55,7 +55,7 @@ export default function Login() {
 				const LoginData = res.data;
 				console.log(LoginData);
 				if (LoginData.uid) {
-					dispatch(setUserId(LoginData.uid));
+					dispatch(setUserId(LoginData.uid)); 
 					dispatch(setIsAdmin(LoginData.isAdmin));
 					history.push("/dashboard");
 				}

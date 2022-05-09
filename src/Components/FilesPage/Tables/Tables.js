@@ -158,22 +158,26 @@ export default function Tables(props) {
 				<div className='secTitle'>Files</div>
 				<div className='filter '>
 					<span className='me-3'>View All</span>
-					<span className='me-3'>Sort by</span>
-					<FontAwesomeIcon icon={faAngleDown} />
-					<span
-						onClick={uploadHandle}
-						style={{ cursor: "pointer" }}
-						// onClick={Handlelogin}
-						className=' ms-3 btn btn-info text-white '>
-						<input
-							onChange={handleChange}
-							type='file'
-							id='fileupload'
-							hidden
-						/>
-						<span className='me-2'>Add file</span>
-						<UilPlus size='16' color='#fff' />
+					<span>
+						<span className='me-3'>Sort by</span>
+						<FontAwesomeIcon icon={faAngleDown} />
 					</span>
+					{localStorage.getItem("isAdmin") === "true" && (
+						<span
+							onClick={uploadHandle}
+							style={{ cursor: "pointer" }}
+							// onClick={Handlelogin}
+							className=' ms-3 btn btn-info text-white '>
+							<input
+								onChange={handleChange}
+								type='file'
+								id='fileupload'
+								hidden
+							/>
+							<span className='me-2'>Add file</span>
+							<UilPlus size='16' color='#fff' />
+						</span>
+					)}
 				</div>
 			</div>
 			<div className='listWrapper '>
