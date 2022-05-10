@@ -1,0 +1,31 @@
+.FilesPage {
+	background-color: #f9f9f9;
+	/* position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0; */
+	height: 100%;
+}
+.FilesPage .header {
+	background-color: white;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	padding: var(--sectionpad);
+	justify-content: space-between;
+}
+.FilesPage .header .screenTitle {
+	font-size: 1.1rem;
+	font-weight: 500;
+}
+.FilesPage .header .userProfile {
+	display: flex;
+	align-items: center;
+}
+.FilesPage .header .userImage {
+	display: inline-block;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+}

@@ -177,6 +177,26 @@ export default function SideMenu({ url }) {
 						})}
 					</div>
 				</div>
+				{localStorage.getItem("isAdmin") === "true" && (
+					<>
+						<div className=' item'>
+							<Link to={`${url}/adduser`}>
+								<div className='mainMenuItem'>
+									<UilEstate size='16' color='#000' />
+									<span className='ms-2'>Add User</span>
+								</div>
+							</Link>
+						</div>
+						<div className=' item'>
+							<Link to={`${url}/users`}>
+								<div className='mainMenuItem'>
+									<UilEstate size='16' color='#000' />
+									<span className='ms-2'>Users</span>
+								</div>
+							</Link>
+						</div>
+					</>
+				)}
 				<div className=' item'>
 					<div className='d-flex align-items-center' onClick={logout}>
 						<UilSignOutAlt size='16' color='#000' />

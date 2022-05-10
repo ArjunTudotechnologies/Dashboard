@@ -1,8 +1,10 @@
 import React from "react";
 import { useRouteMatch } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
+import Adduser from "../Adduser/Adduser";
 import FilesPage from "../FilesPage/FilesPage";
 import Pdfview from "../Pdfview/Pdfview";
+import Users from "../Users/Users";
 import "./Dashboard.css";
 import DashScreen from "./DashScreen/DashScreen";
 import SideMenu from "./SideMenu/SideMenu";
@@ -28,6 +30,12 @@ export default function Dashboard() {
 					</Route>
 					<Route exact path={`${path}/viewpdf`}>
 						<Pdfview />
+					</Route>
+					<Route exact path={`${path}/adduser`}>
+						<Adduser />
+					</Route>
+					<Route exact path={`${path}/users`}>
+						<Users />
 					</Route>
 				</Switch>
 			</div>

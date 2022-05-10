@@ -33,17 +33,6 @@ export default function Tables(props) {
 		console.log(props, listData, heightLoading);
 		// console.log(listData);
 	}, [props.item, heightLoading]);
-	// const listData = [
-	// 	{
-	// 		fileImg: "/assets/images/pdf.png",
-	// 		fileName: "Anupam Employee.pdf",
-	// 		fileSize: "128KB",
-	// 		lastViewed: "12/04/2020",
-	// 		folderName: "Personal data",
-	// 		folderColor: "#5784ed",
-	// 	},
-
-	// ];
 
 	const getInnerHeight = (elm) => {
 		var computed = getComputedStyle(elm),
@@ -133,7 +122,10 @@ export default function Tables(props) {
 								"https://calm-beyond-84616.herokuapp.com/addUserFile",
 								filedata
 							)
-							.then((res) => console.log(res.data))
+							.then((res) => {
+								console.log(res.data);
+								props.callback();
+							})
 							.catch((err) => console.log(err));
 					});
 				setPost("");
@@ -145,7 +137,10 @@ export default function Tables(props) {
 			.delete(
 				`https://calm-beyond-84616.herokuapp.com/deleteUserFile/${id}`
 			)
-			.then((res) => console.log(res.data))
+			.then((res) => {
+				props.callback();
+				console.log(res.data);
+			})
 			.catch((err) => console.log(err));
 	};
 	React.useEffect(() => {
