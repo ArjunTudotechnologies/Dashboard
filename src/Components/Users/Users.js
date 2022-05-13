@@ -6,6 +6,7 @@ import "./Users.css";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import UserTable from "./UserTable/UserTable";
 
 export default function Users(props) {
 	const location = useLocation();
@@ -48,6 +49,7 @@ export default function Users(props) {
 					<FontAwesomeIcon icon={faAngleDown} />
 				</div>
 			</div>
+			<UserTable />
 			{/* <Tables
 				item={data}
 				folderId={folderid}

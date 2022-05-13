@@ -4,11 +4,13 @@ import {
 	DropdownButton,
 	FormControl,
 	InputGroup,
+	Spinner,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Login.css";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { getLogo, setLogo } from "../../Redux/LocalStorage";
 import {
 	NormalInputs,
@@ -19,8 +21,12 @@ import { Link } from "react-router-dom";
 import { NavLink, useHistory } from "react-router-dom";
 import axios from "axios";
 import { setUserId, setIsAdmin } from "../../Redux/LoginInfo";
+import { Loading } from "../../Redux/Loading";
+import { setLoading } from "../../Redux/IsLoading";
 
 export default function Login() {
+	const { loading } = useSelector((state) => state.loading);
+
 	const { logo } = useSelector((state) => state.logo);
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -47,24 +53,32 @@ export default function Login() {
 	};
 	const Handlelogin = () => {
 		// dispatch(setLogo());
+		dispatch(setLoading(true));
+
 		console.log(loginCred);
 		axios
-			.post("https://calm-beyond-84616.herokuapp.com/Login", loginCred)
+			.post(
+				"https://calm-beyond-84616.herokuapp.com/Login",
+				loginCred
+			)
 			.then((res) => {
 				// console.log(res.data);
 				const LoginData = res.data;
 				console.log(LoginData);
+				dispatch(setLoading(false));
+
 				if (LoginData.uid) {
-					dispatch(setUserId(LoginData.uid)); 
+					dispatch(setUserId(LoginData.uid));
 					dispatch(setIsAdmin(LoginData.isAdmin));
 					history.push("/dashboard");
 				}
-				setErr(null);
+				setErr(null);   
 			})
 			.catch((err) => {
 				const errMsg = err.response.data.message;
 				// alert(errMsg);
 				setErr(errMsg);
+				dispatch(setLoading(false));
 			});
 	};
 	return (
@@ -110,6 +124,15 @@ export default function Login() {
 						Login
 					</span>
 				</span>
+				{loading ? (
+					<div className='d-flex align-items-center justify-content-center'>
+						<Spinner animation='border' role='status'>
+							<span className='visually-hidden'>Loading...</span>
+						</Spinner>
+					</div>
+				) : (
+					""
+				)}
 				{err && (
 					<div class='alert alert-danger' role='alert'>
 						{err}
