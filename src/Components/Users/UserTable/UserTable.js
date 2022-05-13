@@ -43,7 +43,7 @@ export default function UserTable() {
 	return (
 		<div className='userTable p-4 bg-white m-4 rounded  '>
 			<div className='headers'>
-				<h3>Users</h3>
+				{/* <h3>Users</h3> */}
 				<div className='d-flex fw-bold'>
 					<div className='col-3'>Email</div>
 					<div className='col-3'>Name</div>
@@ -58,7 +58,9 @@ export default function UserTable() {
 						className='d-flex align-items-center justify-content-center py-3 my-2'>
 						<div className='col-3'>{item.data.email}</div>
 						<div className='col-3'>{item.data.name}</div>
-						<div className='col-3'>{item.data.isAdmin + ""}</div>
+						<div className='col-3'>
+							{item.data.isAdmin ? "Admin" : "User"}
+						</div>
 						<div className='col-3'>
 							{item.data.isAdmin ? (
 								<span

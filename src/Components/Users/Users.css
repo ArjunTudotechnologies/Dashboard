@@ -1,4 +1,4 @@
-.FilesPage {
+.Users {
 	background-color: #f9f9f9;
 	/* position: absolute;
 	top: 0;
@@ -7,7 +7,7 @@
 	bottom: 0; */
 	height: 100%;
 }
-.FilesPage .header {
+.Users .header {
 	background-color: white;
 	height: 50px;
 	display: flex;
@@ -15,15 +15,15 @@
 	padding: var(--sectionpad);
 	justify-content: space-between;
 }
-.FilesPage .header .screenTitle {
+.Users .header .screenTitle {
 	font-size: 1.1rem;
 	font-weight: 500;
 }
-.FilesPage .header .userProfile {
+.Users .header .userProfile {
 	display: flex;
 	align-items: center;
 }
-.FilesPage .header .userImage {
+.Users .header .userImage {
 	display: inline-block;
 	border-radius: 50%;
 	width: 40px;

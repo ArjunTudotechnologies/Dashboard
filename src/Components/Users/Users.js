@@ -37,7 +37,7 @@ export default function Users(props) {
 	// 	name += item.charAt(0).toUpperCase() + item.slice(1) + " ";
 	// });
 	return (
-		<div className='FilesPage'>
+		<div className='Users'>
 			<div className='header'>
 				<TitleBar title={"Users"} />
 				<div className='userProfile'>

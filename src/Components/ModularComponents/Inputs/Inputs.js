@@ -18,7 +18,7 @@ export function NormalInputs({
 	disabled,
 }) {
 	return (
-		<Form.Group className=' ' as={Col} md='' controlId=''>
+		<Form.Group className=' my-2' as={Col} md='' controlId=''>
 			<Form.Label className={required ? "required" : ""}>
 				{label}
 			</Form.Label>
@@ -156,12 +156,14 @@ export function SelectInputs({
 		</Form.Group>
 	);
 }
-export function PassInputs({ placeholder, label, onBlur }) {
+export function PassInputs({ placeholder, label, onBlur, required }) {
 	const [passIcon, setPassIcon] = React.useState(false);
 	const [passType, setPassType] = React.useState(true);
 	return (
 		<div className='my-2'>
-			<label htmlFor='pass'>{label}</label>
+			<Form.Label className={required ? "required" : ""}>
+				{label}
+			</Form.Label>
 			<div className='position-relative'>
 				<FormControl
 					name={label}
@@ -172,6 +174,7 @@ export function PassInputs({ placeholder, label, onBlur }) {
 					placeholder={placeholder}
 					type={passType ? "password" : "text"}
 					aria-label='password'
+					required={required}
 				/>
 				<span
 					onClick={() => {
