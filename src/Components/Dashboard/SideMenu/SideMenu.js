@@ -8,12 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	UilEstate,
 	UilUser,
-	UilBill,
-	UilShieldPlus,
-	UilFile,
-	UilInvoice,
-	UilAt,
-	UilFileContract,
+	UilUserPlus,
+	UilUserCheck,
 	UilSignOutAlt,
 	UilTimes,
 } from "@iconscout/react-unicons";
@@ -182,7 +178,7 @@ export default function SideMenu({ url }) {
 						<div className=' item'>
 							<Link to={`${url}/adduser`}>
 								<div className='mainMenuItem'>
-									<UilEstate size='16' color='#000' />
+									<UilUserPlus size='16' color='#000' />
 									<span className='ms-2'>Add User</span>
 								</div>
 							</Link>
@@ -190,7 +186,7 @@ export default function SideMenu({ url }) {
 						<div className=' item'>
 							<Link to={`${url}/users`}>
 								<div className='mainMenuItem'>
-									<UilEstate size='16' color='#000' />
+									<UilUserCheck size='16' color='#000' />
 									<span className='ms-2'>Users</span>
 								</div>
 							</Link>

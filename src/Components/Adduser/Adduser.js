@@ -56,8 +56,8 @@ export default function Adduser() {
 					<FontAwesomeIcon icon={faAngleDown} />
 				</div>
 			</div>
-			<div className='p-5 '>
-				<div className='bg-white p-5 d-flex justify-content-center align-items-center'>
+			<div className='p-sm-5 p-3 '>
+				<div className='bg-white p-sm-5 p-2 d-flex justify-content-center align-items-center'>
 					<div className='add_form'>
 						<NormalInputs
 							type='text'

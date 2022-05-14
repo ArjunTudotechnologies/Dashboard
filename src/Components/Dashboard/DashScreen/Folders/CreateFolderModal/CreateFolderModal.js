@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Container, Modal } from "react-bootstrap";
+import { Button, Container, Modal, Spinner } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import ColorPicker from "../../../../ColorPicker/ColorPicker";
 import {
 	NormalInputs,
@@ -8,7 +9,7 @@ import {
 
 export default function CreateFolderModal(props) {
 	const [show, setShow] = React.useState(false);
-
+	const { loading } = useSelector((state) => state.loading);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const [createData, setCreateData] = React.useState({});
@@ -55,7 +56,10 @@ export default function CreateFolderModal(props) {
 					<ColorPicker addColor={colorAdd} />
 					<SelectInputs
 						data={[
-							{ value: "Employee Files", name: "Employee Files" },
+							{
+								value: "Employee Files",
+								name: "Employee Files",
+							},
 							{ value: "Client Files", name: "Client Files" },
 						]}
 						type='text'
@@ -66,12 +70,20 @@ export default function CreateFolderModal(props) {
 				</Container>
 			</Modal.Body>
 			<Modal.Footer className='justify-content-center'>
-				<Button
-					onClick={() => {
-						props.onCreate(createData);
-					}}>
-					Create
-				</Button>
+				{loading ? (
+					<div className='d-flex align-items-center justify-content-center'>
+						<Spinner animation='border' role='status'>
+							<span className='visually-hidden'>Loading...</span>
+						</Spinner>
+					</div>
+				) : (
+					<Button
+						onClick={() => {
+							props.onCreate(createData);
+						}}>
+						Create
+					</Button>
+				)}
 			</Modal.Footer>
 		</Modal>
 	);

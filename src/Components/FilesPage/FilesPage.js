@@ -6,10 +6,13 @@ import "./FilesPage.css";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../Redux/IsLoading";
 
 export default function FilesPage(props) {
 	const location = useLocation();
 	const { parent, folder, folderid } = useParams();
+	const dispatch = useDispatch();
 	const [data, setData] = React.useState([]);
 	const getData = () => {
 		const userId = localStorage.getItem("userId");
@@ -19,6 +22,7 @@ export default function FilesPage(props) {
 			)
 			.then((res) => {
 				setData(res.data);
+				dispatch(setLoading(false));
 			})
 			.catch((err) => {
 				console.log(err);

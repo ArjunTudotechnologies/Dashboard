@@ -32,3 +32,8 @@
 .adduser .add_form {
 	width: 50%;
 }
+@media (max-width: 600px) {
+	.adduser .add_form {
+		width: 100%;
+	}
+}

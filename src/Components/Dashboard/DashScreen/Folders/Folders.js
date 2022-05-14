@@ -12,15 +12,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../Redux/IsLoading";
 import CreateFolderModal from "./CreateFolderModal/CreateFolderModal";
 import { Link, useRouteMatch } from "react-router-dom";
+import { Loading } from "../../../../Redux/Loading";
 
 export default function Folders() {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [folderData, setFolderData] = React.useState([]);
 	// const { userId } = useSelector((state) => state.loginInfo);
 	let { path, url } = useRouteMatch();
+	const { Loading } = useSelector((state) => state.loading);
 
 	const dispatch = useDispatch();
 	const handleCreate = (createData) => {
+		dispatch(setLoading(true));
 		const userId = localStorage.getItem("userId");
 		console.log(userId);
 		const data = {
@@ -31,6 +34,7 @@ export default function Folders() {
 		axios
 			.post("https://calm-beyond-84616.herokuapp.com/addUserFolder", data)
 			.then((res) => {
+				dispatch(setLoading(false));
 				setModalShow(false);
 				getData();
 			})

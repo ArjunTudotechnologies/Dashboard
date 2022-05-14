@@ -12,6 +12,7 @@ function Pdfview() {
 	const [canvasWidth, setCanvasWidth] = useState(null);
 	const [canvasHeight, setCanvasHeight] = useState(null);
 	const [refer, setRefer] = useState([]);
+	let refs = [];
 	const handlePdfviewerHeight = () => {
 		const whole = document.querySelector(".Pdfview");
 		const head = document.querySelector(".header");
@@ -28,7 +29,7 @@ function Pdfview() {
 		setTimeout(() => {
 			const canvas = document.querySelector(".react-pdf__Page__canvas");
 			const signature = document.querySelector(".sigCanvas");
-			console.log(signature);
+			// console.log(signature);
 			setCanvasWidth(canvas.width);
 			setCanvasHeight(canvas.height);
 		}, 1000);
@@ -52,6 +53,10 @@ function Pdfview() {
 		const status = !sign;
 		console.log(refer, status);
 		const signature = document.querySelectorAll(".sigCanvas");
+		refs.forEach((item, ind) => {
+			if (!status) item.off();
+			else item.on();
+		});
 		setSign(status);
 		// if (!status) {
 		// 	signature.forEach((item, ind) => {
@@ -110,7 +115,11 @@ function Pdfview() {
 								key={`page_${index + 1}`}
 								pageNumber={index + 1}>
 								<ReactSignatureCanvas
-									ref={(ref) => {}}
+									ref={(ref) => {
+										if (ref != null) {
+											refs.push(ref);
+										}
+									}}
 									penColor='black'
 									canvasProps={{
 										width:
@@ -121,9 +130,7 @@ function Pdfview() {
 											canvasHeight != null
 												? canvasHeight
 												: 100,
-										className: `sigCanvas position-absolute ${
-											sign ? "d-block" : "d-none"
-										}`,
+										className: `sigCanvas position-absolute `,
 									}}
 								/>
 							</Page>
