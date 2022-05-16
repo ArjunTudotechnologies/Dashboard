@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../Redux/IsLoading";
 import { Spinner } from "react-bootstrap";
+import ActivityMapperModal from "../../ActivityMapperModal/ActivityMapperModal";
+import { Callbacks } from "jquery";
 
 const storage = firebase.storage();
 const auth = firebase.auth();
@@ -151,6 +153,13 @@ export default function Tables(props) {
 			})
 			.catch((err) => console.log(err));
 	};
+	const [show, setShow] = React.useState(false);
+	const callback = () => {
+		setShow(false);
+	};
+	const ActivityModalShow = () => {
+		setShow(true);
+	};
 	React.useEffect(() => {
 		dynamicHeight();
 	}, []);
@@ -165,6 +174,7 @@ export default function Tables(props) {
 	// }
 	return (
 		<div className='files '>
+			<ActivityMapperModal show={show} Callbacks={callback} />
 			<div className='secHeader mb-3'>
 				<div className='secTitle'>Files</div>
 				<div className='filter '>
@@ -222,7 +232,9 @@ export default function Tables(props) {
 									item.data.fileName.split(".")[1];
 
 								return (
-									<div className='d-flex flex-wrap tableItems'>
+									<div
+										onClick={ActivityModalShow}
+										className='d-flex flex-wrap tableItems'>
 										<div className='col-4 d-flex align-items-center '>
 											<span className='me-3'>
 												<img

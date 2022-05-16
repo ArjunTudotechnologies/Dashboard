@@ -57,10 +57,7 @@ export default function Login() {
 
 		console.log(loginCred);
 		axios
-			.post(
-				"https://calm-beyond-84616.herokuapp.com/Login",
-				loginCred
-			)
+			.post("https://calm-beyond-84616.herokuapp.com/Login", loginCred)
 			.then((res) => {
 				// console.log(res.data);
 				const LoginData = res.data;
@@ -72,9 +69,10 @@ export default function Login() {
 					dispatch(setIsAdmin(LoginData.isAdmin));
 					history.push("/dashboard");
 				}
-				setErr(null);   
+				setErr(null);
 			})
 			.catch((err) => {
+				console.log(err);
 				const errMsg = err.response.data.message;
 				// alert(errMsg);
 				setErr(errMsg);
