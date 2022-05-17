@@ -17,7 +17,8 @@ export default function Users(props) {
 	};
 	React.useEffect(() => {
 		getData();
-	}, []);
+    }, []);
+   
 
 	return (
 		<div className='Users'>

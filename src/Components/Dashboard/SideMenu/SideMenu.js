@@ -175,14 +175,14 @@ export default function SideMenu({ url }) {
 				</div>
 				{localStorage.getItem("isAdmin") === "true" && (
 					<>
-						<div className=' item'>
+						{/* <div className=' item'>
 							<Link to={`${url}/adduser`}>
 								<div className='mainMenuItem'>
 									<UilUserPlus size='16' color='#000' />
 									<span className='ms-2'>Add User</span>
 								</div>
 							</Link>
-						</div>
+						</div> */}
 						<div className=' item'>
 							<Link to={`${url}/users`}>
 								<div className='mainMenuItem'>

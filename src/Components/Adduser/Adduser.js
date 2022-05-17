@@ -6,7 +6,8 @@ import "./Adduser.css";
 import { NormalInputs, PassInputs } from "../ModularComponents/Inputs/Inputs";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-export default function Adduser() {
+import { Modal } from "react-bootstrap";
+export default function Adduser(props) {
 	const [cred, setCred] = useState({});
 
 	const history = useHistory();
@@ -17,12 +18,14 @@ export default function Adduser() {
 		return true;
 	};
 	const handleAddUser = () => {
-		alert("safd");
+		// alert("safd");
+		console.log(cred);
 		axios
 			.post("https://calm-beyond-84616.herokuapp.com/SignUp", cred)
 			.then((res) => {
 				console.log(res.data);
 				history.push("/dashboard/users");
+				props.Callbacks();
 			})
 			.catch((err) => console.log(err));
 	};
@@ -45,18 +48,54 @@ export default function Adduser() {
 	};
 	return (
 		<div className='adduser '>
-			<div className='header'>
-				<TitleBar title={"Add user"} />
-				<div className='userProfile'>
-					<img
-						src='/assets/images/user.JPG'
-						alt=''
-						className='userImage img-fluid me-3'
-					/>
-					<FontAwesomeIcon icon={faAngleDown} />
-				</div>
-			</div>
-			<div className='p-sm-5 p-3 '>
+			<Modal
+				centered
+				// show={true}
+				show={props.show}
+				fullscreen={"md-down"}
+				onHide={() => props.Callbacks()}>
+				<Modal.Header closeButton>
+					<Modal.Title>Add user</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div className=' '>
+						<div className='bg-white d-flex justify-content-center align-items-center'>
+							<div className='add_form w-100'>
+								<NormalInputs
+									type='text'
+									required={true}
+									placeholder='Name'
+									label='Name'
+									onBlur={newUserCred}
+								/>
+								<NormalInputs
+									type='email'
+									required={true}
+									placeholder='Email'
+									label='Email'
+									onBlur={newUserCred}
+								/>
+								<PassInputs
+									onBlur={newUserCred}
+									placeholder={"Password"}
+									label={"Password"}
+									required={true}
+								/>
+								<div
+									onClick={handleAddUser}
+									className=' d-flex justify-content-center my-2'>
+									<button
+										className='btn btn-success addbtn w-100'
+										disabled>
+										Add User
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</Modal.Body>
+			</Modal>
+			{/* <div className='p-sm-5 p-3 '>
 				<div className='bg-white p-sm-5 p-2 d-flex justify-content-center align-items-center'>
 					<div className='add_form'>
 						<NormalInputs
@@ -90,7 +129,7 @@ export default function Adduser() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 }
