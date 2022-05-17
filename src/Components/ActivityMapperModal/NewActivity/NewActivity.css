@@ -1,0 +1,7 @@
+.selector > div {
+	width: 45%;
+}
+.searchWrapper {
+	display: flex;
+	overflow-x: auto;
+}

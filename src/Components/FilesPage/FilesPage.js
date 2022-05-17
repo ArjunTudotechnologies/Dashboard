@@ -1,13 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import Tables from "./Tables/Tables";
-import "./FilesPage.css";
-import TitleBar from "../Dashboard/TitleBar/TitleBar";
-import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import { useLocation, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../Redux/IsLoading";
+import "./FilesPage.css";
+import Tables from "./Tables/Tables";
+import ProfileHeader from "../Dashboard/ProfileHeader/ProfileHeader";
 
 export default function FilesPage(props) {
 	const location = useLocation();
@@ -30,7 +28,6 @@ export default function FilesPage(props) {
 	};
 	React.useEffect(() => {
 		getData();
-		// console.log(localStorage.getItem("currentColor"));
 	}, [parent, folder, folderid]);
 
 	const splits = folder.split("_");
@@ -41,17 +38,7 @@ export default function FilesPage(props) {
 	});
 	return (
 		<div className='FilesPage'>
-			<div className='header'>
-				<TitleBar title={name} />
-				<div className='userProfile'>
-					<img
-						src='/assets/images/user.JPG'
-						alt=''
-						className='userImage img-fluid me-3'
-					/>
-					<FontAwesomeIcon icon={faAngleDown} />
-				</div>
-			</div>
+			<ProfileHeader title={name} />
 			<Tables
 				item={data}
 				folderId={folderid}

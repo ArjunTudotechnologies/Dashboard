@@ -5,11 +5,7 @@ import { setLoading } from "../../../Redux/IsLoading";
 import { Spinner } from "react-bootstrap";
 import "./UserTable.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faAngleDown,
-
-} from "@fortawesome/free-solid-svg-icons";
-
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 export default function UserTable() {
 	const [users, setUsers] = useState([]);
@@ -31,7 +27,6 @@ export default function UserTable() {
 			.catch((err) => console.log(err));
 	};
 	const handleStatus = (id, status) => {
-		// console.log("he");
 		axios
 			.put(`https://calm-beyond-84616.herokuapp.com/Users/${id}`, {
 				isAdmin: !status,
@@ -73,7 +68,6 @@ export default function UserTable() {
 	};
 	useEffect(() => {
 		callforData();
-		// if (!loading) dynamicHeight();
 	}, []);
 	if (loading) {
 		return (
@@ -84,57 +78,7 @@ export default function UserTable() {
 			</div>
 		);
 	}
-	// return (
-	// 	<div className='userTable p-4  m-4 rounded  '>
-	// 		<div className='headers'>
-	// 			<h3>Users</h3>
-	// 			<div className='d-flex fw-bold'>
-	// 				<div className='col-3'>Email</div>
-	// 				<div className='col-3'>Name</div>
-	// 				<div className='col-3'>Admin</div>
-	// 				<div className='col-3'>Action</div>
-	// 			</div>
-	// 		</div>
-	// 		<div className='usersList bg-white'>
-	// 			{users.map((item, ind) => (
-	// 				<div
-	// 					key={ind}
-	// 					className='d-flex align-items-center justify-content-center py-3 my-2'>
-	// 					<div className='col-3'>{item.data.email}</div>
-	// 					<div className='col-3'>{item.data.name}</div>
-	// 					<div className='col-3'>
-	// 						{item.data.isAdmin ? "Admin" : "User"}
-	// 					</div>
-	// 					<div className='col-3'>
-	// 						{item.data.isAdmin ? (
-	// 							<span
-	// 								onClick={() =>
-	// 									handleStatus(
-	// 										item.docId,
-	// 										item.data.isAdmin
-	// 									)
-	// 								}
-	// 								className='btn btn-danger'>
-	// 								Delete Admin
-	// 							</span>
-	// 						) : (
-	// 							<span
-	// 								onClick={() =>
-	// 									handleStatus(
-	// 										item.docId,
-	// 										item.data.isAdmin
-	// 									)
-	// 								}
-	// 								className='btn btn-success'>
-	// 								Make admin
-	// 							</span>
-	// 						)}
-	// 					</div>
-	// 				</div>
-	// 			))}
-	// 		</div>
-	// 	</div>
-	// );
+
 	return (
 		<div className='users '>
 			<div className='secHeader mb-3'>
@@ -155,24 +99,16 @@ export default function UserTable() {
 					<div className='col-3 d-flex align-items-center justify-content-center'>
 						Name
 					</div>
-					{/* <div className='col-2 '>File size</div> */}
 					<div className='col-3 d-flex align-items-center justify-content-center'>
 						Status
 					</div>
 					<div className='col-3 d-flex align-items-center justify-content-center'>
 						Actions
 					</div>
-					{/* <div className='col-2 '>d</div> */}
 				</div>
 				<div className='listItems'>
 					{!heightLoading &&
 						users.map((item, ind) => {
-							// const date = new Date(item.data.updatedAt.seconds)
-							// 	.toLocaleString("en-Gb", { timeZone: "UTC" })
-							// 	.split(",")[0];
-							// // console.log(date);
-							// const imgType = item.data.fileName.split(".")[1];
-
 							return (
 								<div className='d-flex flex-wrap tableItems'>
 									<div className='col-3 d-flex align-items-center '>

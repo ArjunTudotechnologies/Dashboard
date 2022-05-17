@@ -18,11 +18,13 @@ export default function ActivityMapperModal(props) {
 	return (
 		<div>
 			<Modal
+				centered
+				// show={true}
 				show={props.show}
-				fullscreen={true}
+				fullscreen={"md-down"}
 				onHide={() => props.Callbacks()}>
 				<Modal.Header closeButton>
-					<Modal.Title>Modal</Modal.Title>
+					<Modal.Title>Task Flow</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<NewActivity data={users} />
