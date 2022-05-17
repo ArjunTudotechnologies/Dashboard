@@ -100,6 +100,7 @@ export default function UserTable() {
 					<span>Users</span>
 					<div
 						className='d-inline-block ms-3'
+						style={{ cursor: "pointer" }}
 						onClick={ActivityModalShow}>
 						<UilPlusCircle size='25' color='green' />
 					</div>
