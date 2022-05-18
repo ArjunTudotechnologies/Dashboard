@@ -16,9 +16,10 @@ import "./NewActivity.css";
 export default function NewActivity(props) {
 	const [userEmail, setUserEmail] = React.useState([]);
 	const [task, setTask] = React.useState([]);
-	const [tasksList, setTasklist] = React.useState([
-		{ userList: [], action: [] },
-	]);
+	const { tasksList, setTasklist, setTaskName } = props;
+	// const [tasksList, setTasklist] = React.useState([
+	// 	{ userList: [], action: [] },
+	// ]);
 	const action = [
 		{
 			name: "Approve",
@@ -109,6 +110,10 @@ export default function NewActivity(props) {
 	React.useEffect(() => {
 		getUserEmail();
 	}, []);
+	const handleNameChange = (e) => {
+		// console.log(e.target.value);
+        setTaskName(e.target.value);
+	};
 	return (
 		<div className='taskWrapper'>
 			<div className='d-flex align-items-center justify-content-between'>
@@ -117,6 +122,7 @@ export default function NewActivity(props) {
 						type='text'
 						placeholder='Task name'
 						label='Task name'
+						onBlur={handleNameChange}
 					/>
 				</div>
 				<FontAwesomeIcon

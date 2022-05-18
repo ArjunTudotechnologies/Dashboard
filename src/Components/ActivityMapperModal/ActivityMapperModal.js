@@ -5,6 +5,10 @@ import NewActivity from "./NewActivity/NewActivity";
 
 export default function ActivityMapperModal(props) {
 	const [users, setUsers] = React.useState([]);
+	const [tasksList, setTasklist] = React.useState([
+		{ userList: [], action: [] },
+	]);
+	const [taskName, setTaskName] = React.useState(null);
 	const getUsers = () => {
 		axios
 			.get("https://calm-beyond-84616.herokuapp.com/Users")
@@ -15,6 +19,22 @@ export default function ActivityMapperModal(props) {
 	useEffect(() => {
 		getUsers();
 	}, []);
+	const handleTaskFlow = () => {
+		// console.log(tasksList, );
+		const data = {
+			taskName: taskName,
+			fileId: props.fileId,
+			taskList: tasksList,
+		};
+		console.log(data);
+		axios
+			.post("https://calm-beyond-84616.herokuapp.com/taskFlows", data)
+			.then((res) => {
+				console.log(res.data);
+				props.Callbacks();
+			})
+			.catch((err) => console.log(err));
+	};
 	return (
 		<div>
 			<Modal
@@ -27,8 +47,20 @@ export default function ActivityMapperModal(props) {
 					<Modal.Title>Task Flow</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<NewActivity data={users} />
+					<NewActivity
+						data={users}
+						tasksList={tasksList}
+						setTasklist={setTasklist}
+						setTaskName={setTaskName}
+					/>
 				</Modal.Body>
+				<Modal.Footer>
+					<button
+						onClick={handleTaskFlow}
+						className='btn btn-success'>
+						Save
+					</button>
+				</Modal.Footer>
 			</Modal>
 		</div>
 	);

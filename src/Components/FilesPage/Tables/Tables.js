@@ -29,6 +29,7 @@ export default function Tables(props) {
 	const [docs, setDocs] = useState([]);
 	const [userUID, setUserUID] = useState("");
 	const [post, setPost] = useState("");
+	const [fileId, setFileId] = useState(null);
 	const [listData, setListData] = useState([]);
 	const { loading } = useSelector((state) => state.loading);
 	const dispatch = useDispatch();
@@ -75,6 +76,7 @@ export default function Tables(props) {
 		const uploadInput = document.querySelector("#fileupload");
 		uploadInput.click();
 	};
+
 	const handleChange = (e) => {
 		const targetFile = e.target.files[0];
 		console.log(targetFile);
@@ -157,24 +159,24 @@ export default function Tables(props) {
 	const callback = () => {
 		setShow(false);
 	};
-	const ActivityModalShow = () => {
+	const ActivityModalShow = (id) => {
 		setShow(true);
+		setFileId(id);
 	};
 	React.useEffect(() => {
 		dynamicHeight();
 	}, []);
-	// if (loading) {
-	// 	return (
-	// 		<div className='d-flex align-items-center justify-content-center'>
-	// 			<Spinner animation='border' role='status'>
-	// 				<span className='visually-hidden'>Loading...</span>
-	// 			</Spinner>
-	// 		</div>
-	// 	);
-	// }
+	const handleFuncShwow = (e) => {
+		const target = e.currentTarget.getAttribute("data-target");
+		document.querySelector(`#${target}`).classList.toggle("d-none");
+	};
 	return (
 		<div className='files '>
-			<ActivityMapperModal show={show} Callbacks={callback} />
+			<ActivityMapperModal
+				show={show}
+				Callbacks={callback}
+				fileId={fileId}
+			/>
 			<div className='secHeader mb-3'>
 				<div className='secTitle'>Files</div>
 				<div className='filter '>
@@ -205,10 +207,8 @@ export default function Tables(props) {
 				<div className='d-flex tableHead pb-2'>
 					<div className='col-4 '>File name</div>
 					<div className='col-3 '>Folder name</div>
-					{/* <div className='col-2 '>File size</div> */}
 					<div className='col-3 '>Last viewed</div>
 					<div className='col-2 '>Actions</div>
-					{/* <div className='col-2 '>d</div> */}
 				</div>
 				{loading ? (
 					<div className='d-flex align-items-center justify-content-center'>
@@ -233,7 +233,7 @@ export default function Tables(props) {
 
 								return (
 									<div
-										onClick={ActivityModalShow}
+										// onClick={ActivityModalShow}
 										className='d-flex flex-wrap tableItems'>
 										<div className='col-4 d-flex align-items-center '>
 											<span className='me-3'>
@@ -251,9 +251,7 @@ export default function Tables(props) {
 											style={{ color: item.data.color }}>
 											{item.data.tags}
 										</div>
-										{/* <div className='col-2 filesize'>
-											128KB
-										</div> */}
+
 										<div className='col-3 lastview d-flex align-items-center '>
 											{date}
 										</div>
@@ -284,10 +282,12 @@ export default function Tables(props) {
 												</span>
 
 												<span
-													onClick={() =>
-														deleteFile(item.docId)
-													}
-													className='col text-center'
+													// onClick={() =>
+													// 	deleteFile(item.docId)
+													// }
+													onClick={handleFuncShwow}
+													data-target={`item-${ind}`}
+													className='col text-center position-relative'
 													style={{
 														cursor: "pointer",
 													}}>
@@ -297,6 +297,35 @@ export default function Tables(props) {
 															faEllipsisVertical
 														}
 													/>
+													<span
+														className='d-flex bg-white position-absolute align-items-center justify-content-evenly d-none'
+														id={`item-${ind}`}
+														style={{
+															width: "150px",
+															height: "50px",
+															right: "0",
+															top: "100%",
+															zIndex: 500,
+														}}>
+														<span
+															onClick={() =>
+																deleteFile(
+																	item.docId
+																)
+															}
+															className='btn btn-outline-danger'>
+															Delete
+														</span>
+														<span
+															onClick={() =>
+																ActivityModalShow(
+																	item.docId
+																)
+															}
+															className='btn btn-outline-success'>
+															Set Flow
+														</span>
+													</span>
 												</span>
 											</div>
 										</div>
