@@ -8,6 +8,7 @@ import Users from "../Users/Users";
 import "./Dashboard.css";
 import DashScreen from "./DashScreen/DashScreen";
 import SideMenu from "./SideMenu/SideMenu";
+import Taskflow from "./Taskflow/Taskflow";
 
 export default function Dashboard() {
 	let { path, url } = useRouteMatch();
@@ -27,6 +28,9 @@ export default function Dashboard() {
 					</Route>
 					<Route exact path={`${path}/:parent/:folder/:folderid`}>
 						<FilesPage />
+					</Route>
+					<Route exact path={`${path}/taskFlow/:fileid`}>
+						<Taskflow />
 					</Route>
 					<Route exact path={`${path}/viewpdf`}>
 						<Pdfview />

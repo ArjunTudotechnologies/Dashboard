@@ -145,7 +145,7 @@ export default function SideMenu({ url }) {
 					</div>
 					<div className='submenu mt-2'>
 						{clientfiles.map((item, ind) => {
-							console.log(item.docId);
+							// console.log(item.docId);
 							return (
 								<Link
 									to={{

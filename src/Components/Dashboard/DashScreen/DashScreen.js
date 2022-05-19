@@ -14,7 +14,6 @@ export default function DashScreen() {
 	return (
 		<div className='dashScreen'>
 			<ProfileHeader title='Home' />
-
 			<Folders />
 			<Files />
 		</div>

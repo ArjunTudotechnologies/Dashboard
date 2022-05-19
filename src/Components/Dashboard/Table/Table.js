@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Table({
 	heightLoading,
@@ -14,6 +14,10 @@ export default function Table({
 	ActivityModalShow,
 	deleteFile,
 }) {
+	const history = useHistory();
+	const ShowTaskFlow = (fileId) => {
+		history.push(`/dashboard/taskFlow/${fileId}`);
+	};
 	return (
 		<div className='listItems'>
 			{!heightLoading &&
@@ -23,13 +27,10 @@ export default function Table({
 							timeZone: "UTC",
 						})
 						.split(",")[0];
-					// console.log(date);
 					const imgType = item.data.fileName.split(".")[1];
 
 					return (
-						<div
-							// onClick={ActivityModalShow}
-							className='d-flex flex-wrap tableItems'>
+						<div className='d-flex flex-wrap tableItems'>
 							<div className='col-md-4 col-4 d-flex align-items-center '>
 								<span className='me-3'>
 									<img
@@ -97,11 +98,9 @@ export default function Table({
 												zIndex: 500,
 											}}>
 											<span
-												// onClick={() =>
-												// 	ActivityModalShow(
-												// 		item.docId
-												// 	)
-												// }
+												onClick={() =>
+													ShowTaskFlow(item.docId)
+												}
 												className='py-2 w-100 border-bottom'>
 												View task flow
 											</span>

@@ -46,6 +46,29 @@ input[type="checkbox"] {
 	transform: scale(1.15);
 }
 
+.header {
+	background-color: white;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	padding: var(--sectionpad);
+	justify-content: space-between;
+}
+.header .screenTitle {
+	font-size: 1.1rem;
+	font-weight: 500;
+}
+.header .userProfile {
+	display: flex;
+	align-items: center;
+}
+.header .userImage {
+	display: inline-block;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+}
+
 @media (max-width: 600px) {
 	.search_wrapper {
 		flex-direction: column;
