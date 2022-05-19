@@ -27,8 +27,8 @@ const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 export default function Tables(props) {
 	const [url, setUrl] = useState("");
 	const [progress, setProgress] = useState(0);
-	const [docs, setDocs] = useState([]);
-	const [userUID, setUserUID] = useState("");
+	// const [docs, setDocs] = useState([]);
+	// const [userUID, setUserUID] = useState("");
 	const [post, setPost] = useState("");
 	const [fileId, setFileId] = useState(null);
 	const [show, setShow] = React.useState(false);
@@ -214,11 +214,7 @@ export default function Tables(props) {
 					</div>
 					<div className='col-md-2 col-4'>Actions</div>
 				</div>
-				{/* <div className='d-flex align-items-center justify-content-center'>
-					<Spinner animation='border' role='status'>
-						<span className='visually-hidden'>Loading...</span>
-					</Spinner>
-				</div> */}
+
 				{loading ? (
 					<div className='d-flex align-items-center justify-content-center h-100'>
 						<Spinner animation='border' role='status'>
