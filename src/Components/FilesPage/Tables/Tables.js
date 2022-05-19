@@ -29,7 +29,9 @@ export default function Tables(props) {
 	const [docs, setDocs] = useState([]);
 	const [userUID, setUserUID] = useState("");
 	const [post, setPost] = useState("");
-	const [fileId, setFileId] = useState(null);
+    const [fileId, setFileId] = useState(null);
+	const [show, setShow] = React.useState(false);
+    
 	const [listData, setListData] = useState([]);
 	const { loading } = useSelector((state) => state.loading);
 	const dispatch = useDispatch();
@@ -155,7 +157,6 @@ export default function Tables(props) {
 			})
 			.catch((err) => console.log(err));
 	};
-	const [show, setShow] = React.useState(false);
 	const callback = () => {
 		setShow(false);
 	};
@@ -163,13 +164,13 @@ export default function Tables(props) {
 		setShow(true);
 		setFileId(id);
 	};
+    const handleFuncShwow = (e) => {
+        const target = e.currentTarget.getAttribute("data-target");
+        document.querySelector(`#${target}`).classList.toggle("d-none");
+    };
 	React.useEffect(() => {
 		dynamicHeight();
 	}, []);
-	const handleFuncShwow = (e) => {
-		const target = e.currentTarget.getAttribute("data-target");
-		document.querySelector(`#${target}`).classList.toggle("d-none");
-	};
 	return (
 		<div className='files '>
 			<ActivityMapperModal
