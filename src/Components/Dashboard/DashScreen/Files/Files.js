@@ -258,19 +258,19 @@ export default function Files() {
 														id={`item-${ind}`}
 														style={{
 															width: "150px",
-															height: "150px",
+															height: "max-content",
 															right: "0",
 															top: "100%",
 															zIndex: 500,
 														}}>
 														<span
-															onClick={() =>
-																deleteFile(
-																	item.docId
-																)
-															}
-															className='btn btn-outline-danger'>
-															Delete
+															// onClick={() =>
+															// 	ActivityModalShow(
+															// 		item.docId
+															// 	)
+															// }
+															className='py-2 w-100 border-bottom'>
+															View task flow
 														</span>
 														<span
 															onClick={() =>
@@ -278,8 +278,17 @@ export default function Files() {
 																	item.docId
 																)
 															}
-															className='btn btn-outline-success'>
+															className='py-2 w-100 border-bottom'>
 															Set Flow
+														</span>
+														<span
+															onClick={() =>
+																deleteFile(
+																	item.docId
+																)
+															}
+															className='py-2 w-100'>
+															Delete
 														</span>
 													</span>
 												</span>
