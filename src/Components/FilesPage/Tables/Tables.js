@@ -205,10 +205,12 @@ export default function Tables(props) {
 			</div>
 			<div className='listWrapper '>
 				<div className='d-flex tableHead pb-2'>
-					<div className='col-4 '>File name</div>
-					<div className='col-3 '>Folder name</div>
-					<div className='col-3 '>Last viewed</div>
-					<div className='col-2 '>Actions</div>
+					<div className='col-md-4 col-4'>File name</div>
+					<div className='col-md-3 col-4'>Folder name</div>
+					<div className='col-md-3 col-4 d-sm-block d-none'>
+						Last viewed
+					</div>
+					<div className='col-md-2 col-4'>Actions</div>
 				</div>
 				{loading ? (
 					<div className='d-flex align-items-center justify-content-center'>
@@ -235,7 +237,7 @@ export default function Tables(props) {
 									<div
 										// onClick={ActivityModalShow}
 										className='d-flex flex-wrap tableItems'>
-										<div className='col-4 d-flex align-items-center '>
+										<div className='col-md-4 col-4 d-flex align-items-center '>
 											<span className='me-3'>
 												<img
 													style={{ width: "20px" }}
@@ -247,15 +249,15 @@ export default function Tables(props) {
 											<span>{item.data.fileName}</span>
 										</div>
 										<div
-											className='col-3 foldername d-flex align-items-center '
+											className='col-md-3 col-4 foldername d-flex align-items-center '
 											style={{ color: item.data.color }}>
 											{item.data.tags}
 										</div>
 
-										<div className='col-3 lastview d-flex align-items-center '>
+										<div className='col-3 d-sm-block d-none lastview d-flex align-items-center '>
 											{date}
 										</div>
-										<div className='col-2   d-flex align-items-center'>
+										<div className='col-md-2 col-4   d-flex align-items-center'>
 											<div className='d-flex align-items-center w-100'>
 												<span
 													className='col actionText '
@@ -298,11 +300,11 @@ export default function Tables(props) {
 														}
 													/>
 													<span
-														className='d-flex bg-white position-absolute align-items-center justify-content-evenly d-none'
+														className='d-flex flex-column bg-white position-absolute align-items-center justify-content-evenly d-none'
 														id={`item-${ind}`}
 														style={{
 															width: "150px",
-															height: "50px",
+															height: "150px",
 															right: "0",
 															top: "100%",
 															zIndex: 500,

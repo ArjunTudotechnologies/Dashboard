@@ -36,7 +36,7 @@ export default function NewActivity(props) {
 	const getUserEmail = () => {
 		const emails = [];
 		props.data.forEach((item, ind) => {
-			emails.push({ email: item.data.email });
+			emails.push({ email: item.data.email, uid: item.data.uid });
 		});
 		console.log(emails);
 		setUserEmail(emails);
@@ -112,7 +112,7 @@ export default function NewActivity(props) {
 	}, []);
 	const handleNameChange = (e) => {
 		// console.log(e.target.value);
-        setTaskName(e.target.value);
+		setTaskName(e.target.value);
 	};
 	return (
 		<div className='taskWrapper'>
