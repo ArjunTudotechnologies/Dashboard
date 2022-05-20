@@ -1,37 +1,27 @@
-import {
-	faAngleDown,
-	faDownload,
-	faEllipsisVertical,
-	faEye,
-	faListDots,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import "./Files.css";
-import useWrapperHeight from "../../../../CustomHooks/useWrapperHeight";
-import { useSelector } from "react-redux";
 import axios from "axios";
-import { Link, useRouteMatch } from "react-router-dom";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouteMatch } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import ActivityMapperModal from "../../../ActivityMapperModal/ActivityMapperModal";
 import Table from "../../Table/Table";
+import "./Files.css";
+import { setLoading } from "../../../../Redux/IsLoading";
 
 export default function Files() {
 	const { loading } = useSelector((state) => state.loading);
 	const [listData, setListData] = useState([]);
 	const [fileId, setFileId] = useState(null);
 	const [show, setShow] = React.useState(false);
+	const [heightLoading, setHeightLoading] = React.useState(true);
 
+	const dispatch = useDispatch();
 	const { path, url } = useRouteMatch();
 	useEffect(() => {
-		console.log("sss");
-		const userId = localStorage.getItem("userId");
-		axios
-			.get(
-				`https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}`
-			)
-			.then((res) => setListData(res.data))
-			.catch((err) => console.log(err));
+		// console.log("sss");
+		dataRetrive();
 	}, []);
 	React.useEffect(() => {
 		console.log(loading);
@@ -40,49 +30,15 @@ export default function Files() {
 		}
 	}, [loading]);
 
-	// const files = [
-	// 	{
-	// 		fileImg: "/assets/images/pdf.png",
-	// 		fileName: "Anupam Employee.pdf",
-	// 		fileSize: "128KB",
-	// 		lastViewed: "12/04/2020",
-	// 		folderName: "Personal data",
-	// 		folderColor: "#5784ed",
-	// 	},
-	// 	{
-	// 		fileImg: "/assets/images/pdf.png",
-	// 		fileName: "Ritesh deshmukh .pdf",
-	// 		fileSize: "128KB",
-	// 		lastViewed: "12/04/2020",
-	// 		folderName: "Invoices",
-	// 		folderColor: "#f8c83f",
-	// 	},
-	// 	{
-	// 		fileImg: "/assets/images/xls.png",
-	// 		fileName: "Saman Agarwal.xls",
-	// 		fileSize: "128KB",
-	// 		lastViewed: "12/04/2020",
-	// 		folderName: "Contact Details",
-	// 		folderColor: "#45cbd6",
-	// 	},
-	// 	{
-	// 		fileImg: "/assets/images/word.png",
-	// 		fileName: "Pooja.doc",
-	// 		fileSize: "128KB",
-	// 		lastViewed: "12/04/2020",
-	// 		folderName: "Agreements",
-	// 		folderColor: "#ef8bb1",
-	// 	},
-	// 	{
-	// 		fileImg: "/assets/images/pdf.png",
-	// 		fileName: "Anuska.pdf",
-	// 		fileSize: "128KB",
-	// 		lastViewed: "12/04/2020",
-	// 		folderName: "Invoices",
-	// 		folderColor: "#f8c83f",
-	// 	},
-	// ];
-	const [heightLoading, setHeightLoading] = React.useState(true);
+	const dataRetrive = () => {
+		const userId = localStorage.getItem("userId");
+		axios
+			.get(
+				`https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}`
+			)
+			.then((res) => setListData(res.data))
+			.catch((err) => console.log(err));
+	};
 	const getInnerHeight = (elm) => {
 		var computed = getComputedStyle(elm),
 			padding =
@@ -123,11 +79,15 @@ export default function Files() {
 		ListWrapperHeight();
 	};
 	const deleteFile = (id) => {
+		dispatch(setLoading(true));
 		axios
 			.delete(
 				`https://calm-beyond-84616.herokuapp.com/deleteUserFile/${id}`
 			)
-			.then((res) => console.log(res.data))
+			.then((res) => {
+				dataRetrive();
+				dispatch(setLoading(false));
+			})
 			.catch((err) => console.log(err));
 	};
 	const ActivityModalShow = (id) => {
@@ -157,7 +117,7 @@ export default function Files() {
 					<FontAwesomeIcon icon={faAngleDown} />
 				</div>
 			</div>
-			<div className='listWrapper '>
+			<div className='listWrapper bg-white'>
 				<div className='d-flex tableHead pb-2'>
 					<div className='col-md-4 col-4'>File name</div>
 					<div className='col-md-3 col-4'>Folder name</div>

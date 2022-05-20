@@ -1,5 +1,6 @@
 .sidemenu {
-	background: white;
+	background: black;
+	color: white;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;

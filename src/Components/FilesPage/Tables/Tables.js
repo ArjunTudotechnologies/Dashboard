@@ -166,7 +166,7 @@ export default function Tables(props) {
 				fileId={fileId}
 			/>
 			<div className='secHeader mb-3'>
-				<div className='secTitle'>Files</div>
+				<div className='secTitle'>{props.params.folder}</div>
 				<div className='filter '>
 					<span className='me-3'>View All</span>
 					<span>
@@ -190,7 +190,7 @@ export default function Tables(props) {
 					)}
 				</div>
 			</div>
-			<div className='listWrapper '>
+			<div className='listWrapper bg-white '>
 				<div className='d-flex tableHead pb-2'>
 					<div className='col-md-4 col-4'>File name</div>
 					<div className='col-md-3 col-4'>Folder name</div>

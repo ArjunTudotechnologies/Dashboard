@@ -29,7 +29,7 @@ export default function FilesPage(props) {
 	};
 	React.useEffect(() => {
 		getData();
-	}, [parent, folder, folderid]);
+	}, []);
 
 	const splits = folder.split("_");
 

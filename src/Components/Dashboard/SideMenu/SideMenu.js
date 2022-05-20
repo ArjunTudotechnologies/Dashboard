@@ -89,7 +89,7 @@ export default function SideMenu({ url }) {
 				className='mb-3'
 				style={{ width: "100%", textAlign: "center" }}>
 				<img
-					src='/assets/images/logo.png'
+					src='/assets/images/logoWhite.svg'
 					class='img-fluid'
 					alt=''
 					srcset=''
@@ -101,7 +101,7 @@ export default function SideMenu({ url }) {
 					<Link to={`${url}`}>
 						<div className='mainMenuItem'>
 							<UilEstate size='16' color='#000' />
-							<span className='ms-2'>Home</span>
+							<span className='ms-2'>Dashboard</span>
 						</div>
 					</Link>
 				</div>

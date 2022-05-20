@@ -13,7 +13,7 @@ export default function DashScreen() {
 	}, []);
 	return (
 		<div className='dashScreen'>
-			<ProfileHeader title='Home' />
+			<ProfileHeader title='Dashboard' />
 			<Folders />
 			<Files />
 		</div>

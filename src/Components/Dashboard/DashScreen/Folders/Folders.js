@@ -1,23 +1,15 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
-import "./Folders.css";
-import {
-	faAngleDown,
-	faEllipsisVertical,
-	faFolderOpen,
-	faFolderPlus,
-} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { UilFolder, UilPlus } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../Redux/IsLoading";
-import CreateFolderModal from "./CreateFolderModal/CreateFolderModal";
 import { Link, useRouteMatch } from "react-router-dom";
-import { Loading } from "../../../../Redux/Loading";
+import CreateFolderModal from "./CreateFolderModal/CreateFolderModal";
+import "./Folders.css";
 
 export default function Folders() {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [folderData, setFolderData] = React.useState([]);
-	// const { userId } = useSelector((state) => state.loginInfo);
 	let { path, url } = useRouteMatch();
 	const { Loading } = useSelector((state) => state.loading);
 
@@ -30,7 +22,6 @@ export default function Folders() {
 			createdBy: userId,
 			...createData,
 		};
-		// console.log(data);
 		axios
 			.post("https://calm-beyond-84616.herokuapp.com/addUserFolder", data)
 			.then((res) => {
@@ -65,17 +56,16 @@ export default function Folders() {
 				onCreate={handleCreate}
 			/>
 			<div className='secHeader'>
-				<div className='secTitle'>Folders</div>
-				<div className='filter '>
+				<div className='secTitle'>Recent Folders</div>
+				{/* <div className='filter '>
 					<span className='me-3'>Sort by</span>
 					<FontAwesomeIcon icon={faAngleDown} />
-				</div>
+				</div> */}
 			</div>
 			<div className='w-100 my-2'>
 				<div className='folderStructure d-flex flex-wrap  w-100 justify-content-between'>
 					<div className='col-md-9 col-12 row mb-2 g-2  g-sm-5 row-cols-2 row-cols-lg-4 '>
 						{folderData.map((item, ind) => {
-							// console.log(item);
 							return (
 								<Link
 									to={{
@@ -89,29 +79,36 @@ export default function Folders() {
 												item.data.color
 											)
 										}
-										className='col '
-										style={{ color: item.data.color }}>
+										className='col '>
 										<div className='bg-white folderBox'>
-											<div className='d-flex align-items-center justify-content-between '>
-												<FontAwesomeIcon
-													className='fa-2x '
-													icon={faFolderOpen}
-												/>
+											<div className='d-flex align-items-center justify-content-center '>
+												<div
+													className='d-flex align-items-center justify-content-center'
+													style={{
+														color: item.data.color,
+														width: "50px",
+														height: "50px",
+														borderRadius: "50%",
+														background:
+															"rgba(217, 217, 217, 0.31)",
+													}}>
+													<UilFolder size={"44%"} />
+												</div>
 												{/* <FontAwesomeIcon
 										className='fa-1x'
 										icon={faEllipsisVertical}
 									/> */}
 											</div>
 											<div className='mt-auto'>
-												<h6 className='folderName '>
+												<h6 className='folderName fw-bold '>
 													{item.data.name}
 												</h6>
-												{/* <div className='folderDetails d-flex justify-content-between align-items-center'>
-												<div className='noOfFiles'>
-													100 Files
+												<div className='folderDetails d-flex justify-content-between align-items-center'>
+													<div className='noOfFiles'>
+														100 Files
+													</div>
+													{/* <div className='size'>100 MB</div>  */}
 												</div>
-												<div className='size'>100 MB</div> 
-											</div> */}
 											</div>
 										</div>
 									</div>
@@ -122,16 +119,27 @@ export default function Folders() {
 					{localStorage.getItem("isAdmin") === "true" && (
 						<div className='col-md-3 g-3 col-12'>
 							<div
-								className=' folderBox align-items-center'
+								className=' folderBox align-items-center bg-dark text-white'
 								style={{ cursor: "pointer" }}
 								onClick={() => setModalShow(true)}>
 								<div className='d-flex align-items-center justify-content-between'>
-									<FontAwesomeIcon
+									{/* <FontAwesomeIcon
 										className='fa-4x '
 										icon={faFolderPlus}
-									/>
+									/> */}
+									<div
+										className='d-flex align-items-center justify-content-center'
+										style={{
+											width: "50px",
+											height: "50px",
+											borderRadius: "50%",
+											background:
+												"rgba(217, 217, 217, 0.31)",
+										}}>
+										<UilPlus size={"44%"} />
+									</div>
 								</div>
-								<div className='mt-3'>
+								<div className='mt-3 '>
 									<h6 className='folderName   fw-bolder'>
 										Create New Folder
 									</h6>
