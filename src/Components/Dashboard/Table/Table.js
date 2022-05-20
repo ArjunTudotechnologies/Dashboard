@@ -22,7 +22,7 @@ export default function Table({
 		<div className='listItems'>
 			{!heightLoading &&
 				listData.map((item, ind) => {
-					const date = new Date(item.data.updatedAt.seconds)
+					const date = new Date(item.data.updatedAt.seconds * 1000)
 						.toLocaleString("en-Gb", {
 							timeZone: "UTC",
 						})
@@ -111,7 +111,7 @@ export default function Table({
 													)
 												}
 												className='py-2 w-100 border-bottom'>
-												Set Flow
+												Create Flow
 											</span>
 											<span
 												onClick={() =>

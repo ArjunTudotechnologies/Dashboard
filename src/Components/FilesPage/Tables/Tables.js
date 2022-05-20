@@ -1,23 +1,15 @@
-import {
-	faAngleDown,
-	faDownload,
-	faEllipsisVertical,
-	faEye,
-	faListDots,
-} from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from "react";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UilPlus } from "@iconscout/react-unicons";
-import React, { useState, useEffect } from "react";
-import "./Tables.css";
 import firebase from "../../../Firebase/FirebaseConfig";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../Redux/IsLoading";
 import { Spinner } from "react-bootstrap";
 import ActivityMapperModal from "../../ActivityMapperModal/ActivityMapperModal";
-import { Callbacks } from "jquery";
 import Table from "../../Dashboard/Table/Table";
+import "./Tables.css";
 
 const storage = firebase.storage();
 const auth = firebase.auth();
@@ -27,8 +19,7 @@ const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 export default function Tables(props) {
 	const [url, setUrl] = useState("");
 	const [progress, setProgress] = useState(0);
-	// const [docs, setDocs] = useState([]);
-	// const [userUID, setUserUID] = useState("");
+
 	const [post, setPost] = useState("");
 	const [fileId, setFileId] = useState(null);
 	const [show, setShow] = React.useState(false);
@@ -41,7 +32,6 @@ export default function Tables(props) {
 	useEffect(() => {
 		setListData(props.item);
 		console.log(props, listData, heightLoading);
-		// dynamicHeight();
 	}, [props.item, heightLoading]);
 
 	React.useEffect(() => {
@@ -94,8 +84,6 @@ export default function Tables(props) {
 	const handleUpload = (file) => {
 		dispatch(setLoading(true));
 		const uploadTask = storage.ref(`images/${file.name}`).put(file);
-		// const collectionRef = projectFireStore.collection("media");
-		// const collectionRefPost = projectFireStore.collection("post");
 		uploadTask.on(
 			"state_changed",
 			(snapshot) => {
@@ -155,8 +143,6 @@ export default function Tables(props) {
 			)
 			.then((res) => {
 				props.callback();
-				// console.log(res.data);
-				// dispatch(setLoading(false));
 			})
 			.catch((err) => console.log(err));
 	};
@@ -191,7 +177,6 @@ export default function Tables(props) {
 						<span
 							onClick={uploadHandle}
 							style={{ cursor: "pointer" }}
-							// onClick={Handlelogin}
 							className=' ms-3 btn btn-info text-white '>
 							<input
 								onChange={handleChange}
@@ -199,7 +184,7 @@ export default function Tables(props) {
 								id='fileupload'
 								hidden
 							/>
-							<span className='me-2'>Add file</span>
+							<span className='me-2'>Upload file</span>
 							<UilPlus size='16' color='#fff' />
 						</span>
 					)}

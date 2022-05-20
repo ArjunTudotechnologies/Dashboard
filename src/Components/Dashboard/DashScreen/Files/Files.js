@@ -24,6 +24,7 @@ export default function Files() {
 
 	const { path, url } = useRouteMatch();
 	useEffect(() => {
+		console.log("sss");
 		const userId = localStorage.getItem("userId");
 		axios
 			.get(
@@ -31,50 +32,56 @@ export default function Files() {
 			)
 			.then((res) => setListData(res.data))
 			.catch((err) => console.log(err));
-	}, [listData]);
+	}, []);
+	React.useEffect(() => {
+		console.log(loading);
+		if (!loading) {
+			dynamicHeight();
+		}
+	}, [loading]);
 
-	const files = [
-		{
-			fileImg: "/assets/images/pdf.png",
-			fileName: "Anupam Employee.pdf",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Personal data",
-			folderColor: "#5784ed",
-		},
-		{
-			fileImg: "/assets/images/pdf.png",
-			fileName: "Ritesh deshmukh .pdf",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Invoices",
-			folderColor: "#f8c83f",
-		},
-		{
-			fileImg: "/assets/images/xls.png",
-			fileName: "Saman Agarwal.xls",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Contact Details",
-			folderColor: "#45cbd6",
-		},
-		{
-			fileImg: "/assets/images/word.png",
-			fileName: "Pooja.doc",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Agreements",
-			folderColor: "#ef8bb1",
-		},
-		{
-			fileImg: "/assets/images/pdf.png",
-			fileName: "Anuska.pdf",
-			fileSize: "128KB",
-			lastViewed: "12/04/2020",
-			folderName: "Invoices",
-			folderColor: "#f8c83f",
-		},
-	];
+	// const files = [
+	// 	{
+	// 		fileImg: "/assets/images/pdf.png",
+	// 		fileName: "Anupam Employee.pdf",
+	// 		fileSize: "128KB",
+	// 		lastViewed: "12/04/2020",
+	// 		folderName: "Personal data",
+	// 		folderColor: "#5784ed",
+	// 	},
+	// 	{
+	// 		fileImg: "/assets/images/pdf.png",
+	// 		fileName: "Ritesh deshmukh .pdf",
+	// 		fileSize: "128KB",
+	// 		lastViewed: "12/04/2020",
+	// 		folderName: "Invoices",
+	// 		folderColor: "#f8c83f",
+	// 	},
+	// 	{
+	// 		fileImg: "/assets/images/xls.png",
+	// 		fileName: "Saman Agarwal.xls",
+	// 		fileSize: "128KB",
+	// 		lastViewed: "12/04/2020",
+	// 		folderName: "Contact Details",
+	// 		folderColor: "#45cbd6",
+	// 	},
+	// 	{
+	// 		fileImg: "/assets/images/word.png",
+	// 		fileName: "Pooja.doc",
+	// 		fileSize: "128KB",
+	// 		lastViewed: "12/04/2020",
+	// 		folderName: "Agreements",
+	// 		folderColor: "#ef8bb1",
+	// 	},
+	// 	{
+	// 		fileImg: "/assets/images/pdf.png",
+	// 		fileName: "Anuska.pdf",
+	// 		fileSize: "128KB",
+	// 		lastViewed: "12/04/2020",
+	// 		folderName: "Invoices",
+	// 		folderColor: "#f8c83f",
+	// 	},
+	// ];
 	const [heightLoading, setHeightLoading] = React.useState(true);
 	const getInnerHeight = (elm) => {
 		var computed = getComputedStyle(elm),
@@ -134,15 +141,7 @@ export default function Files() {
 	const callback = () => {
 		setShow(false);
 	};
-	React.useEffect(() => {
-		console.log(loading);
-		if (!loading) {
-			dynamicHeight();
-			// setTimeout(() => {
 
-			// }, 3000);
-		}
-	}, [loading]);
 	return (
 		<div className='files '>
 			<ActivityMapperModal

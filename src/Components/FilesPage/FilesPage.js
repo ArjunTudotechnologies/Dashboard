@@ -14,6 +14,7 @@ export default function FilesPage(props) {
 	const [data, setData] = React.useState([]);
 	const getData = () => {
 		const userId = localStorage.getItem("userId");
+		console.log("edited");
 		axios
 			.get(
 				`https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}&parent=${parent}&tags=${folder}`
@@ -38,7 +39,7 @@ export default function FilesPage(props) {
 	});
 	return (
 		<div className='FilesPage'>
-			<ProfileHeader title={name} />
+			<ProfileHeader title={""} />
 			<Tables
 				item={data}
 				folderId={folderid}
