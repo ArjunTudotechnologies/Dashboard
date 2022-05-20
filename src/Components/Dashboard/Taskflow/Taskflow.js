@@ -2,9 +2,10 @@ import React from "react";
 import axios from "axios";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import "./Taskflow.css";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import { setLoading } from "../../../Redux/IsLoading";
+import TaskTable from "./TaskTable/TaskTable";
+import "./Taskflow.css";
 
 export default function Taslflow(props) {
 	const location = useLocation();
@@ -17,6 +18,7 @@ export default function Taslflow(props) {
 				`https://calm-beyond-84616.herokuapp.com/getTaskFlows?fileId=${fileid}`
 			)
 			.then((res) => {
+				console.log(res.data);
 				setData(res.data);
 				dispatch(setLoading(false));
 			})
@@ -31,7 +33,7 @@ export default function Taslflow(props) {
 	return (
 		<div className='Taskflow'>
 			<ProfileHeader title={"Task Flow"} />
-			<p>{data}</p>
+			<TaskTable item={data} />
 		</div>
 	);
 }

@@ -1,0 +1,141 @@
+import React, { useState, useEffect } from "react";
+import {
+	faAngleDown,
+	faDownload,
+	faEllipsisVertical,
+	faEye,
+	faListDots,
+} from "@fortawesome/free-solid-svg-icons";
+import { UilEdit } from "@iconscout/react-unicons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { UilPlus } from "@iconscout/react-unicons";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Spinner } from "react-bootstrap";
+import { setLoading } from "../../../../Redux/IsLoading";
+import ActivityMapperModal from "../../../ActivityMapperModal/ActivityMapperModal";
+import TableList from "./TableList/TableList";
+
+export default function TaskTable(props) {
+	const [fileId, setFileId] = useState(null);
+	const [show, setShow] = React.useState(false);
+
+	const [listData, setListData] = useState([]);
+	const { loading } = useSelector((state) => state.loading);
+	const dispatch = useDispatch();
+	const [heightLoading, setHeightLoading] = useState(true);
+	// console.log(props.params);
+	useEffect(() => {
+		setListData(props.item);
+		console.log(props, listData, heightLoading);
+	}, [props.item, heightLoading]);
+
+	React.useEffect(() => {
+		dynamicHeight();
+	}, []);
+	const getInnerHeight = (elm) => {
+		var computed = getComputedStyle(elm),
+			padding =
+				parseInt(computed.paddingTop) +
+				parseInt(computed.paddingBottom);
+
+		return elm.clientHeight - padding;
+	};
+	const ListItemHeight = () => {
+		const parent = document.querySelector(".listWrapper");
+		const parentHeight = getInnerHeight(parent);
+		const header = document.querySelector(".listWrapper .tableHead");
+		const target = document.querySelector(".listWrapper .listItems");
+		target.style.height = parentHeight - header.clientHeight + "px";
+		setHeightLoading(false);
+	};
+	const ListWrapperHeight = () => {
+		const parent = document.querySelector(".flow");
+		const parentHeight = getInnerHeight(parent);
+		const header = document.querySelector(".flow .secHeader");
+		const target = document.querySelector(".listWrapper");
+		target.style.height = parentHeight - header.clientHeight + "px";
+		ListItemHeight();
+	};
+	const dynamicHeight = () => {
+		const parent = document.querySelector("body");
+		const hearder = document.querySelector(".Taskflow .header");
+		const computedHeight = parent.clientHeight - hearder.clientHeight;
+		const target = document.querySelector(".Taskflow .flow");
+		target.style.height = computedHeight + "px";
+		ListWrapperHeight();
+	};
+
+	const deleteFile = (id) => {
+		dispatch(setLoading(true));
+
+		axios
+			.delete(
+				`https://calm-beyond-84616.herokuapp.com/deleteUserFile/${id}`
+			)
+			.then((res) => {
+				props.callback();
+			})
+			.catch((err) => console.log(err));
+	};
+	const callback = () => {
+		setShow(false);
+	};
+	const ActivityModalShow = (id) => {
+		setShow(true);
+		setFileId(id);
+	};
+	const handleFuncShwow = (e) => {
+		const target = e.currentTarget.getAttribute("data-target");
+		document.querySelector(`#${target}`).classList.toggle("d-none");
+	};
+
+	return (
+		<div className='flow '>
+			<ActivityMapperModal
+				show={show}
+				Callbacks={callback}
+				fileId={fileId}
+			/>
+			<div className='secHeader mb-3'>
+				<div className='secTitle'>Flows</div>
+				<div className='filter '>
+					<span className='me-3'>
+						<UilEdit />
+					</span>
+					{/* <span>
+						<span className='me-3'>Sort by</span>
+						<FontAwesomeIcon icon={faAngleDown} />
+					</span> */}
+				</div>
+			</div>
+			<div className='listWrapper '>
+				<div className='d-flex tableHead pb-2'>
+					<div className='col-md-3 col-3'>Task Flow</div>
+					<div className='col-md-3 col-3'>Created</div>
+					<div className='col-md-3 col-3 d-sm-block d-none'>
+						Status
+					</div>
+					<div className='col-md-3 col-3'>Assigned To</div>
+				</div>
+
+				{loading ? (
+					<div className='d-flex align-items-center justify-content-center h-100'>
+						<Spinner animation='border' role='status'>
+							<span className='visually-hidden'>Loading...</span>
+						</Spinner>
+					</div>
+				) : (
+					<TableList
+						heightLoading={heightLoading}
+						listData={listData}
+						handleFuncShwow={handleFuncShwow}
+						ActivityModalShow={ActivityModalShow}
+						deleteFile={deleteFile}
+					/>
+				)}
+			</div>
+		</div>
+	);
+}
