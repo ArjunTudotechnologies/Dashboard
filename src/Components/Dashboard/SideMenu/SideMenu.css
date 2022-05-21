@@ -1,25 +1,39 @@
 .sidemenu {
 	background: black;
-	color: white;
+	color: #fafafa;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	padding: 2rem;
+	/* padding: 2rem; */
 	font-size: 1.2rem;
 	font-weight: 600;
 	z-index: 800;
 	/* width: 100%; */
 }
+.sidemenu .secDivider {
+	font-family: "Oxygen";
+	font-style: normal;
+	font-weight: 700 !important;
+	font-size: 12.8px;
+	line-height: 16px;
+	text-transform: uppercase;
+	margin-bottom: 1rem;
+	color: #ffffff;
+	opacity: 0.4;
+}
 
 .sidemenu .menuItemWrapper {
 	height: 15rem;
+
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: space-start;
 }
 .sidemenu .menuItemWrapper .item {
-	margin-bottom: 1.5rem;
+	/* border: 1px solid #fff; */
+	padding: 1rem 2rem;
+	margin-bottom: 0.5rem;
 	cursor: pointer;
 	width: 100%;
 }
@@ -34,16 +48,12 @@
 	max-height: 0;
 	transition: max-height 0.5s ease;
 	overflow-y: hidden;
-	background-color: #f8f7fd;
+	/* background-color: #f8f7fd; */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
 }
-.sidemenu .item:nth-child(2) .mainMenuItem + .submenu.active {
-	/* padding-left: 1.5rem; */
-	max-height: 500px;
-}
-.sidemenu .item:nth-child(3) .mainMenuItem + .submenu.active {
+.sidemenu .item .mainMenuItem + .submenu.active {
 	/* padding-left: 1.5rem; */
 	max-height: 500px;
 }

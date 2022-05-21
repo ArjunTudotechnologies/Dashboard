@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-	faAngleRight,
-	faHandshake,
-	faHouse,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	UilEstate,
-	UilUser,
-	UilUserPlus,
-	UilUserCheck,
-	UilSignOutAlt,
+	UilCreateDashboard,
+	UilFolder,
+	UilSignout,
 	UilTimes,
+	UilAngleDown,
 } from "@iconscout/react-unicons";
 import "./SideMenu.css";
 import UilUsersAlt from "../../../../node_modules/@iconscout/react-unicons/icons/uil-users-alt";
@@ -19,7 +12,6 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 export default function SideMenu({ url }) {
-	// const location = React.useLocation();
 	const history = useHistory();
 	const dropBtn = React.useRef(null);
 	const [employeefiles, setEmployeefiles] = useState([]);
@@ -28,15 +20,18 @@ export default function SideMenu({ url }) {
 		history.push("/");
 	};
 	const hide = (e) => {
-		console.log(e);
+		// console.log(e);
 		const target = e.currentTarget.nextElementSibling;
 		const items = document.querySelectorAll(".submenu");
+		console.log(items);
 		items.forEach((item, ind) => {
 			if (item !== target && item.classList.contains("active")) {
 				item.classList.remove("active");
 			}
 		});
-		target.classList.toggle("active");
+		setTimeout(() => {
+			target.classList.toggle("active");
+		}, 200);
 	};
 	const sideBarOpen = () => {
 		const sidebar = document.querySelector(".sidebarWrapper");
@@ -83,7 +78,7 @@ export default function SideMenu({ url }) {
 				className='position-absolute d-sm-none d-block'
 				onClick={sideBarOpen}
 				style={{ top: "1.5rem", right: "2rem", cursor: "pointer" }}>
-				<UilTimes size='16' color='#000' />
+				<UilTimes size='16' color='#fff' />
 			</span>
 			<div
 				className='mb-3'
@@ -100,30 +95,40 @@ export default function SideMenu({ url }) {
 				<div className=' item'>
 					<Link to={`${url}`}>
 						<div className='mainMenuItem'>
-							<UilEstate size='16' color='#000' />
+							<UilCreateDashboard size='16' color='#fff' />
 							<span className='ms-2'>Dashboard</span>
 						</div>
 					</Link>
 				</div>
+				{localStorage.getItem("isAdmin") === "true" && (
+					<>
+						<div className=' item'>
+							<Link to={`${url}/users`}>
+								<div className='mainMenuItem'>
+									<UilUsersAlt size='16' color='#fff' />
+									<span className='ms-2'>Users</span>
+								</div>
+							</Link>
+						</div>
+					</>
+				)}
+				<div className='secDivider item'>FILES</div>
 				<div className=' item'>
 					<div className='mainMenuItem' onClick={(e) => hide(e)}>
-						<UilUser size='16' color='#000' />
-						<span className='ms-2 me-4 d-inline-block'>
+						<UilFolder size='16' color='#fff' />
+						<span className='ms-2 me-auto d-inline-block'>
 							Employee Files
 						</span>
-						<FontAwesomeIcon icon={faAngleRight} />
+						<UilAngleDown />
 					</div>
-					<div className='submenu mt-2'>
+					<div className='submenu mt-2 '>
 						{employeefiles.map((item, ind) => {
 							return (
 								<Link
 									to={{
 										pathname: `${url}/Employee Files/${item.data.name}/${item.docId}`,
 									}}>
-									<div className='mt-2 d-flex align-items-start'>
-										<div style={{ height: "20px" }}>
-											<UilUser size='16' color='#000' />
-										</div>
+									<div className='mt-2 d-flex align-items-start pb-2'>
 										<div className='ms-2'>
 											<span className=''>
 												{item.data.name}
@@ -137,15 +142,14 @@ export default function SideMenu({ url }) {
 				</div>
 				<div className=' item'>
 					<div className='mainMenuItem' onClick={(e) => hide(e)}>
-						<UilUsersAlt size='16' color='#000' />
-						<span className='ms-2 me-4 d-inline-block'>
+						<UilFolder size='16' color='#fff' />
+						<span className='ms-2 me-auto d-inline-block'>
 							Client Files
 						</span>
-						<FontAwesomeIcon icon={faAngleRight} />
+						<UilAngleDown />
 					</div>
 					<div className='submenu mt-2'>
 						{clientfiles.map((item, ind) => {
-							// console.log(item.docId);
 							return (
 								<Link
 									to={{
@@ -158,11 +162,8 @@ export default function SideMenu({ url }) {
 												item.data.color
 											)
 										}
-										className='mt-2 d-flex align-items-start'>
-										<div style={{ height: "20px" }}>
-											<UilUser size='16' color='#000' />
-										</div>
-										<div className='ms-2'>
+										className='mt-2 d-flex align-items-start pb-2'>
+										<div className='ms-2 '>
 											<span className=''>
 												{item.data.name}
 											</span>
@@ -173,29 +174,13 @@ export default function SideMenu({ url }) {
 						})}
 					</div>
 				</div>
-				{localStorage.getItem("isAdmin") === "true" && (
-					<>
-						{/* <div className=' item'>
-							<Link to={`${url}/adduser`}>
-								<div className='mainMenuItem'>
-									<UilUserPlus size='16' color='#000' />
-									<span className='ms-2'>Add User</span>
-								</div>
-							</Link>
-						</div> */}
-						<div className=' item'>
-							<Link to={`${url}/users`}>
-								<div className='mainMenuItem'>
-									<UilUserCheck size='16' color='#000' />
-									<span className='ms-2'>Users</span>
-								</div>
-							</Link>
-						</div>
-					</>
-				)}
-				<div className=' item'>
-					<div className='d-flex align-items-center' onClick={logout}>
-						<UilSignOutAlt size='16' color='#000' />
+
+				<div className=' item border-top'>
+					<div
+						className='d-flex align-items-center'
+						style={{ color: "#CF4444" }}
+						onClick={logout}>
+						<UilSignout size='16' />
 						<span className='ms-2'>Logout</span>
 					</div>
 				</div>
