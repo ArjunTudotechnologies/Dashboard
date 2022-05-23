@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-	faAngleDown,
-	faDownload,
-	faEllipsisVertical,
-	faEye,
-	faListDots,
-} from "@fortawesome/free-solid-svg-icons";
-import { UilEdit } from "@iconscout/react-unicons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { UilPlus } from "@iconscout/react-unicons";
+
+import { UilAngleLeftB } from "@iconscout/react-unicons";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
 import { setLoading } from "../../../../Redux/IsLoading";
@@ -25,7 +17,8 @@ export default function TaskTable(props) {
 	const { loading } = useSelector((state) => state.loading);
 	const dispatch = useDispatch();
 	const [heightLoading, setHeightLoading] = useState(true);
-	// console.log(props.params);
+	const history = useHistory();
+
 	useEffect(() => {
 		setListData(props.item);
 		console.log(props, listData, heightLoading);
@@ -90,7 +83,9 @@ export default function TaskTable(props) {
 		const target = e.currentTarget.getAttribute("data-target");
 		document.querySelector(`#${target}`).classList.toggle("d-none");
 	};
-
+	const handleHistoryBack = () => {
+		history.goBack();
+	};
 	return (
 		<div className='flow '>
 			<ActivityMapperModal
@@ -99,25 +94,23 @@ export default function TaskTable(props) {
 				fileId={fileId}
 			/>
 			<div className='secHeader mb-3'>
-				<div className='secTitle'>Flows</div>
-				<div className='filter '>
-					<span className='me-3'>
-						<UilEdit />
+				<div className='d-flex align-items-center'>
+					<span
+						onClick={handleHistoryBack}
+						style={{ cursor: "pointer" }}>
+						<UilAngleLeftB size='30' />
 					</span>
-					{/* <span>
-						<span className='me-3'>Sort by</span>
-						<FontAwesomeIcon icon={faAngleDown} />
-					</span> */}
+					<div className='secTitle'>Workflows</div>
 				</div>
 			</div>
 			<div className='listWrapper '>
 				<div className='d-flex tableHead pb-2'>
-					<div className='col-md-3 col-3'>Task Flow</div>
-					<div className='col-md-3 col-3'>Created</div>
+					<div className='col-md-4 col-3'>Workflow details</div>
+					<div className='col-md-3 col-3'>Created date</div>
 					<div className='col-md-3 col-3 d-sm-block d-none'>
-						Status
+						Users involved
 					</div>
-					<div className='col-md-3 col-3'>Assigned To</div>
+					<div className='col-md-2 col-3'>Actions</div>
 				</div>
 
 				{loading ? (

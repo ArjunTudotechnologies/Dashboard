@@ -16,7 +16,7 @@ import "./NewActivity.css";
 export default function NewActivity(props) {
 	const [userEmail, setUserEmail] = React.useState([]);
 	const [task, setTask] = React.useState([]);
-	const { tasksList, setTasklist, setTaskName } = props;
+	const { tasksList, setTasklist, setworkFlowName } = props;
 	// const [tasksList, setTasklist] = React.useState([
 	// 	{ userList: [], action: [] },
 	// ]);
@@ -45,7 +45,14 @@ export default function NewActivity(props) {
 		console.log(selectRef.current.getSelectedItems());
 	};
 	const appendTask = () => {
-		setTasklist((prev) => [...prev, { userList: [], action: [] }]);
+		setTasklist((prev) => [
+			...prev,
+			{
+				taskName: `Task ${tasksList.length + 1}`,
+				userList: [],
+				action: [],
+			},
+		]);
 	};
 	const UpdateToUserlist = (selectedList, selectedItem, id) => {
 		console.log(selectedList, selectedItem);
@@ -64,10 +71,10 @@ export default function NewActivity(props) {
 		});
 	};
 
-	const TaskComp = ({ taskId }) => {
+	const TaskComp = ({ taskId, taskName }) => {
 		return (
 			<fieldset>
-				<legend onClick={selected}>Task Flow {taskId + 1}</legend>
+				<legend onClick={selected}>{taskName}</legend>
 
 				<div className='selector d-flex justify-content-between border p-4 align-items-center w-100'>
 					<Multiselect
@@ -112,7 +119,7 @@ export default function NewActivity(props) {
 	}, []);
 	const handleNameChange = (e) => {
 		// console.log(e.target.value);
-		setTaskName(e.target.value);
+		setworkFlowName(e.target.value);
 	};
 	return (
 		<div className='taskWrapper'>
@@ -133,7 +140,7 @@ export default function NewActivity(props) {
 			</div>
 
 			{tasksList.map((item, ind) => {
-				return <TaskComp taskId={ind} />;
+				return <TaskComp taskId={ind} taskName={item.taskName} />;
 			})}
 			{/* {[...Array(count)].map((item, ind) => (
 				<TaskComp key={ind} />

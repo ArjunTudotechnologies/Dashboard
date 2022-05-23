@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { UilPlus } from "@iconscout/react-unicons";
+
+import { UilPlus, UilAngleLeftB } from "@iconscout/react-unicons";
 import firebase from "../../../Firebase/FirebaseConfig";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +11,7 @@ import { Spinner } from "react-bootstrap";
 import ActivityMapperModal from "../../ActivityMapperModal/ActivityMapperModal";
 import Table from "../../Dashboard/Table/Table";
 import "./Tables.css";
+import { useHistory } from "react-router-dom";
 
 const storage = firebase.storage();
 const auth = firebase.auth();
@@ -29,6 +31,7 @@ export default function Tables(props) {
 	const dispatch = useDispatch();
 	const [heightLoading, setHeightLoading] = useState(true);
 	console.log(props.params);
+	const history = useHistory();
 	useEffect(() => {
 		setListData(props.item);
 		console.log(props, listData, heightLoading);
@@ -157,7 +160,9 @@ export default function Tables(props) {
 		const target = e.currentTarget.getAttribute("data-target");
 		document.querySelector(`#${target}`).classList.toggle("d-none");
 	};
-
+	const handleHistoryBack = () => {
+		history.goBack();
+	};
 	return (
 		<div className='files '>
 			<ActivityMapperModal
@@ -166,26 +171,33 @@ export default function Tables(props) {
 				fileId={fileId}
 			/>
 			<div className='secHeader mb-3'>
-				<div className='secTitle'>{props.params.folder}</div>
+				<div className='d-flex align-items-center'>
+					<span
+						onClick={handleHistoryBack}
+						style={{ cursor: "pointer" }}>
+						<UilAngleLeftB size='30' />
+					</span>
+					<div className='secTitle ms-1'>{props.params.folder}</div>
+				</div>
 				<div className='filter '>
-					<span className='me-3'>View All</span>
+					{/* <span className='me-3'>View All</span>
 					<span>
 						<span className='me-3'>Sort by</span>
 						<FontAwesomeIcon icon={faAngleDown} />
-					</span>
+					</span> */}
 					{localStorage.getItem("isAdmin") === "true" && (
 						<span
 							onClick={uploadHandle}
 							style={{ cursor: "pointer" }}
-							className=' ms-3 btn btn-info text-white '>
+							className=' ms-3 btn btn-dark text-white '>
 							<input
 								onChange={handleChange}
 								type='file'
 								id='fileupload'
 								hidden
 							/>
-							<span className='me-2'>Upload file</span>
 							<UilPlus size='16' color='#fff' />
+							<span className='ms-2'>Upload file</span>
 						</span>
 					)}
 				</div>

@@ -5,10 +5,8 @@ import NewActivity from "./NewActivity/NewActivity";
 
 export default function ActivityMapperModal(props) {
 	const [users, setUsers] = React.useState([]);
-	const [tasksList, setTasklist] = React.useState([
-		{ userList: [], action: [] },
-	]);
-	const [taskName, setTaskName] = React.useState(null);
+	const [tasksList, setTasklist] = React.useState(null);
+	const [workFlowName, setworkFlowName] = React.useState(null);
 	const getUsers = () => {
 		axios
 			.get("https://calm-beyond-84616.herokuapp.com/Users")
@@ -18,17 +16,19 @@ export default function ActivityMapperModal(props) {
 
 	useEffect(() => {
 		getUsers();
+		setTasklist([{ taskName: "Task 1", userList: [], action: [] }]);
 	}, []);
 	const handleTaskFlow = () => {
 		// console.log(tasksList, );
+
 		const data = {
-			taskName: taskName,
+			workFlowName: workFlowName,
 			fileId: props.fileId,
 			taskList: tasksList,
 		};
 		console.log(data);
 		axios
-			.post("https://calm-beyond-84616.herokuapp.com/taskFlows", data)
+			.post("https://calm-beyond-84616.herokuapp.com/workFlows", data)
 			.then((res) => {
 				console.log(res.data);
 				props.Callbacks();
@@ -51,7 +51,7 @@ export default function ActivityMapperModal(props) {
 						data={users}
 						tasksList={tasksList}
 						setTasklist={setTasklist}
-						setTaskName={setTaskName}
+						setworkFlowName={setworkFlowName}
 					/>
 				</Modal.Body>
 				<Modal.Footer>

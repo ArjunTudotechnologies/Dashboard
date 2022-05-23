@@ -15,7 +15,7 @@ export default function Taslflow(props) {
 	const getData = () => {
 		axios
 			.get(
-				`https://calm-beyond-84616.herokuapp.com/getTaskFlows?fileId=${fileid}`
+				`https://calm-beyond-84616.herokuapp.com/getWorkFlows?fileId=${fileid}`
 			)
 			.then((res) => {
 				console.log(res.data);
