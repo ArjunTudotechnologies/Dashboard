@@ -15,6 +15,8 @@ export default function Workflow(props) {
 	const history = useHistory();
 
 	const getData = () => {
+		dispatch(setLoading(true));
+
 		axios
 			.get(
 				`https://calm-beyond-84616.herokuapp.com/getWorkFlows?fileId=${fileid}`

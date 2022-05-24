@@ -2,6 +2,7 @@ import React from "react";
 
 import { UilPen, UilTrashAlt, UilEllipsisV } from "@iconscout/react-unicons";
 import { Link, useHistory } from "react-router-dom";
+import ConfirmationModal from "../../../../ConfirmationModal/ConfirmationModal";
 
 export default function TableList({
 	heightLoading,
@@ -23,8 +24,31 @@ export default function TableList({
 		}
 		return color;
 	}
+	const [show, setShow] = React.useState(false);
+	const [id, setId] = React.useState(null);
+	const [WorkFlowName, setWorkFlowName] = React.useState(null);
+
+	const handleClose = () => {
+		setShow(false);
+	};
+	const handleDelete = () => {
+		deleteFile(id);
+		setShow(false);
+	};
+	const handleShow = (id, workflow) => {
+		setId(id);
+		setWorkFlowName(workflow);
+		setShow(true);
+	};
 	return (
 		<div className='listItems'>
+			<ConfirmationModal
+				show={show}
+				handleShow={handleShow}
+				handleClose={handleClose}
+				handleDelete={handleDelete}
+				itemName={WorkFlowName}
+			/>
 			{!heightLoading &&
 				listData.length > 0 &&
 				listData.map((elem, ind) => {
@@ -73,7 +97,12 @@ export default function TableList({
 									<UilPen />
 								</span>
 								<span
-									onClick={() => deleteFile(elem.id)}
+									onClick={() =>
+										handleShow(
+											elem.id,
+											elem.data.workFlowName
+										)
+									}
 									className='me-3'
 									style={{ cursor: "pointer" }}>
 									<UilTrashAlt />

@@ -116,9 +116,7 @@ export default function WorkflowTable(props) {
 				<div className='d-flex tableHead pb-2'>
 					<div className='col-md-4 col-3'>Workflow details</div>
 					<div className='col-md-3 col-3'>Created date</div>
-					<div className='col-md-3 col-3 d-sm-block d-none'>
-						Users involved
-					</div>
+					<div className='col-md-3 col-3 pe-1'>Users involved</div>
 					<div className='col-md-2 col-3'>Actions</div>
 				</div>
 
