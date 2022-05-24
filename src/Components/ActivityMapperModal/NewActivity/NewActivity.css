@@ -1,5 +1,8 @@
-.selector > div {
-	/* width: 45%; */
+.selector select:nth-child(1) {
+	width: 50%;
+}
+.selector > div:nth-child(2) {
+	width: 100%;
 }
 .searchWrapper {
 	display: flex;

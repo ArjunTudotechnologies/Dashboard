@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import NewActivity from "./NewActivity/NewActivity";
+import "./ActivityMapperModal.css";
 
 export default function ActivityMapperModal(props) {
 	const [users, setUsers] = React.useState([]);
@@ -35,6 +36,12 @@ export default function ActivityMapperModal(props) {
 			})
 			.catch((err) => console.log(err));
 	};
+	const handleClose = () => {
+		setUsers([]);
+		setTasklist([{ taskName: "Task 1", userList: [], action: [] }]);
+		setworkFlowName(null);
+		props.Callbacks();
+	};
 	return (
 		<div>
 			<Modal
@@ -43,10 +50,13 @@ export default function ActivityMapperModal(props) {
 				show={props.show}
 				fullscreen={"md-down"}
 				onHide={() => props.Callbacks()}>
-				<Modal.Header closeButton>
-					<Modal.Title>Task Flow</Modal.Title>
+				<Modal.Header className='border-0 d-flex justify-content-between align-items-center'>
+					<Modal.Title>Create Workflow</Modal.Title>
+					<span onClick={handleClose} className='fs-3'>
+						&times;
+					</span>
 				</Modal.Header>
-				<Modal.Body>
+				<Modal.Body className='workflowModal'>
 					<NewActivity
 						data={users}
 						tasksList={tasksList}
@@ -54,7 +64,7 @@ export default function ActivityMapperModal(props) {
 						setworkFlowName={setworkFlowName}
 					/>
 				</Modal.Body>
-				<Modal.Footer>
+				<Modal.Footer className='border-0'>
 					<button
 						onClick={handleTaskFlow}
 						className='btn btn-success'>

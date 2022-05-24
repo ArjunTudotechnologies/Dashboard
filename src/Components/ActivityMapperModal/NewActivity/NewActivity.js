@@ -1,4 +1,5 @@
 import {
+	faCircle,
 	faFolderPlus,
 	faPlus,
 	faPlusCircle,
@@ -44,7 +45,7 @@ export default function NewActivity(props) {
 	const selected = () => {
 		console.log(selectRef.current.getSelectedItems());
 	};
-	const appendTask = () => {
+	const appendTask = (e) => {
 		setTasklist((prev) => [
 			...prev,
 			{
@@ -72,27 +73,26 @@ export default function NewActivity(props) {
 	};
 
 	const TaskComp = ({ taskId, taskName }) => {
+		const lastInd = tasksList.length;
+		// console.log(lastInd, taskId);
 		return (
-			<fieldset>
-				<legend onClick={selected}>{taskName}</legend>
-
-				<div className='selector d-flex flex-column justify-content-between p-4 align-items-center w-100'>
-					<Multiselect
-						// style={{ width: "100%" }}
-						className='col'
-						ref={selectRef}
-						options={userEmail} // Options to display in the dropdown
-						selectedValues={tasksList[taskId].userList} // Preselected value to persist in dropdown
-						onSelect={(selectedList, selectedItem) =>
-							UpdateToUserlist(selectedList, selectedItem, taskId)
-						} // Function will trigger on select event
-						onRemove={(selectedList, removedItem) =>
-							UpdateToUserlist(selectedList, removedItem, taskId)
-						} // Function will trigger on remove event
-						displayValue='email' // Property name to display in the dropdown options
+			<div className='border-start position-relative px-4 pb-4 '>
+				<span
+					className='position-absolute d-flex align-items-center'
+					style={{ top: "0%", left: "-1.5%" }}>
+					<FontAwesomeIcon
+						// onClick={appendTask}
+						icon={faCircle}
+						className='fa-1x me-2 text-secondary'
 					/>
+					{/* <span>Add New Task</span> */}
+				</span>
+				<span onClick={selected}>{taskName}</span>
+
+				<div className='selector d-flex flex-column  px-3 py-2  w-100'>
+					<span className='mt-2 mb-1'>Task type</span>
 					<Multiselect
-						className='col'
+						className='col select w-50'
 						singleSelect
 						// ref={selectRef}
 						options={action} // Options to display in the dropdown
@@ -105,8 +105,38 @@ export default function NewActivity(props) {
 						} // Function will trigger on remove event
 						displayValue='name' // Property name to display in the dropdown options
 					/>
+					<span className='mt-2 mb-1'>Add people</span>
+					<Multiselect
+						className='col my-2 select '
+						ref={selectRef}
+						options={userEmail} // Options to display in the dropdown
+						selectedValues={tasksList[taskId].userList} // Preselected value to persist in dropdown
+						onSelect={(selectedList, selectedItem) =>
+							UpdateToUserlist(selectedList, selectedItem, taskId)
+						} // Function will trigger on select event
+						onRemove={(selectedList, removedItem) =>
+							UpdateToUserlist(selectedList, removedItem, taskId)
+						} // Function will trigger on remove event
+						displayValue='email' // Property name to display in the dropdown options
+					/>
+
+					{lastInd - 1 == taskId && (
+						<span
+							onClick={appendTask}
+							className='position-absolute d-flex align-items-center addNewTask'
+							style={{
+								bottom: "-10%",
+								left: "-2.5%",
+							}}>
+							<FontAwesomeIcon
+								icon={faPlusCircle}
+								className='fa-2x me-2 text-secondary'
+							/>
+							<span className='fw-bold '>Add New Task</span>
+						</span>
+					)}
 				</div>
-			</fieldset>
+			</div>
 		);
 	};
 	React.useEffect(() => {
@@ -119,27 +149,24 @@ export default function NewActivity(props) {
 	return (
 		<div className='taskWrapper'>
 			<div className='d-flex align-items-center justify-content-between'>
-				<div className='pe-3 w-100'>
+				<div className='mb-3 w-100'>
 					<NormalInputs
 						type='text'
 						placeholder='Task name'
-						label='Task name'
+						label='Create Workflow'
 						onBlur={handleNameChange}
 					/>
 				</div>
-				<FontAwesomeIcon
+				{/* <FontAwesomeIcon
 					onClick={appendTask}
 					icon={faPlusCircle}
 					className='fa-3x mt-4'
-				/>
+				/> */}
 			</div>
 
 			{tasksList.map((item, ind) => {
 				return <TaskComp taskId={ind} taskName={item.taskName} />;
 			})}
-			{/* {[...Array(count)].map((item, ind) => (
-				<TaskComp key={ind} />
-			))} */}
 		</div>
 	);
 }
