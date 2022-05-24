@@ -119,7 +119,7 @@ export default function Login() {
 					<span
 						style={{ cursor: "pointer" }}
 						onClick={Handlelogin}
-						className=' mt-4 mb-3 custom_btn '>
+						className=' mt-4 mb-3 custom_btn btn-dark '>
 						Login
 					</span>
 				</span>
