@@ -1,58 +1,58 @@
-.Taskflow {
+.Workflow {
 	background-color: #f9f9f9;
 }
-.Taskflow .flow {
+.Workflow .flow {
 	padding: var(--sectionpad);
 	/* background-color: #5a63eb; */
 }
 
-.Taskflow .flow .secHeader,
-.Taskflow .flow .filter {
+.Workflow .flow .secHeader,
+.Workflow .flow .filter {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
-.Taskflow .flow .secTitle {
+.Workflow .flow .secTitle {
 	font-size: 1.5rem;
 	font-weight: 500;
 }
-.Taskflow .flow .filter {
+.Workflow .flow .filter {
 	font-size: 1rem;
 	font-weight: 500;
 }
-.Taskflow .flow .listWrapper {
+.Workflow .flow .listWrapper {
 	box-shadow: 0 0 12px #d3d3d2;
 	padding: 1rem;
 	border-radius: 10px;
 }
-.Taskflow .flow .tableHead {
+.Workflow .flow .tableHead {
 	color: #a19a9a;
 	font-weight: 600;
 }
-.Taskflow .flow .filesize,
-.Taskflow .flow .lastview {
+.Workflow .flow .filesize,
+.Workflow .flow .lastview {
 	color: #a19a9a;
 }
-.Taskflow .flow .tableHead,
-.Taskflow .flow .tableItems {
+.Workflow .flow .tableHead,
+.Workflow .flow .tableItems {
 	border-bottom: 1px solid #d3d3d2;
 }
-.Taskflow .flow .tableItems {
+.Workflow .flow .tableItems {
 	padding-top: 0.8rem;
 	padding-bottom: 0.8rem;
 	font-weight: 500;
 	font-size: 1.1rem;
 }
-.Taskflow .flow .tableItems .actionText {
+.Workflow .flow .tableItems .actionText {
 	color: #5a63eb;
 }
-.Taskflow .flow .listItems {
+.Workflow .flow .listItems {
 	overflow-y: scroll;
 	/* border: 1rem solid transparent; */
 	/* padding: 1rem; */
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 }
-.Taskflow .flow .listItems::-webkit-scrollbar {
+.Workflow .flow .listItems::-webkit-scrollbar {
 	display: none;
 }

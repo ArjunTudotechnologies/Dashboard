@@ -1,17 +1,19 @@
 import React from "react";
 import axios from "axios";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import { setLoading } from "../../../Redux/IsLoading";
-import TaskTable from "./TaskTable/TaskTable";
-import "./Taskflow.css";
+import TaskTable from "./WorkflowTable/WorkflowTable";
+import "./Workflow.css";
 
-export default function Taslflow(props) {
+export default function Workflow(props) {
 	const location = useLocation();
 	const { fileid } = useParams();
 	const dispatch = useDispatch();
 	const [data, setData] = React.useState([]);
+	const history = useHistory();
+
 	const getData = () => {
 		axios
 			.get(
@@ -27,12 +29,15 @@ export default function Taslflow(props) {
 			});
 	};
 	React.useEffect(() => {
+		console.log(history);
 		getData();
 	}, [fileid]);
 
 	return (
-		<div className='Taskflow'>
-			<ProfileHeader title={"Task Flow"} />
+		<div className='Workflow'>
+			<ProfileHeader
+				title={`Dashboard > ${location.state.folder} > ${location.state.file} > Flows`}
+			/>
 			<TaskTable item={data} />
 		</div>
 	);

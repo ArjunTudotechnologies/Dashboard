@@ -39,7 +39,7 @@ export default function FilesPage(props) {
 	});
 	return (
 		<div className='FilesPage'>
-			<ProfileHeader title={""} />
+			<ProfileHeader title={`Dashboard > ${parent} > ${folder}`} />
 			<Tables
 				item={data}
 				folderId={folderid}

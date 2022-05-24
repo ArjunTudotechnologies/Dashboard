@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 export default function Table({
 	heightLoading,
@@ -14,9 +14,14 @@ export default function Table({
 	ActivityModalShow,
 	deleteFile,
 }) {
+	const { pathname } = useLocation();
 	const history = useHistory();
-	const ShowTaskFlow = (fileId) => {
-		history.push(`/dashboard/taskFlow/${fileId}`);
+	const ShowTaskFlow = (fileId, filename, folderName) => {
+		history.push(`/dashboard/Workflow/${fileId}`, {
+			from: pathname,
+			folder: folderName,
+			file: filename,
+		});
 	};
 	return (
 		<div className='listItems'>
@@ -99,10 +104,14 @@ export default function Table({
 											}}>
 											<span
 												onClick={() =>
-													ShowTaskFlow(item.docId)
+													ShowTaskFlow(
+														item.docId,
+														item.data.fileName,
+														item.data.tags
+													)
 												}
 												className='py-2 w-100 border-bottom'>
-												View task flow
+												View Workflow
 											</span>
 											<span
 												onClick={() =>

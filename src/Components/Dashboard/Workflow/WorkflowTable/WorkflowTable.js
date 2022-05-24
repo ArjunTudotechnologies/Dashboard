@@ -9,7 +9,7 @@ import { setLoading } from "../../../../Redux/IsLoading";
 import ActivityMapperModal from "../../../ActivityMapperModal/ActivityMapperModal";
 import TableList from "./TableList/TableList";
 
-export default function TaskTable(props) {
+export default function WorkflowTable(props) {
 	const [fileId, setFileId] = useState(null);
 	const [show, setShow] = React.useState(false);
 
@@ -53,9 +53,9 @@ export default function TaskTable(props) {
 	};
 	const dynamicHeight = () => {
 		const parent = document.querySelector("body");
-		const hearder = document.querySelector(".Taskflow .header");
+		const hearder = document.querySelector(".Workflow .header");
 		const computedHeight = parent.clientHeight - hearder.clientHeight;
-		const target = document.querySelector(".Taskflow .flow");
+		const target = document.querySelector(".Workflow .flow");
 		target.style.height = computedHeight + "px";
 		ListWrapperHeight();
 	};
