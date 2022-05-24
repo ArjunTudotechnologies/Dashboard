@@ -76,7 +76,7 @@ export default function NewActivity(props) {
 			<fieldset>
 				<legend onClick={selected}>{taskName}</legend>
 
-				<div className='selector d-flex justify-content-between border p-4 align-items-center w-100'>
+				<div className='selector d-flex flex-column justify-content-between p-4 align-items-center w-100'>
 					<Multiselect
 						// style={{ width: "100%" }}
 						className='col'
@@ -105,11 +105,6 @@ export default function NewActivity(props) {
 						} // Function will trigger on remove event
 						displayValue='name' // Property name to display in the dropdown options
 					/>
-					{/* <FontAwesomeIcon
-						onClick={appendTask}
-						icon={faPlusCircle}
-						className='fa-3x'
-					/> */}
 				</div>
 			</fieldset>
 		);

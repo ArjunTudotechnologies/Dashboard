@@ -12,6 +12,7 @@ import ActivityMapperModal from "../../ActivityMapperModal/ActivityMapperModal";
 import Table from "../../Dashboard/Table/Table";
 import "./Tables.css";
 import { useHistory } from "react-router-dom";
+import UploadFileModal from "./UploadFileModal/UploadFileModal";
 
 const storage = firebase.storage();
 const auth = firebase.auth();
@@ -21,10 +22,10 @@ const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 export default function Tables(props) {
 	const [url, setUrl] = useState("");
 	const [progress, setProgress] = useState(0);
-
 	const [post, setPost] = useState("");
 	const [fileId, setFileId] = useState(null);
 	const [show, setShow] = React.useState(false);
+	const [UploadModal, setUploadModal] = React.useState(false);
 
 	const [listData, setListData] = useState([]);
 	const { loading } = useSelector((state) => state.loading);
@@ -35,11 +36,11 @@ export default function Tables(props) {
 	useEffect(() => {
 		setListData(props.item);
 		console.log(props, listData, heightLoading);
-	}, [props.item, heightLoading]);
+		if (loading === false) {
+			dynamicHeight();
+		}
+	}, [props.item, heightLoading, loading]);
 
-	React.useEffect(() => {
-		dynamicHeight();
-	}, []);
 	const getInnerHeight = (elm) => {
 		var computed = getComputedStyle(elm),
 			padding =
@@ -73,17 +74,16 @@ export default function Tables(props) {
 		ListWrapperHeight();
 	};
 	const uploadHandle = () => {
-		const uploadInput = document.querySelector("#fileupload");
-		uploadInput.click();
+		setUploadModal(true);
 	};
 
-	const handleChange = (e) => {
-		const targetFile = e.target.files[0];
-		console.log(targetFile);
-		if (targetFile) {
-			handleUpload(targetFile);
-		}
-	};
+	// const handleChange = (e) => {
+	// 	const targetFile = e.target.files[0];
+	// 	console.log(targetFile);
+	// 	if (targetFile) {
+	// 		handleUpload(targetFile);
+	// 	}
+	// };
 	const handleUpload = (file) => {
 		dispatch(setLoading(true));
 		const uploadTask = storage.ref(`images/${file.name}`).put(file);
@@ -130,6 +130,9 @@ export default function Tables(props) {
 							.then((res) => {
 								console.log(res.data);
 								props.callback();
+								dynamicHeight();
+
+								// props.onHide;
 							})
 							.catch((err) => console.log(err));
 					});
@@ -146,6 +149,7 @@ export default function Tables(props) {
 			)
 			.then((res) => {
 				props.callback();
+				dynamicHeight();
 			})
 			.catch((err) => console.log(err));
 	};
@@ -170,6 +174,11 @@ export default function Tables(props) {
 				Callbacks={callback}
 				fileId={fileId}
 			/>
+			<UploadFileModal
+				show={UploadModal}
+				onHide={() => setUploadModal(false)}
+				handleUpload={handleUpload}
+			/>
 			<div className='secHeader mb-3'>
 				<div className='d-flex align-items-center'>
 					<span
@@ -180,22 +189,17 @@ export default function Tables(props) {
 					<div className='secTitle ms-1'>{props.params.folder}</div>
 				</div>
 				<div className='filter '>
-					{/* <span className='me-3'>View All</span>
-					<span>
-						<span className='me-3'>Sort by</span>
-						<FontAwesomeIcon icon={faAngleDown} />
-					</span> */}
 					{localStorage.getItem("isAdmin") === "true" && (
 						<span
 							onClick={uploadHandle}
 							style={{ cursor: "pointer" }}
 							className=' ms-3 btn btn-dark text-white '>
-							<input
+							{/* <input
 								onChange={handleChange}
 								type='file'
 								id='fileupload'
 								hidden
-							/>
+							/> */}
 							<UilPlus size='16' color='#fff' />
 							<span className='ms-2'>Upload file</span>
 						</span>
