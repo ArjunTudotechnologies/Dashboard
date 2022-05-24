@@ -4,7 +4,7 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import { setLoading } from "../../../Redux/IsLoading";
-import TaskTable from "./WorkflowTable/WorkflowTable";
+import WorkflowTable from "./WorkflowTable/WorkflowTable";
 import "./Workflow.css";
 
 export default function Workflow(props) {
@@ -40,7 +40,7 @@ export default function Workflow(props) {
 			<ProfileHeader
 				title={`Dashboard > ${location.state.folder} > ${location.state.file} > Flows`}
 			/>
-			<TaskTable item={data} callback={getData} />
+			<WorkflowTable item={data} callback={getData} />
 		</div>
 	);
 }

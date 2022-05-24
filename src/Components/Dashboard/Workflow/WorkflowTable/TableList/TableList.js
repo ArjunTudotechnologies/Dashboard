@@ -3,12 +3,14 @@ import React from "react";
 import { UilPen, UilTrashAlt, UilEllipsisV } from "@iconscout/react-unicons";
 import { Link, useHistory } from "react-router-dom";
 import ConfirmationModal from "../../../../ConfirmationModal/ConfirmationModal";
+import ActivityMapperModal from "../../../../ActivityMapperModal/ActivityMapperModal";
 
 export default function TableList({
 	heightLoading,
 	listData,
 	handleFuncShwow,
 	ActivityModalShow,
+	updateDate,
 	deleteFile,
 }) {
 	// console.log(listData);
@@ -24,30 +26,48 @@ export default function TableList({
 		}
 		return color;
 	}
-	const [show, setShow] = React.useState(false);
+	const [confirmationShow, setConfirmationShow] = React.useState(false);
+	const [ActivityModal, setActivityModal] = React.useState(false);
 	const [id, setId] = React.useState(null);
 	const [WorkFlowName, setWorkFlowName] = React.useState(null);
+	const [prevData, setprevData] = React.useState(null);
+	const [fileId, setfileId] = React.useState(null);
 
 	const handleClose = () => {
-		setShow(false);
+		setConfirmationShow(false);
 	};
 	const handleDelete = () => {
 		deleteFile(id);
-		setShow(false);
+		setConfirmationShow(false);
 	};
 	const handleShow = (id, workflow) => {
 		setId(id);
 		setWorkFlowName(workflow);
-		setShow(true);
+		setConfirmationShow(true);
+	};
+	const callback = () => {
+		setActivityModal(false);
+		updateDate();
+	};
+	const handleEdit = (prevData) => {
+		setprevData(prevData);
+		setfileId(prevData.data.fileId);
+		setActivityModal(true);
 	};
 	return (
 		<div className='listItems'>
 			<ConfirmationModal
-				show={show}
+				show={confirmationShow}
 				handleShow={handleShow}
 				handleClose={handleClose}
 				handleDelete={handleDelete}
 				itemName={WorkFlowName}
+			/>
+			<ActivityMapperModal
+				show={ActivityModal}
+				Callbacks={callback}
+				fileId={fileId}
+				prevData={prevData}
 			/>
 			{!heightLoading &&
 				listData.length > 0 &&
@@ -92,6 +112,7 @@ export default function TableList({
 							</div>
 							<div className='col-md-2 col-3 d-flex align-items-center '>
 								<span
+									onClick={() => handleEdit(elem)}
 									className='me-3'
 									style={{ cursor: "pointer" }}>
 									<UilPen />

@@ -16,6 +16,7 @@ export function NormalInputs({
 	label,
 	onBlur,
 	disabled,
+	workFlowName,
 }) {
 	return (
 		<Form.Group className=' my-2' as={Col} md='' controlId=''>
@@ -31,6 +32,7 @@ export function NormalInputs({
 				type={type}
 				disabled={disabled}
 				placeholder={placeholder}
+				value={workFlowName}
 			/>
 		</Form.Group>
 	);

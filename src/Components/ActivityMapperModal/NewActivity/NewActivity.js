@@ -10,20 +10,17 @@ import Multiselect from "multiselect-react-dropdown";
 import React, { useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-	NormalInputs,
-	SelectInputs,
-} from "../../ModularComponents/Inputs/Inputs";
+import { NormalInputs } from "../../ModularComponents/Inputs/Inputs";
 import "./NewActivity.css";
 
 export default function NewActivity(props) {
 	const [userEmail, setUserEmail] = React.useState([]);
-	const [task, setTask] = React.useState([]);
-	const { tasksList, setTasklist, setworkFlowName } = props;
-	// const [tasksList, setTasklist] = React.useState([
-	// 	{ userList: [], action: [] },
-	// ]);
-	const [completionDate, setCompletionDate] = React.useState(new Date());
+	// const [task, setTask] = React.useState([]);
+	const { tasksList, setTasklist, setworkFlowName, workFlowName } = props;
+
+	const [CompletionDate, setCompletionDate] = React.useState(new Date());
+	console.log(props);
+
 	const action = [
 		{
 			name: "Approve",
@@ -35,8 +32,8 @@ export default function NewActivity(props) {
 			name: "View",
 		},
 	];
-	const [count, setCount] = React.useState(1);
-	const selectRef = useRef();
+	// const [count, setCount] = React.useState(1);
+	// const selectRef = useRef();
 	const getUserEmail = () => {
 		const emails = [];
 		props.data.forEach((item, ind) => {
@@ -45,15 +42,15 @@ export default function NewActivity(props) {
 		console.log(emails);
 		setUserEmail(emails);
 	};
-	const selected = () => {
-		console.log(selectRef.current.getSelectedItems());
-	};
+	// const selected = () => {
+	// 	console.log(selectRef.current.getSelectedItems());
+	// };
 	const appendTask = (e) => {
 		setTasklist((prev) => [
 			...prev,
 			{
 				taskName: `Task ${tasksList.length + 1}`,
-				completionDate: completionDate,
+				CompletionDate: new Date(),
 				userList: [],
 				action: [],
 			},
@@ -64,6 +61,14 @@ export default function NewActivity(props) {
 		setTasklist((prev) => {
 			const taskList = [...prev];
 			taskList[id].userList = selectedList;
+			return taskList;
+		});
+	};
+	const updateCompletionDate = (date, id) => {
+		// setCompletionDate(date);
+		setTasklist((prev) => {
+			const taskList = [...prev];
+			taskList[id].CompletionDate = date;
 			return taskList;
 		});
 	};
@@ -84,13 +89,11 @@ export default function NewActivity(props) {
 					className='position-absolute d-flex align-items-center'
 					style={{ top: "0%", left: "-1.5%" }}>
 					<FontAwesomeIcon
-						// onClick={appendTask}
 						icon={faCircle}
 						className='fa-1x me-2 text-secondary'
 					/>
-					{/* <span>Add New Task</span> */}
 				</span>
-				<span onClick={selected}>{taskName}</span>
+				<span>{taskName}</span>
 
 				<div className='selector d-flex flex-column  px-3 py-2  w-100'>
 					<div className='d-flex justify-content-between align-items-center'>
@@ -99,7 +102,6 @@ export default function NewActivity(props) {
 							<Multiselect
 								className='mt-2 select '
 								singleSelect
-								// ref={selectRef}
 								options={action} // Options to display in the dropdown
 								selectedValues={tasksList[taskId].action} // Preselected value to persist in dropdown
 								onSelect={(selectedList, selectedItem) =>
@@ -126,15 +128,28 @@ export default function NewActivity(props) {
 							<DatePicker
 								className='mt-2'
 								closeOnScroll={true}
-								selected={completionDate}
-								onChange={(date) => setCompletionDate(date)}
+								selected={
+									tasksList[taskId].CompletionDate !=
+									undefined
+										? tasksList[taskId]
+												.CompletionDate instanceof Date
+											? tasksList[taskId].CompletionDate
+											: new Date(
+													tasksList[
+														taskId
+													].CompletionDate
+											  )
+										: new Date()
+								}
+								onChange={(date) =>
+									updateCompletionDate(date, taskId)
+								}
 							/>
 						</div>
 					</div>
 					<span className='mt-2 mb-1'>Add people</span>
 					<Multiselect
 						className='col my-2 select '
-						ref={selectRef}
 						options={userEmail} // Options to display in the dropdown
 						selectedValues={tasksList[taskId].userList} // Preselected value to persist in dropdown
 						onSelect={(selectedList, selectedItem) =>
@@ -177,9 +192,10 @@ export default function NewActivity(props) {
 				<div className='mb-3 w-100'>
 					<NormalInputs
 						type='text'
-						placeholder='Task name'
+						placeholder='Workflow name'
 						label='Create Workflow'
 						onBlur={handleNameChange}
+						workFlowName={workFlowName}
 					/>
 				</div>
 				{/* <FontAwesomeIcon

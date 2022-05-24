@@ -79,9 +79,6 @@ export default function Table({
 									</span>
 
 									<span
-										// onClick={() =>
-										// 	deleteFile(item.docId)
-										// }
 										onClick={handleFuncShwow}
 										data-target={`item-${ind}`}
 										className='col text-center position-relative'

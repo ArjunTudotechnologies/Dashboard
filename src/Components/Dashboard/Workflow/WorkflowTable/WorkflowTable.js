@@ -133,6 +133,7 @@ export default function WorkflowTable(props) {
 						handleFuncShwow={handleFuncShwow}
 						ActivityModalShow={ActivityModalShow}
 						deleteFile={deleteFile}
+						updateDate={props.callback}
 					/>
 				)}
 			</div>
