@@ -69,7 +69,7 @@ export default function WorkflowTable(props) {
 			)
 			.then((res) => {
 				props.callback();
-				dispatch(setLoading(false));
+				// dispatch(setLoading(false));
 			})
 			.catch((err) => console.log(err));
 		// axios
