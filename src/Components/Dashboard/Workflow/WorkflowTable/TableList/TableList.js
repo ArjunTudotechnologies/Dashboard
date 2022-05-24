@@ -73,6 +73,7 @@ export default function TableList({
 									<UilPen />
 								</span>
 								<span
+									onClick={() => deleteFile(elem.id)}
 									className='me-3'
 									style={{ cursor: "pointer" }}>
 									<UilTrashAlt />

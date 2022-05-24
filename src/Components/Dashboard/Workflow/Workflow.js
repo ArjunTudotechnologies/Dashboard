@@ -38,7 +38,7 @@ export default function Workflow(props) {
 			<ProfileHeader
 				title={`Dashboard > ${location.state.folder} > ${location.state.file} > Flows`}
 			/>
-			<TaskTable item={data} />
+			<TaskTable item={data} callback={getData} />
 		</div>
 	);
 }

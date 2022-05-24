@@ -65,12 +65,21 @@ export default function WorkflowTable(props) {
 
 		axios
 			.delete(
-				`https://calm-beyond-84616.herokuapp.com/deleteUserFile/${id}`
+				`https://calm-beyond-84616.herokuapp.com/workFlowsDelete/${id}`
 			)
 			.then((res) => {
 				props.callback();
+				dispatch(setLoading(false));
 			})
 			.catch((err) => console.log(err));
+		// axios
+		// 	.delete(
+		// 		`https://calm-beyond-84616.herokuapp.com/deleteUserFile/${id}`
+		// 	)
+		// 	.then((res) => {
+		// 		props.callback();
+		// 	})
+		// 	.catch((err) => console.log(err));
 	};
 	const callback = () => {
 		setShow(false);
