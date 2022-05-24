@@ -52,7 +52,10 @@ export default function ActivityMapperModal(props) {
 				onHide={() => props.Callbacks()}>
 				<Modal.Header className='border-0 d-flex justify-content-between align-items-center'>
 					<Modal.Title>Create Workflow</Modal.Title>
-					<span onClick={handleClose} className='fs-3'>
+					<span
+						onClick={handleClose}
+						className='fs-3'
+						style={{ cursor: "pointer" }}>
 						&times;
 					</span>
 				</Modal.Header>
@@ -64,10 +67,8 @@ export default function ActivityMapperModal(props) {
 						setworkFlowName={setworkFlowName}
 					/>
 				</Modal.Body>
-				<Modal.Footer className='border-0'>
-					<button
-						onClick={handleTaskFlow}
-						className='btn btn-success'>
+				<Modal.Footer className='border-0 d-flex justify-content-center'>
+					<button onClick={handleTaskFlow} className='btn btn-dark'>
 						Save
 					</button>
 				</Modal.Footer>

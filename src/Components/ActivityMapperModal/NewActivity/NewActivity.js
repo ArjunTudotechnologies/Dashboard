@@ -7,7 +7,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Multiselect from "multiselect-react-dropdown";
-import React, { createElement, useRef } from "react";
+import React, { useRef } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
 	NormalInputs,
 	SelectInputs,
@@ -21,6 +23,7 @@ export default function NewActivity(props) {
 	// const [tasksList, setTasklist] = React.useState([
 	// 	{ userList: [], action: [] },
 	// ]);
+	const [completionDate, setCompletionDate] = React.useState(new Date());
 	const action = [
 		{
 			name: "Approve",
@@ -50,6 +53,7 @@ export default function NewActivity(props) {
 			...prev,
 			{
 				taskName: `Task ${tasksList.length + 1}`,
+				completionDate: completionDate,
 				userList: [],
 				action: [],
 			},
@@ -74,7 +78,6 @@ export default function NewActivity(props) {
 
 	const TaskComp = ({ taskId, taskName }) => {
 		const lastInd = tasksList.length;
-		// console.log(lastInd, taskId);
 		return (
 			<div className='border-start position-relative px-4 pb-4 '>
 				<span
@@ -90,21 +93,44 @@ export default function NewActivity(props) {
 				<span onClick={selected}>{taskName}</span>
 
 				<div className='selector d-flex flex-column  px-3 py-2  w-100'>
-					<span className='mt-2 mb-1'>Task type</span>
-					<Multiselect
-						className='col select w-50'
-						singleSelect
-						// ref={selectRef}
-						options={action} // Options to display in the dropdown
-						selectedValues={tasksList[taskId].action} // Preselected value to persist in dropdown
-						onSelect={(selectedList, selectedItem) =>
-							updateToAction(selectedList, selectedItem, taskId)
-						} // Function will trigger on select event
-						onRemove={(selectedList, selectedItem) =>
-							updateToAction(selectedList, selectedItem, taskId)
-						} // Function will trigger on remove event
-						displayValue='name' // Property name to display in the dropdown options
-					/>
+					<div className='d-flex justify-content-between align-items-center'>
+						<div className='w-50'>
+							<span className='my-2'>Task type</span>
+							<Multiselect
+								className='mt-2 select '
+								singleSelect
+								// ref={selectRef}
+								options={action} // Options to display in the dropdown
+								selectedValues={tasksList[taskId].action} // Preselected value to persist in dropdown
+								onSelect={(selectedList, selectedItem) =>
+									updateToAction(
+										selectedList,
+										selectedItem,
+										taskId
+									)
+								} // Function will trigger on select event
+								onRemove={(selectedList, selectedItem) =>
+									updateToAction(
+										selectedList,
+										selectedItem,
+										taskId
+									)
+								} // Function will trigger on remove event
+								displayValue='name' // Property name to display in the dropdown options
+							/>
+						</div>
+						<div className='ms-2 w-50'>
+							<label htmlFor='' className=''>
+								Completion date
+							</label>
+							<DatePicker
+								className='mt-2'
+								closeOnScroll={true}
+								selected={completionDate}
+								onChange={(date) => setCompletionDate(date)}
+							/>
+						</div>
+					</div>
 					<span className='mt-2 mb-1'>Add people</span>
 					<Multiselect
 						className='col my-2 select '
@@ -119,8 +145,7 @@ export default function NewActivity(props) {
 						} // Function will trigger on remove event
 						displayValue='email' // Property name to display in the dropdown options
 					/>
-
-					{lastInd - 1 == taskId && (
+					{lastInd - 1 === taskId && (
 						<span
 							onClick={appendTask}
 							className='position-absolute d-flex align-items-center addNewTask'

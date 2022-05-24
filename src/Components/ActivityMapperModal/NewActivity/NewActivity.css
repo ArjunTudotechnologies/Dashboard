@@ -1,5 +1,17 @@
 .selector select:nth-child(1) {
-	width: 50%;
+	width: 100%;
+}
+.react-datepicker-wrapper {
+	text-align: end;
+}
+.singleChip {
+	padding: 0 !important;
+}
+.react-datepicker__input-container input {
+	padding: 0.5rem;
+	border: 1px solid #d3d3d3;
+	border-radius: 5px;
+	width: 100%;
 }
 .selector > div:nth-child(2) {
 	width: 100%;
