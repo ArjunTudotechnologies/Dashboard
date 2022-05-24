@@ -104,7 +104,10 @@ export default function UploadFileModal(props) {
 				</div>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button onClick={uploadToserver} disabled={file === null}>
+				<Button
+					onClick={uploadToserver}
+					className='btn-dark'
+					disabled={file === null}>
 					Upload
 				</Button>
 			</Modal.Footer>

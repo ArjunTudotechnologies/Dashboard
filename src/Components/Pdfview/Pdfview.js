@@ -4,7 +4,10 @@ import React, { useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
 import ReactSignatureCanvas from "react-signature-canvas";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
+import { UilAngleLeftB } from "@iconscout/react-unicons";
+
 import "./Pdfview.css";
+import { useHistory } from "react-router-dom";
 function Pdfview() {
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
@@ -13,6 +16,7 @@ function Pdfview() {
 	const [canvasHeight, setCanvasHeight] = useState(null);
 	const [refer, setRefer] = useState([]);
 	let refs = [];
+	const history = useHistory();
 	const handlePdfviewerHeight = () => {
 		const whole = document.querySelector(".Pdfview");
 		const head = document.querySelector(".header");
@@ -22,6 +26,9 @@ function Pdfview() {
 	React.useEffect(() => {
 		handlePdfviewerHeight();
 	}, []);
+	const handleHistoryBack = () => {
+		history.goBack();
+	};
 	function onDocumentLoadSuccess({ numPages }) {
 		// alert("asfd");
 		setNumPages(numPages);
@@ -70,17 +77,25 @@ function Pdfview() {
 	return (
 		<div className='Pdfview vh-100'>
 			<div className='header'>
-				<TitleBar title={"Pdf view"} />
+				<div className='d-flex'>
+					<span
+						className=''
+						onClick={handleHistoryBack}
+						style={{ cursor: "pointer" }}>
+						<UilAngleLeftB size='30' />
+					</span>
+					<TitleBar title={"PDF View"} />
+				</div>
 				<div className='userProfile'>
 					<span className='btn btn-info me-3' onClick={handleSign}>
 						{sign ? "Normal" : "Sign"}
 					</span>
-					<img
+					{/* <img
 						src='/assets/images/user.JPG'
 						alt=''
 						className='userImage img-fluid me-3'
 					/>
-					<FontAwesomeIcon icon={faAngleDown} />
+					<FontAwesomeIcon icon={faAngleDown} /> */}
 				</div>
 			</div>
 			{/* <header className='Pdfview-header'>
