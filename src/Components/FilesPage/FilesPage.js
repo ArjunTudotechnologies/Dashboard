@@ -16,10 +16,11 @@ export default function FilesPage(props) {
 		const userId = localStorage.getItem("userId");
 		console.log("edited");
 		const isAdmin = localStorage.getItem("isAdmin") === "true";
-		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}&parent=${parent}&tags=${folder}`;
-		if (!isAdmin) {
-			queryString = `https://calm-beyond-84616.herokuapp.com/getUserFile?parent=${parent}&tags=${folder}`;
-		}
+		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFile?parent=${parent}&tags=${folder}`;
+		// let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}&parent=${parent}&tags=${folder}`;
+		// if (!isAdmin) {
+		// 	queryString = `https://calm-beyond-84616.herokuapp.com/getUserFile?parent=${parent}&tags=${folder}`;
+		// }
 		axios
 			.get(queryString)
 			.then((res) => {

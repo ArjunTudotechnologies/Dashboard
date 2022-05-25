@@ -33,11 +33,12 @@ export default function Folders() {
 	};
 	const getData = () => {
 		const userId = localStorage.getItem("userId");
-		const isAdmin = localStorage.getItem("isAdmin") === "true";
-		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}`;
-		if (!isAdmin) {
-			queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder`;
-		}
+        const isAdmin = localStorage.getItem("isAdmin") === "true";
+        let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder`;
+		// let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}`;
+		// if (!isAdmin) {
+		// 	queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder`;
+		// }
 		axios
 			.get(queryString)
 			.then((res) => {

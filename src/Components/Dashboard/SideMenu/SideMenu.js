@@ -42,10 +42,11 @@ export default function SideMenu({ url }) {
 	const Client = () => {
 		const userId = localStorage.getItem("userId");
 		const isAdmin = localStorage.getItem("isAdmin") === "true";
-		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}&parent=Client Files`;
-		if (!isAdmin) {
-			queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?parent=Client Files`;
-		}
+		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?parent=Client Files`;
+		// let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}&parent=Client Files`;
+		// if (!isAdmin) {
+		// 	queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?parent=Client Files`;
+		// }
 		axios
 			.get(queryString)
 			.then((res) => {
@@ -59,10 +60,11 @@ export default function SideMenu({ url }) {
 	const Employee = () => {
 		const userId = localStorage.getItem("userId");
 		const isAdmin = localStorage.getItem("isAdmin") === "true";
-		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}&parent=Employee Files`;
-		if (!isAdmin) {
-			queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?parent=Employee Files`;
-		}
+		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?parent=Employee Files`;
+		// let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?userId=${userId}&parent=Employee Files`;
+		// if (!isAdmin) {
+		// 	queryString = `https://calm-beyond-84616.herokuapp.com/getUserFolder?parent=Employee Files`;
+		// }
 		axios
 			.get(queryString)
 			.then((res) => {
