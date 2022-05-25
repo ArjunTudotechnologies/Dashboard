@@ -9,6 +9,7 @@ import {
 
 export default function CreateFolderModal(props) {
 	const [show, setShow] = React.useState(false);
+	const [errorMsg, setErrorMsg] = React.useState("");
 	const { loading } = useSelector((state) => state.loading);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -17,7 +18,15 @@ export default function CreateFolderModal(props) {
 		let name = e.target.name;
 		const value = e.target.value;
 		if (name === "Tag") name = "parent";
-		if (name === "Folder Name") name = "name";
+		if (name === "Folder Name") {
+			name = "name";
+			const pattern = /^[A-Z][a-zA-Z0-9]*$/;
+			if (!pattern.test(value) && value.length != 0) {
+				setErrorMsg("Folder name must start with Capital letter!");
+			} else {
+				setErrorMsg("");
+			}
+		}
 		setCreateData((prev) => {
 			const newData = { ...prev };
 			newData[name.toLowerCase()] = value;
@@ -53,6 +62,7 @@ export default function CreateFolderModal(props) {
 						label='Folder Name'
 						onBlur={handleModalInputBlur}
 					/>
+					<span className='text-danger'>{errorMsg}</span>
 					<ColorPicker addColor={colorAdd} />
 					<SelectInputs
 						data={[
@@ -78,6 +88,8 @@ export default function CreateFolderModal(props) {
 					</div>
 				) : (
 					<Button
+						disabled={errorMsg.length != 0}
+						className='btn-dark'
 						onClick={() => {
 							props.onCreate(createData);
 						}}>
