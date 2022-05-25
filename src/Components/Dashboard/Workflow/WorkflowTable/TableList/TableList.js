@@ -32,6 +32,7 @@ export default function TableList({
 	const [WorkFlowName, setWorkFlowName] = React.useState(null);
 	const [prevData, setprevData] = React.useState(null);
 	const [fileId, setfileId] = React.useState(null);
+	const isAdmin = localStorage.getItem("isAdmin") === "true";
 
 	const handleClose = () => {
 		setConfirmationShow(false);
@@ -111,23 +112,27 @@ export default function TableList({
 								})}
 							</div>
 							<div className='col-md-2 col-3 d-flex align-items-center '>
-								<span
-									onClick={() => handleEdit(elem)}
-									className='me-3'
-									style={{ cursor: "pointer" }}>
-									<UilPen />
-								</span>
-								<span
-									onClick={() =>
-										handleShow(
-											elem.id,
-											elem.data.workFlowName
-										)
-									}
-									className='me-3'
-									style={{ cursor: "pointer" }}>
-									<UilTrashAlt />
-								</span>
+								{isAdmin && (
+									<>
+										<span
+											onClick={() => handleEdit(elem)}
+											className='me-3'
+											style={{ cursor: "pointer" }}>
+											<UilPen />
+										</span>
+										<span
+											onClick={() =>
+												handleShow(
+													elem.id,
+													elem.data.workFlowName
+												)
+											}
+											className='me-3'
+											style={{ cursor: "pointer" }}>
+											<UilTrashAlt />
+										</span>
+									</>
+								)}
 								<span style={{ cursor: "pointer" }}>
 									<UilEllipsisV />
 								</span>

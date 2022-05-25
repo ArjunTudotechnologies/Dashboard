@@ -32,10 +32,13 @@ export default function Files() {
 
 	const dataRetrive = () => {
 		const userId = localStorage.getItem("userId");
+		const isAdmin = localStorage.getItem("isAdmin") === "true";
+		let queryString = `https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}`;
+		if (!isAdmin) {
+			queryString = `https://calm-beyond-84616.herokuapp.com/getUserFile`;
+		}
 		axios
-			.get(
-				`https://calm-beyond-84616.herokuapp.com/getUserFile?userId=${userId}`
-			)
+			.get(queryString)
 			.then((res) => setListData(res.data))
 			.catch((err) => console.log(err));
 	};

@@ -23,6 +23,7 @@ export default function Table({
 			file: filename,
 		});
 	};
+	const isAdmin = localStorage.getItem("isAdmin") === "true";
 	return (
 		<div className='listItems'>
 			{!heightLoading &&
@@ -108,24 +109,30 @@ export default function Table({
 													)
 												}
 												className='py-2 w-100 border-bottom'>
-												View Workflow
+												View Workflows
 											</span>
-											<span
-												onClick={() =>
-													ActivityModalShow(
-														item.docId
-													)
-												}
-												className='py-2 w-100 border-bottom'>
-												Create Flow
-											</span>
-											<span
-												onClick={() =>
-													deleteFile(item.docId)
-												}
-												className='py-2 w-100'>
-												Delete
-											</span>
+											{isAdmin && (
+												<>
+													<span
+														onClick={() =>
+															ActivityModalShow(
+																item.docId
+															)
+														}
+														className='py-2 w-100 border-bottom'>
+														Create Flow
+													</span>
+													<span
+														onClick={() =>
+															deleteFile(
+																item.docId
+															)
+														}
+														className='py-2 w-100'>
+														Delete
+													</span>
+												</>
+											)}
 										</span>
 									</span>
 								</div>
