@@ -3,6 +3,7 @@ import { useRouteMatch } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import Adduser from "../Adduser/Adduser";
 import FilesPage from "../FilesPage/FilesPage";
+import FlowChart from "../FlowChart/FlowChart";
 import Pdfview from "../Pdfview/Pdfview";
 import Users from "../Users/Users";
 import "./Dashboard.css";
@@ -25,6 +26,9 @@ export default function Dashboard() {
 				<Switch>
 					<Route exact path={`${path}/`}>
 						<DashScreen url={url} />
+					</Route>
+					<Route exact path={`${path}/flowchart`}>
+						<FlowChart />
 					</Route>
 					<Route exact path={`${path}/:parent/:folder/:folderid`}>
 						<FilesPage />

@@ -1,0 +1,12 @@
+.btn-add {
+	position: absolute;
+	z-index: 10;
+	top: 10px;
+	left: 10px;
+}
+.react-flow__node {
+	width: max-content !important;
+}
+.react-flow__node-default {
+	text-align:left;
+}
