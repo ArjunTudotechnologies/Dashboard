@@ -14,9 +14,10 @@ import initialEdges from "./initialEdges";
 import "./FlowChart.css";
 import axios from "axios";
 import Multiselect from "multiselect-react-dropdown";
+import NewNodes from "./NewNodes/NewNodes";
 let nodeId = 0;
 function FlowChart() {
-	const reactFlowInstance = useReactFlow();
+	// const reactFlowInstance = useReactFlow();
 
 	const [nodes, setNodes] = useState(initialNodes);
 	const [edges, setEdges] = useState(initialEdges);
@@ -41,81 +42,25 @@ function FlowChart() {
 		console.log(emails);
 		setUserEmail(emails);
 	};
+	React.useEffect(() => {
+		getUsers();
+	}, []);
 	const UpdateToUserlist = (selectedList, selectedItem, id) => {
-		console.log(selectedList, selectedItem, tasksList);
+		console.log(selectedList, selectedItem, id, tasksList);
 		setTasklist((prev) => {
 			const taskList = [...prev];
 			taskList[id].userList = selectedList;
 			return taskList;
 		});
 	};
-	const UsersList = (taskId) => {
-		console.log(taskId);
-		return (
-			<span className='d-flex flex-column'>
-				<label htmlFor=''>Users</label>
-				<Multiselect
-					className='col my-2 select '
-					options={userEmail} // Options to display in the dropdown
-					// selectedValues={tasksList[taskId].userList} // Preselected value to persist in dropdown
-					onSelect={(selectedList, selectedItem) => {
-						UpdateToUserlist(selectedList, selectedItem, taskId);
-					}} // Function will trigger on select event
-					onRemove={(selectedList, removedItem) =>
-						UpdateToUserlist(selectedList, removedItem, taskId)
-					} // Function will trigger on remove event
-					displayValue='email' // Property name to display in the dropdown options
-				/>
-			</span>
-		);
-	};
-	React.useEffect(() => {
-		getUsers();
-	}, []);
-	const NodeType = (types, taskId) => {
-		console.log(types, taskId);
-		if (types === "approval") {
-			return (
-				<>
-					<h5>Approval</h5>
-					{UsersList(taskId)}
-				</>
-			);
-		} else if (types === "view") {
-			return (
-				<>
-					<h5>View</h5>
-					{UsersList(taskId)}
-				</>
-			);
-		} else if (types === "sign") {
-			return (
-				<>
-					<h5>sign</h5>
-					{UsersList(taskId)}
-				</>
-			);
-		}
-	};
+
 	const drop = (event) => {
 		event.preventDefault();
-		var data = event.dataTransfer.getData("Text");
-		const id = nodeId;
+		var type = event.dataTransfer.getData("Text");
+		const id = `${++nodeId}`;
 		console.log(id);
-		nodeId += 1;
-		setTasklist((prev) => {
-			const newData = [
-				...prev,
-				{
-					CompletionDate: new Date(),
-					taskName: `Task ${id}`,
-					userList: [],
-					action: [],
-				},
-			];
-			console.log(newData);
-			return newData;
-		});
+		// nodeId += 1;
+
 		let position = {};
 		if (nodes.length) {
 			const lastNode = nodes[nodes.length - 1];
@@ -129,23 +74,45 @@ function FlowChart() {
 				y: 0,
 			};
 		}
+
 		const newNode = {
 			id,
 			position,
 			data: {
-				label: NodeType(data, id),
+				label: (
+					<NewNodes
+						UpdateToUserlist={UpdateToUserlist}
+						userEmail={userEmail}
+						types={type}
+						taskId={id}
+					/>
+				),
 			},
 		};
+		const newTask = {
+			CompletionDate: new Date(),
+			taskName: `Task ${id}`,
+			userList: [],
+			action: type,
+		};
 
+		updateNewTask(newTask);
 		setNodes((prev) => [...prev, newNode]);
 	};
 
-	const onNodesChange = (changes) => {
-		setNodes((nds) => {
-			console.log(nds);
-			return applyNodeChanges(changes, nds);
-		});
-	};
+	const updateNewTask = useCallback(
+		(newTask) => {
+			setTasklist((prev) => [...prev, newTask]);
+		},
+		[setTasklist]
+	);
+
+	const onNodesChange = useCallback(
+		(changes) => {
+			setNodes((nds) => applyNodeChanges(changes, nds));
+		},
+		[setNodes]
+	);
 	const onEdgesChange = useCallback(
 		(changes) => {
 			setEdges((eds) => applyEdgeChanges(changes, eds));
@@ -162,6 +129,18 @@ function FlowChart() {
 	const DragStart = (event) => {
 		console.log(event.target.getAttribute("name"));
 		event.dataTransfer.setData("Text", event.target.getAttribute("name"));
+	};
+	const showJson = () => {
+		const data = {
+			tasksList,
+			nodes,
+			edges,
+		};
+		const val = JSON.stringify(data, null, 2);
+		var x = window.open();
+		x.document.open();
+		x.document.write("<html><body><pre>" + val + "</pre></body></html>");
+		x.document.close();
 	};
 
 	const defaultEdgeOptions = { animated: false };
@@ -189,9 +168,11 @@ function FlowChart() {
 					draggable='true'>
 					Sign
 				</span>
+				<button className='btn btn-success' onClick={() => showJson()}>
+					Click
+				</button>
 			</div>
 			<ReactFlow
-				// onClick={onClick}
 				onDrop={drop}
 				onDragOver={allowDrop}
 				nodes={nodes}
@@ -208,7 +189,6 @@ function FlowChart() {
 	);
 }
 
-// export default FlowChart;
 export default function () {
 	return (
 		<ReactFlowProvider>

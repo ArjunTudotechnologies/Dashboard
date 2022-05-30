@@ -3,13 +3,12 @@ import { NormalInputs } from "../ModularComponents/Inputs/Inputs";
 const handleStyle = { left: 10 };
 let initialNodes = [
 	// {
-	// 	id: "1",
+	// 	id: "j",
 	// 	type: "input",
 	// 	data: { label: "Input Node" },
 	// 	position: { x: 250, y: 25 },
 	// 	targetPosition: "bottom",
 	// },
-
 	// {
 	// 	id: "2",
 	// 	// you can also pass a React component as a label
