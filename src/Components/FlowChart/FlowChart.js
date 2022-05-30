@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import ReactFlow, {
 	Controls,
 	Background,
@@ -12,56 +12,87 @@ import ReactFlow, {
 import initialNodes from "./initialNodes";
 import initialEdges from "./initialEdges";
 import "./FlowChart.css";
-let nodeId = 1;
+import axios from "axios";
+import Multiselect from "multiselect-react-dropdown";
+let nodeId = 0;
 function FlowChart() {
 	const reactFlowInstance = useReactFlow();
 
 	const [nodes, setNodes] = useState(initialNodes);
 	const [edges, setEdges] = useState(initialEdges);
-	const NodeType = (types) => {
-		console.log(types);
+	const [users, setUsers] = React.useState([]);
+	const [userEmail, setUserEmail] = React.useState([]);
+	const [tasksList, setTasklist] = React.useState([]);
+
+	const getUsers = () => {
+		axios
+			.get("https://calm-beyond-84616.herokuapp.com/Users")
+			.then((res) => {
+				setUsers(res.data);
+				getUserEmail(res.data);
+			})
+			.catch((err) => console.log(err));
+	};
+	const getUserEmail = (user) => {
+		const emails = [];
+		user.forEach((item, ind) => {
+			emails.push({ email: item.data.email, uid: item.data.uid });
+		});
+		console.log(emails);
+		setUserEmail(emails);
+	};
+	const UpdateToUserlist = (selectedList, selectedItem, id) => {
+		console.log(selectedList, selectedItem, tasksList);
+		setTasklist((prev) => {
+			const taskList = [...prev];
+			taskList[id].userList = selectedList;
+			return taskList;
+		});
+	};
+	const UsersList = (taskId) => {
+		console.log(taskId);
+		return (
+			<span className='d-flex flex-column'>
+				<label htmlFor=''>Users</label>
+				<Multiselect
+					className='col my-2 select '
+					options={userEmail} // Options to display in the dropdown
+					// selectedValues={tasksList[taskId].userList} // Preselected value to persist in dropdown
+					onSelect={(selectedList, selectedItem) => {
+						UpdateToUserlist(selectedList, selectedItem, taskId);
+					}} // Function will trigger on select event
+					onRemove={(selectedList, removedItem) =>
+						UpdateToUserlist(selectedList, removedItem, taskId)
+					} // Function will trigger on remove event
+					displayValue='email' // Property name to display in the dropdown options
+				/>
+			</span>
+		);
+	};
+	React.useEffect(() => {
+		getUsers();
+	}, []);
+	const NodeType = (types, taskId) => {
+		console.log(types, taskId);
 		if (types === "approval") {
 			return (
 				<>
-					<h5>approval</h5>
-					<span className='d-flex flex-column'>
-						<label htmlFor='selectuserforApproval'>
-							Select users
-						</label>
-						<input
-							id='selectuserforApproval'
-							type='text'
-							placeholder='select users'
-						/>
-					</span>
+					<h5>Approval</h5>
+					{UsersList(taskId)}
 				</>
 			);
 		} else if (types === "view") {
 			return (
 				<>
 					<h5>View</h5>
-					<span className='d-flex flex-column'>
-						<label htmlFor='selectuserforView'>Select users</label>
-						<input
-							id='selectuserforView'
-							type='text'
-							placeholder='select users'
-						/>
-					</span>
+					{UsersList(taskId)}
 				</>
 			);
 		} else if (types === "sign") {
 			return (
 				<>
 					<h5>sign</h5>
-					<span className='d-flex flex-column'>
-						<label htmlFor='selectuserforSign'>Select users</label>
-						<input
-							id='selectuserforSign'
-							type='text'
-							placeholder='select users'
-						/>
-					</span>
+					{UsersList(taskId)}
 				</>
 			);
 		}
@@ -69,22 +100,46 @@ function FlowChart() {
 	const drop = (event) => {
 		event.preventDefault();
 		var data = event.dataTransfer.getData("Text");
-		const id = `${++nodeId}`;
-		const lastNode = nodes[nodes.length - 1];
-		let position = {
-			x: lastNode.position.x,
-			y: lastNode.position.y + 80,
-		};
+		const id = nodeId;
+		console.log(id);
+		nodeId += 1;
+		setTasklist((prev) => {
+			const newData = [
+				...prev,
+				{
+					CompletionDate: new Date(),
+					taskName: `Task ${id}`,
+					userList: [],
+					action: [],
+				},
+			];
+			console.log(newData);
+			return newData;
+		});
+		let position = {};
+		if (nodes.length) {
+			const lastNode = nodes[nodes.length - 1];
+			position = {
+				x: lastNode.position.x,
+				y: lastNode.position.y + 80,
+			};
+		} else {
+			position = {
+				x: 0,
+				y: 0,
+			};
+		}
 		const newNode = {
 			id,
 			position,
 			data: {
-				label: NodeType(data),
+				label: NodeType(data, id),
 			},
 		};
 
 		setNodes((prev) => [...prev, newNode]);
 	};
+
 	const onNodesChange = (changes) => {
 		setNodes((nds) => {
 			console.log(nds);
@@ -108,6 +163,7 @@ function FlowChart() {
 		console.log(event.target.getAttribute("name"));
 		event.dataTransfer.setData("Text", event.target.getAttribute("name"));
 	};
+
 	const defaultEdgeOptions = { animated: false };
 	return (
 		<span className='flow'>
@@ -117,7 +173,7 @@ function FlowChart() {
 					name='approval'
 					className='p-2 border me-2'
 					draggable='true'>
-					Approval
+					Approvals
 				</span>
 				<span
 					onDragStart={DragStart}

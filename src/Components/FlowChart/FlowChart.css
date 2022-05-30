@@ -5,8 +5,9 @@
 	left: 10px;
 }
 .react-flow__node {
-	width: max-content !important;
+	width: 250px !important;
+	max-width: 250px;
 }
 .react-flow__node-default {
-	text-align:left;
+	text-align: left;
 }

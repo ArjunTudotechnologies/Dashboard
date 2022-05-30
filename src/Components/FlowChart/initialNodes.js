@@ -2,13 +2,13 @@ import { Handle, Position } from "react-flow-renderer";
 import { NormalInputs } from "../ModularComponents/Inputs/Inputs";
 const handleStyle = { left: 10 };
 let initialNodes = [
-	{
-		id: "1",
-		type: "input",
-		data: { label: "Input Node" },
-		position: { x: 250, y: 25 },
-		targetPosition: "bottom",
-	},
+	// {
+	// 	id: "1",
+	// 	type: "input",
+	// 	data: { label: "Input Node" },
+	// 	position: { x: 250, y: 25 },
+	// 	targetPosition: "bottom",
+	// },
 
 	// {
 	// 	id: "2",
