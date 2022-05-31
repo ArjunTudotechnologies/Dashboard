@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Adduser from "../Adduser/Adduser";
 import FilesPage from "../FilesPage/FilesPage";
 import FlowChart from "../FlowChart/FlowChart";
+import FlowChartComp from "../FlowChart/FlowChartComp/FlowChartComp";
 import Pdfview from "../Pdfview/Pdfview";
 import Users from "../Users/Users";
 import "./Dashboard.css";

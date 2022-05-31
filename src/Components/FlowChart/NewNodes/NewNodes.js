@@ -6,6 +6,7 @@ export default function NewNodes({
 	taskId,
 	UpdateToUserlist,
 	userEmail,
+	selected,
 }) {
 	console.log(types);
 	let comp = null;
@@ -17,7 +18,7 @@ export default function NewNodes({
 				<Multiselect
 					className='col my-2 select '
 					options={userEmail} // Options to display in the dropdown
-					// selectedValues={tasksList[taskId].userList} // Preselected value to persist in dropdown
+					selectedValues={selected} // Preselected value to persist in dropdown
 					onSelect={(selectedList, selectedItem) => {
 						UpdateToUserlist(
 							selectedList,

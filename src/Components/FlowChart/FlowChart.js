@@ -13,8 +13,9 @@ import initialNodes from "./initialNodes";
 import initialEdges from "./initialEdges";
 import "./FlowChart.css";
 import axios from "axios";
-import Multiselect from "multiselect-react-dropdown";
+// import Multiselect from "multiselect-react-dropdown";
 import NewNodes from "./NewNodes/NewNodes";
+// import reactElementToJSXString from "react-element-to-jsx-string";
 let nodeId = 0;
 function FlowChart() {
 	// const reactFlowInstance = useReactFlow();
@@ -39,12 +40,52 @@ function FlowChart() {
 		user.forEach((item, ind) => {
 			emails.push({ email: item.data.email, uid: item.data.uid });
 		});
-		console.log(emails);
+		// console.log(emails);
+
 		setUserEmail(emails);
+		const local = localStorage.getItem("json");
+		if (local != null) {
+			const localJson = JSON.parse(local);
+
+			setEdges(localJson.edges);
+			// console.log(localJson.nodes);
+			setTasklist(localJson.tasksList);
+			populateView(localJson.tasksList, emails);
+		}
 	};
 	React.useEffect(() => {
 		getUsers();
 	}, []);
+	console.log(edges);
+	const populateView = (List, Emails) => {
+		// const id = `${++nodeId}`;
+		console.log("inside");
+		List.forEach((item, id) => {
+			console.log(item);
+			nodeId += 1;
+
+			let node = item.node;
+			const newNode = {
+				id: node.id,
+				position: node.position,
+				data: {
+					label: (
+						<NewNodes
+							UpdateToUserlist={UpdateToUserlist}
+							userEmail={Emails}
+							types={item.action}
+							taskId={id}
+							selected={item.userList}
+						/>
+					),
+				},
+			};
+			console.log(item.edges, newNode);
+			setNodes((prev) => [...prev, newNode]);
+		});
+		// updateNewTask(newTask);
+	};
+	console.log(nodes);
 	const UpdateToUserlist = (selectedList, selectedItem, id) => {
 		console.log(selectedList, selectedItem, id, tasksList);
 		setTasklist((prev) => {
@@ -131,13 +172,19 @@ function FlowChart() {
 		event.dataTransfer.setData("Text", event.target.getAttribute("name"));
 	};
 	const showJson = () => {
+		const task = tasksList;
+
+		nodes.forEach((item, id) => {
+			console.log(item);
+			task[id].node = item;
+		});
 		const data = {
-			tasksList,
-			nodes,
+			tasksList: task,
 			edges,
 		};
 		const val = JSON.stringify(data, null, 2);
 		var x = window.open();
+		localStorage.setItem("json", val);
 		x.document.open();
 		x.document.write("<html><body><pre>" + val + "</pre></body></html>");
 		x.document.close();
@@ -145,34 +192,39 @@ function FlowChart() {
 
 	const defaultEdgeOptions = { animated: false };
 	return (
-		<span className='flow'>
-			<div className=''>
+		<span className='flow d-flex justify-content-between'>
+			<div
+				className='d-flex flex-column justify-content-center px-2 text-center '
+				style={{ zIndex: 1000 }}>
 				<span
 					onDragStart={DragStart}
 					name='approval'
-					className='p-2 border me-2'
+					className='p-2 border m-2 fw-bold'
 					draggable='true'>
 					Approvals
 				</span>
 				<span
 					onDragStart={DragStart}
 					name='view'
-					className='p-2 border me-2 '
+					className='p-2 border m-2 fw-bold '
 					draggable='true'>
 					VIew
 				</span>
 				<span
 					onDragStart={DragStart}
 					name='sign'
-					className='p-2 border me-2'
+					className='p-2 border m-2 fw-bold'
 					draggable='true'>
 					Sign
 				</span>
-				<button className='btn btn-success' onClick={() => showJson()}>
-					Click
+				<button
+					className='btn btn-success m-2'
+					onClick={() => showJson()}>
+					Store
 				</button>
 			</div>
 			<ReactFlow
+				style={{ width: "100%", height: "100vh" }}
 				onDrop={drop}
 				onDragOver={allowDrop}
 				nodes={nodes}
@@ -180,6 +232,7 @@ function FlowChart() {
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
+				snapToGrid={true}
 				defaultEdgeOptions={defaultEdgeOptions}
 				fitView>
 				<Controls />
