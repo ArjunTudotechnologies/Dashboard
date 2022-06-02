@@ -8,6 +8,7 @@ import { UilAngleLeftB } from "@iconscout/react-unicons";
 
 import "./Pdfview.css";
 import { useHistory } from "react-router-dom";
+import { Container } from "react-bootstrap";
 function Pdfview() {
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
@@ -87,6 +88,87 @@ function Pdfview() {
 		};
 		reader.readAsDataURL(file);
 	}
+	var active = false;
+	var currentX;
+	var currentY;
+	var initialX;
+	var initialY;
+	var xOffset = 0;
+	var yOffset = 0;
+	var dragItem;
+	const handleSignatureDrop = (e) => {
+		e.preventDefault();
+		console.log(e);
+		const image = document.createElement("img");
+		image.src = e.dataTransfer.getData("base64String");
+		image.draggable = false;
+		image.id = "signImg";
+		image.style.width = "40px";
+		image.style.height = "40px";
+		image.style.position = "absolute";
+		e.currentTarget.append(image);
+		dragItem = image;
+		const Container = document.querySelector(".wrapperCanvas");
+
+		Container.addEventListener("touchstart", dragStart, false);
+		Container.addEventListener("touchend", dragEnd, false);
+		Container.addEventListener("touchmove", drag, false);
+
+		Container.addEventListener("mousedown", dragStart, false);
+		Container.addEventListener("mouseup", dragEnd, false);
+		Container.addEventListener("mousemove", drag, false);
+	};
+
+	function allowDrop(ev) {
+		ev.preventDefault();
+	}
+	function dragging(ev) {
+		ev.dataTransfer.setData("base64String", ev.target.getAttribute("src"));
+	}
+
+	function dragStart(e) {
+		if (e.type === "touchstart") {
+			initialX = e.touches[0].clientX - xOffset;
+			initialY = e.touches[0].clientY - yOffset;
+		} else {
+			initialX = e.clientX - xOffset;
+			initialY = e.clientY - yOffset;
+		}
+
+		if (e.target === dragItem) {
+			active = true;
+		}
+	}
+
+	function dragEnd(e) {
+		initialX = currentX;
+		initialY = currentY;
+
+		active = false;
+	}
+
+	function drag(e) {
+		if (active) {
+			e.preventDefault();
+
+			if (e.type === "touchmove") {
+				currentX = e.touches[0].clientX - initialX;
+				currentY = e.touches[0].clientY - initialY;
+			} else {
+				currentX = e.clientX - initialX;
+				currentY = e.clientY - initialY;
+			}
+
+			xOffset = currentX;
+			yOffset = currentY;
+
+			setTranslate(currentX, currentY, dragItem);
+		}
+	}
+
+	function setTranslate(xPos, yPos, el) {
+		el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+	}
 	return (
 		<div className='Pdfview vh-100'>
 			<div className='header'>
@@ -101,6 +183,8 @@ function Pdfview() {
 				</div>
 				<div className='userProfile'>
 					<img
+						onDragStart={dragging}
+						draggable={true}
 						style={{ width: "30px" }}
 						src={baseUrl}
 						alt=''
@@ -140,6 +224,8 @@ function Pdfview() {
 			</header> */}
 
 			<div
+				onDragOver={allowDrop}
+				onDrop={(e) => handleSignatureDrop(e)}
 				className=' wrapperCanvas py-3 d-flex justify-content-center'
 				style={{ overflowY: "scroll", background: "#dbd8d0" }}>
 				<Document
