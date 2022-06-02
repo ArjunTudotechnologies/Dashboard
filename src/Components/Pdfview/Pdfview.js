@@ -105,7 +105,7 @@ function Pdfview() {
 		image.id = "signImg";
 		image.style.width = "40px";
 		image.style.height = "40px";
-		image.style.position = "absolute";
+		// image.style.position = "absolute";
 		e.currentTarget.append(image);
 		dragItem = image;
 		const Container = document.querySelector(".wrapperCanvas");
