@@ -25,7 +25,10 @@ function FlowChart() {
 	const [users, setUsers] = React.useState([]);
 	const [userEmail, setUserEmail] = React.useState([]);
 	const [tasksList, setTasklist] = React.useState([]);
-
+	const [completionDate, setCompletionDate] = React.useState(null);
+	React.useEffect(() => {
+		getUsers();
+	}, []);
 	const getUsers = () => {
 		axios
 			.get("https://calm-beyond-84616.herokuapp.com/Users")
@@ -53,10 +56,18 @@ function FlowChart() {
 			populateView(localJson.tasksList, emails);
 		}
 	};
-	React.useEffect(() => {
-		getUsers();
-	}, []);
-	console.log(edges);
+
+	const updateCompletionDate = (date, id) => {
+		// setCompletionDate(date);
+		console.log(id);
+		setTasklist((prev) => {
+			const taskList = [...prev];
+			console.log(id, date);
+			taskList[id].completionDate = date;
+			return taskList;
+		});
+	};
+	console.log(completionDate);
 	const populateView = (List, Emails) => {
 		// const id = `${++nodeId}`;
 		console.log("inside");
@@ -74,8 +85,10 @@ function FlowChart() {
 							UpdateToUserlist={UpdateToUserlist}
 							userEmail={Emails}
 							types={item.action}
-							taskId={id}
+							taskId={id + 1}
 							selected={item.userList}
+							completionDate={item.completionDate}
+							updateCompletionDate={updateCompletionDate}
 						/>
 					),
 				},
@@ -85,7 +98,7 @@ function FlowChart() {
 		});
 		// updateNewTask(newTask);
 	};
-	console.log(nodes);
+	// console.log(nodes);
 	const UpdateToUserlist = (selectedList, selectedItem, id) => {
 		console.log(selectedList, selectedItem, id, tasksList);
 		setTasklist((prev) => {
@@ -126,12 +139,21 @@ function FlowChart() {
 						userEmail={userEmail}
 						types={type}
 						taskId={id}
+						// completionDate={
+						// 	tasksList[id - 1]?.completionDate !== undefined
+						// 		? tasksList[id - 1]?.completionDate instanceof
+						// 		  Date
+						// 			? tasksList[id - 1].completionDate
+						// 			: new Date(tasksList[id - 1].completionDate)
+						// 		: new Date()
+						// }
+						updateCompletionDate={updateCompletionDate}
 					/>
 				),
 			},
 		};
 		const newTask = {
-			CompletionDate: new Date(),
+			completionDate: "",
 			taskName: `Task ${id}`,
 			userList: [],
 			action: type,
