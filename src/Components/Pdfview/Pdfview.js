@@ -14,6 +14,7 @@ function Pdfview() {
 	const [sign, setSign] = useState(false);
 	const [canvasWidth, setCanvasWidth] = useState(null);
 	const [canvasHeight, setCanvasHeight] = useState(null);
+	const [baseUrl, setBaseUrl] = useState("");
 	const [refer, setRefer] = useState([]);
 	let refs = [];
 	const history = useHistory();
@@ -73,7 +74,19 @@ function Pdfview() {
 		// 	});
 		// }
 	};
-
+	function encodeImageFileAsURL(element) {
+		var file = element.target.files[0];
+		var reader = new FileReader();
+		reader.onloadend = function () {
+			console.log("RESULT", reader.result);
+			localStorage.setItem("baseUrl", reader.result);
+			setBaseUrl(reader.result);
+			// let text = reader.readAsText(file);
+			// let url = reader.readAsDataURL(file);
+			// console.log(text, url);
+		};
+		reader.readAsDataURL(file);
+	}
 	return (
 		<div className='Pdfview vh-100'>
 			<div className='header'>
@@ -87,6 +100,16 @@ function Pdfview() {
 					<TitleBar title={"PDF View"} />
 				</div>
 				<div className='userProfile'>
+					<img
+						style={{ width: "30px" }}
+						src={baseUrl}
+						alt=''
+						srcset=''
+					/>
+					<input
+						type='file'
+						onChange={(e) => encodeImageFileAsURL(e)}
+					/>
 					<span className='btn btn-info me-3' onClick={handleSign}>
 						{sign ? "Normal" : "Sign"}
 					</span>
