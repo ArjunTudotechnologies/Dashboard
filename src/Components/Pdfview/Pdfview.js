@@ -93,7 +93,8 @@ function Pdfview() {
 		const image = document.createElement("img");
 		image.src = e.dataTransfer.getData("base64String");
 		image.draggable = false;
-		image.id = "signImg";
+		image.classList.add("position-absolute");
+		// image.id = "signImg";
 		image.style.width = "40px";
 		image.style.height = "40px";
 		// image.style.position = "absolute";
@@ -139,6 +140,7 @@ function Pdfview() {
 	}
 
 	function drag(e) {
+		e.preventDefault();
 		if (active) {
 			e.preventDefault();
 
@@ -264,7 +266,7 @@ function Pdfview() {
 			<div
 				onDragOver={allowDrop}
 				onDrop={(e) => handleSignatureDrop(e)}
-				className=' wrapperCanvas py-3 d-flex justify-content-center'
+				className=' wrapperCanvas position-relative py-3 d-flex justify-content-center'
 				style={{ overflowY: "scroll", background: "#dbd8d0" }}>
 				<Document
 					file='/assets/Resume.pdf'
