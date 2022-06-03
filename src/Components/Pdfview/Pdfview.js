@@ -1,14 +1,12 @@
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
 import ReactSignatureCanvas from "react-signature-canvas";
 import TitleBar from "../Dashboard/TitleBar/TitleBar";
 import { UilAngleLeftB } from "@iconscout/react-unicons";
-
-import "./Pdfview.css";
 import { useHistory } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import "./Pdfview.css";
+import { Modal, Button } from "react-bootstrap";
+
 function Pdfview() {
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
@@ -16,6 +14,11 @@ function Pdfview() {
 	const [canvasWidth, setCanvasWidth] = useState(null);
 	const [canvasHeight, setCanvasHeight] = useState(null);
 	const [baseUrl, setBaseUrl] = useState("");
+	const [CanvbaseUrl, setCanvBaseUrl] = useState("");
+	const [showPad, setShowPad] = useState(false);
+
+	const handleClose = () => setShowPad(false);
+	const handleShow = () => setShowPad(true);
 	const [refer, setRefer] = useState([]);
 	let refs = [];
 	const history = useHistory();
@@ -32,13 +35,11 @@ function Pdfview() {
 		history.goBack();
 	};
 	function onDocumentLoadSuccess({ numPages }) {
-		// alert("asfd");
 		setNumPages(numPages);
 		setPageNumber(1);
 		setTimeout(() => {
 			const canvas = document.querySelector(".react-pdf__Page__canvas");
 			const signature = document.querySelector(".sigCanvas");
-			// console.log(signature);
 			setCanvasWidth(canvas.width);
 			setCanvasHeight(canvas.height);
 		}, 1000);
@@ -67,13 +68,6 @@ function Pdfview() {
 			else item.on();
 		});
 		setSign(status);
-		// if (!status) {
-		// 	signature.forEach((item, ind) => {
-		// 		const context = item.getContext("2d");
-
-		// 		context.clearRect(0, 0, item.width, item.height);
-		// 	});
-		// }
 	};
 	function encodeImageFileAsURL(element) {
 		var file = element.target.files[0];
@@ -82,9 +76,6 @@ function Pdfview() {
 			console.log("RESULT", reader.result);
 			localStorage.setItem("baseUrl", reader.result);
 			setBaseUrl(reader.result);
-			// let text = reader.readAsText(file);
-			// let url = reader.readAsDataURL(file);
-			// console.log(text, url);
 		};
 		reader.readAsDataURL(file);
 	}
@@ -169,8 +160,52 @@ function Pdfview() {
 	function setTranslate(xPos, yPos, el) {
 		el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
 	}
+	const handleSaveSignature = () => {
+		let canvasSign = refs.toDataURL("image/png");
+		localStorage.setItem("CanvasbaseUrl", canvasSign);
+		setCanvBaseUrl(canvasSign);
+		console.log(canvasSign);
+		setShowPad(false);
+	};
+	const handleClear = () => {
+		refs.clear();
+	};
 	return (
 		<div className='Pdfview vh-100'>
+			<Modal show={showPad} onHide={handleClose} animation={false}>
+				<Modal.Header closeButton>
+					<Modal.Title>Signature Pad</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div
+						className='border signaturepad d-flex align-items-center justify-content-center'
+						style={{ width: "100%", height: "250px" }}>
+						<ReactSignatureCanvas
+							ref={(ref) => {
+								if (ref != null) {
+									// refs.push(ref);
+									refs = ref;
+								}
+							}}
+							penColor='black'
+							canvasProps={{
+								width: document.querySelector(".modal-body")
+									?.offsetWidth,
+								height: 250,
+								className: ``,
+							}}
+						/>
+					</div>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant='secondary' onClick={handleClear}>
+						Clear
+					</Button>
+					<Button variant='primary' onClick={handleSaveSignature}>
+						Save
+					</Button>
+				</Modal.Footer>
+			</Modal>
 			<div className='header'>
 				<div className='d-flex'>
 					<span
@@ -186,6 +221,15 @@ function Pdfview() {
 						onDragStart={dragging}
 						draggable={true}
 						style={{ width: "30px" }}
+						src={CanvbaseUrl}
+						alt=''
+						srcset=''
+					/>
+					<span onClick={handleShow}>Signature</span>
+					<img
+						onDragStart={dragging}
+						draggable={true}
+						style={{ width: "30px" }}
 						src={baseUrl}
 						alt=''
 						srcset=''
@@ -194,15 +238,9 @@ function Pdfview() {
 						type='file'
 						onChange={(e) => encodeImageFileAsURL(e)}
 					/>
-					<span className='btn btn-info me-3' onClick={handleSign}>
+					{/* <span className='btn btn-info me-3' onClick={handleSign}>
 						{sign ? "Normal" : "Sign"}
-					</span>
-					{/* <img
-						src='/assets/images/user.JPG'
-						alt=''
-						className='userImage img-fluid me-3'
-					/>
-					<FontAwesomeIcon icon={faAngleDown} /> */}
+					</span> */}
 				</div>
 			</div>
 			{/* <header className='Pdfview-header'>
@@ -238,7 +276,7 @@ function Pdfview() {
 								className='position-relative pdfmbl'
 								key={`page_${index + 1}`}
 								pageNumber={index + 1}>
-								<ReactSignatureCanvas
+								{/* <ReactSignatureCanvas
 									ref={(ref) => {
 										if (ref != null) {
 											refs.push(ref);
@@ -256,7 +294,7 @@ function Pdfview() {
 												: 100,
 										className: `sigCanvas position-absolute `,
 									}}
-								/>
+								/> */}
 							</Page>
 						</div>
 					))}
