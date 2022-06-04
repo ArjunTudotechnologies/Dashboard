@@ -57,8 +57,8 @@ function Pdfview() {
 	function changePageNext() {
 		changePage(+1);
 	}
-	let bbox_rect;
-	let painting = false;
+	// let bbox_rect;
+	// let painting = false;
 
 	const handleSign = () => {
 		const status = !sign;
@@ -89,6 +89,7 @@ function Pdfview() {
 	var yOffset = 0;
 	var resize = false;
 	var dragItem;
+	var wrapperID = 0;
 	const handleSignatureDrop = (e) => {
 		e.preventDefault();
 		console.log(e);
@@ -98,6 +99,8 @@ function Pdfview() {
 		const signTop = Container.scrollTop + Container.clientHeight / 2;
 
 		wrapper.classList.add("position-absolute");
+		wrapper.id = `wrapper-${wrapperID}`;
+		wrapperID += 1;
 		wrapper.style.width = "40px";
 		wrapper.style.height = "40px";
 
@@ -309,23 +312,6 @@ function Pdfview() {
 					</span> */}
 				</div>
 			</div>
-			{/* <header className='Pdfview-header'>
-				<Document
-					file='/assets/Resume.pdf'
-					onLoadSuccess={onDocumentLoadSuccess}>
-					<Page height='600' pageNumber={pageNumber} />
-				</Document>
-				<p>
-					{" "}
-					Page {pageNumber} of {numPages}
-				</p>
-				{pageNumber > 1 && (
-					<button onClick={changePageBack}>Previous Page</button>
-				)}
-				{pageNumber < numPages && (
-					<button onClick={changePageNext}>Next Page</button>
-				)}
-			</header> */}
 
 			<div
 				onDragOver={allowDrop}
@@ -341,27 +327,7 @@ function Pdfview() {
 								size='A4'
 								className='position-relative pdfmbl'
 								key={`page_${index + 1}`}
-								pageNumber={index + 1}>
-								{/* <ReactSignatureCanvas
-									ref={(ref) => {
-										if (ref != null) {
-											refs.push(ref);
-										}
-									}}
-									penColor='black'
-									canvasProps={{
-										width:
-											canvasWidth != null
-												? canvasWidth
-												: 100,
-										height:
-											canvasHeight != null
-												? canvasHeight
-												: 100,
-										className: `sigCanvas position-absolute `,
-									}}
-								/> */}
-							</Page>
+								pageNumber={index + 1}></Page>
 						</div>
 					))}
 				</Document>
