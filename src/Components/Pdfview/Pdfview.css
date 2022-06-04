@@ -35,6 +35,10 @@
 	bottom: 0;
 	right: 0;
 }
+.resize {
+	resize: both;
+	overflow: auto;
+}
 @media (max-width: 600px) {
 	.react-pdf__Page__canvas {
 		width: 100% !important;

@@ -14,6 +14,7 @@ function Pdfview() {
 	const [canvasWidth, setCanvasWidth] = useState(null);
 	const [canvasHeight, setCanvasHeight] = useState(null);
 	const [baseUrl, setBaseUrl] = useState("");
+	const [upload, setupload] = useState(false);
 	const [CanvbaseUrl, setCanvBaseUrl] = useState("");
 	const [showPad, setShowPad] = useState(false);
 
@@ -86,21 +87,55 @@ function Pdfview() {
 	var initialY;
 	var xOffset = 0;
 	var yOffset = 0;
+	var resize = false;
 	var dragItem;
 	const handleSignatureDrop = (e) => {
 		e.preventDefault();
 		console.log(e);
 		const image = document.createElement("img");
+		const wrapper = document.createElement("div");
+		wrapper.classList.add("position-absolute");
+		wrapper.style.width = "40px";
+		wrapper.style.height = "40px";
+		const Container = document.querySelector(".wrapperCanvas");
+		const signTop = Container.scrollTop + (Container.clientHeight / 2);
+		wrapper.style.transform = `translateY(${signTop}px)`;
+		yOffset = signTop;
+		// wrapper.draggable = false;
 		image.src = e.dataTransfer.getData("base64String");
 		image.draggable = false;
-		image.classList.add("position-absolute");
+		image.classList.add("img-fluid");
+		wrapper.addEventListener("dblclick", () => {
+			wrapper.classList.toggle("resize");
+			console.log(wrapper.classList);
+			resize = !resize;
+			if (resize) {
+				Container.removeEventListener("touchstart", dragStart, false);
+				Container.removeEventListener("touchend", dragEnd, false);
+				Container.removeEventListener("touchmove", drag, false);
+
+				Container.removeEventListener("mousedown", dragStart, false);
+				Container.removeEventListener("mouseup", dragEnd, false);
+				Container.removeEventListener("mousemove", drag, false);
+			} else {
+				Container.addEventListener("touchstart", dragStart, false);
+				Container.addEventListener("touchend", dragEnd, false);
+				Container.addEventListener("touchmove", drag, false);
+
+				Container.addEventListener("mousedown", dragStart, false);
+				Container.addEventListener("mouseup", dragEnd, false);
+				Container.addEventListener("mousemove", drag, false);
+			}
+		});
+
 		// image.id = "signImg";
-		image.style.width = "40px";
-		image.style.height = "40px";
+		image.style.pointerEvents = "none";
+		// image.style.width = "44px";
+		// image.style.height = "44px";
 		// image.style.position = "absolute";
-		e.currentTarget.append(image);
-		dragItem = image;
-		const Container = document.querySelector(".wrapperCanvas");
+		wrapper.appendChild(image);
+		e.currentTarget.appendChild(wrapper);
+		dragItem = wrapper;
 
 		Container.addEventListener("touchstart", dragStart, false);
 		Container.addEventListener("touchend", dragEnd, false);
@@ -126,7 +161,7 @@ function Pdfview() {
 			initialX = e.clientX - xOffset;
 			initialY = e.clientY - yOffset;
 		}
-
+		console.log(e, dragItem);
 		if (e.target === dragItem) {
 			active = true;
 		}
@@ -141,6 +176,7 @@ function Pdfview() {
 
 	function drag(e) {
 		e.preventDefault();
+
 		if (active) {
 			e.preventDefault();
 
@@ -160,6 +196,10 @@ function Pdfview() {
 	}
 
 	function setTranslate(xPos, yPos, el) {
+		// if (resize) {
+		// 	el.style.width += xPos;
+		// 	el.style.height += yPos;
+		// } else
 		el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
 	}
 	const handleSaveSignature = () => {
@@ -179,25 +219,49 @@ function Pdfview() {
 					<Modal.Title>Signature Pad</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div
-						className='border signaturepad d-flex align-items-center justify-content-center'
-						style={{ width: "100%", height: "250px" }}>
-						<ReactSignatureCanvas
-							ref={(ref) => {
-								if (ref != null) {
-									// refs.push(ref);
-									refs = ref;
-								}
-							}}
-							penColor='black'
-							canvasProps={{
-								width: document.querySelector(".modal-body")
-									?.offsetWidth,
-								height: 250,
-								className: ``,
-							}}
-						/>
+					<div className='my-2 d-flex align-items-center justify-content-center'>
+						<span
+							className='me-2 btn btn-secondary'
+							onClick={() => setupload(false)}>
+							Draw
+						</span>
+						<span
+							className='btn btn-secondary'
+							onClick={() => setupload(true)}>
+							Upload
+						</span>
 					</div>
+					{!upload ? (
+						<div
+							className='border signaturepad d-flex align-items-center justify-content-center'
+							style={{ width: "100%", height: "250px" }}>
+							<ReactSignatureCanvas
+								ref={(ref) => {
+									if (ref != null) {
+										// refs.push(ref);
+										refs = ref;
+									}
+								}}
+								penColor='black'
+								canvasProps={{
+									width: document.querySelector(".modal-body")
+										?.offsetWidth,
+									height: 250,
+									className: ``,
+								}}
+							/>
+						</div>
+					) : (
+						<div
+							className='border signaturepad d-flex align-items-center justify-content-center'
+							style={{ width: "100%", height: "250px" }}>
+							Drag and drop or
+							<input
+								type='file'
+								onChange={(e) => encodeImageFileAsURL(e)}
+							/>
+						</div>
+					)}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant='secondary' onClick={handleClear}>
@@ -236,10 +300,10 @@ function Pdfview() {
 						alt=''
 						srcset=''
 					/>
-					<input
+					{/* <input
 						type='file'
 						onChange={(e) => encodeImageFileAsURL(e)}
-					/>
+					/> */}
 					{/* <span className='btn btn-info me-3' onClick={handleSign}>
 						{sign ? "Normal" : "Sign"}
 					</span> */}
