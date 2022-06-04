@@ -94,21 +94,21 @@ function Pdfview() {
 		console.log(e);
 		const image = document.createElement("img");
 		const wrapper = document.createElement("div");
+		const Container = document.querySelector(".wrapperCanvas");
+		const signTop = Container.scrollTop + Container.clientHeight / 2;
+
 		wrapper.classList.add("position-absolute");
 		wrapper.style.width = "40px";
 		wrapper.style.height = "40px";
-		const Container = document.querySelector(".wrapperCanvas");
-		const signTop = Container.scrollTop + (Container.clientHeight / 2);
+
 		wrapper.style.transform = `translateY(${signTop}px)`;
 		yOffset = signTop;
-		// wrapper.draggable = false;
-		image.src = e.dataTransfer.getData("base64String");
-		image.draggable = false;
-		image.classList.add("img-fluid");
+
 		wrapper.addEventListener("dblclick", () => {
 			wrapper.classList.toggle("resize");
-			console.log(wrapper.classList);
+			// console.log(wrapper.classList);
 			resize = !resize;
+
 			if (resize) {
 				Container.removeEventListener("touchstart", dragStart, false);
 				Container.removeEventListener("touchend", dragEnd, false);
@@ -128,15 +128,19 @@ function Pdfview() {
 			}
 		});
 
-		// image.id = "signImg";
+		//populating a image with the uploaded image
+		image.src = e.dataTransfer.getData("base64String");
+		image.draggable = false;
+		image.classList.add("img-fluid");
 		image.style.pointerEvents = "none";
-		// image.style.width = "44px";
-		// image.style.height = "44px";
-		// image.style.position = "absolute";
+
+		//appending child to the parent
 		wrapper.appendChild(image);
 		e.currentTarget.appendChild(wrapper);
+
 		dragItem = wrapper;
 
+		//adding event listener to drag around
 		Container.addEventListener("touchstart", dragStart, false);
 		Container.addEventListener("touchend", dragEnd, false);
 		Container.addEventListener("touchmove", drag, false);
@@ -196,10 +200,6 @@ function Pdfview() {
 	}
 
 	function setTranslate(xPos, yPos, el) {
-		// if (resize) {
-		// 	el.style.width += xPos;
-		// 	el.style.height += yPos;
-		// } else
 		el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
 	}
 	const handleSaveSignature = () => {
