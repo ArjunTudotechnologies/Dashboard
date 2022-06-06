@@ -6,7 +6,9 @@ import { UilAngleLeftB } from "@iconscout/react-unicons";
 import { useHistory } from "react-router-dom";
 import "./Pdfview.css";
 import { Modal, Button } from "react-bootstrap";
-
+import $ from "jquery";
+import DatePicker from "react-datepicker";
+import ReactDOM from "react-dom";
 function Pdfview() {
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
@@ -50,16 +52,6 @@ function Pdfview() {
 		setPageNumber((prevPageNumber) => prevPageNumber + offSet);
 	}
 
-	function changePageBack() {
-		changePage(-1);
-	}
-
-	function changePageNext() {
-		changePage(+1);
-	}
-	// let bbox_rect;
-	// let painting = false;
-
 	const handleSign = () => {
 		const status = !sign;
 		console.log(refer, status);
@@ -81,21 +73,38 @@ function Pdfview() {
 		reader.readAsDataURL(file);
 	}
 	var active = false;
-	var currentX;
-	var currentY;
-	var initialX;
-	var initialY;
-	var xOffset = 0;
-	var yOffset = 0;
+
 	var resize = false;
 	var dragItem;
 	var wrapperID = 0;
 	const handleSignatureDrop = (e) => {
 		e.preventDefault();
 		console.log(e);
-		const image = document.createElement("img");
+		let child = null;
+		if (e.dataTransfer.getData("type") == "date") {
+			const div = document.createElement("div");
+			const date = document.createElement("input");
+			date.type = "date";
+			date.style.height = "max-content";
+			div.style.border = "1px dotted black";
+			div.style.width = "max-content";
+			// div.style.padding = "5px";
+			// date.style.pointerEvents = "none";
+			div.append(date);
+			child = div;
+			// e.target.append(date);
+		} else {
+			const image = document.createElement("img");
+			//populating a image with the uploaded image
+			image.src = e.dataTransfer.getData("base64String");
+			image.draggable = false;
+			image.classList.add("img-fluid");
+			image.style.pointerEvents = "none";
+			child = image;
+		}
 		const wrapper = document.createElement("div");
 		const Container = document.querySelector(".wrapperCanvas");
+
 		const signTop = Container.scrollTop + Container.clientHeight / 2;
 
 		wrapper.classList.add("position-absolute");
@@ -103,12 +112,14 @@ function Pdfview() {
 		wrapperID += 1;
 		wrapper.style.width = "40px";
 		wrapper.style.height = "40px";
-
+		wrapper.style.padding = "5px";
+		// wrapper.style.border = "1px dotted black";
 		wrapper.style.transform = `translateY(${signTop}px)`;
-		yOffset = signTop;
-
+		// yOffset = signTop;
+		wrapper.classList.add("dragit");
 		wrapper.addEventListener("dblclick", () => {
 			wrapper.classList.toggle("resize");
+			// $(wrapper).resizable();
 			// console.log(wrapper.classList);
 			resize = !resize;
 
@@ -131,15 +142,17 @@ function Pdfview() {
 			}
 		});
 
-		//populating a image with the uploaded image
-		image.src = e.dataTransfer.getData("base64String");
-		image.draggable = false;
-		image.classList.add("img-fluid");
-		image.style.pointerEvents = "none";
-
 		//appending child to the parent
-		wrapper.appendChild(image);
-		e.currentTarget.appendChild(wrapper);
+		wrapper.appendChild(child);
+		wrapper.setAttribute("data-xOffset", "0");
+		wrapper.setAttribute("data-yOffset", signTop);
+		wrapper.setAttribute("data-currentX", "0");
+		wrapper.setAttribute("data-currentY", signTop);
+		console.log(wrapper.getAttribute("data-yOffset"));
+		// wrapper.xOffset = 0;
+		// wrapper.yOffset = 0;
+		// console.log(wrapper.xOffset);
+		e.target.appendChild(wrapper);
 
 		dragItem = wrapper;
 
@@ -153,56 +166,140 @@ function Pdfview() {
 		Container.addEventListener("mousemove", drag, false);
 	};
 
+	var currentX;
+	var currentY;
+	var initialX;
+	var initialY;
+	var xOffset = 0;
+	var yOffset = 0;
 	function allowDrop(ev) {
 		ev.preventDefault();
 	}
 	function dragging(ev) {
-		ev.dataTransfer.setData("base64String", ev.target.getAttribute("src"));
+		if (ev.target.getAttribute("name") == "image") {
+			ev.dataTransfer.setData(
+				"base64String",
+				ev.target.getAttribute("src")
+			);
+			ev.dataTransfer.setData("type", ev.target.getAttribute("name"));
+		} else {
+			ev.dataTransfer.setData("type", ev.target.getAttribute("name"));
+		}
 	}
 
 	function dragStart(e) {
 		if (e.type === "touchstart") {
-			initialX = e.touches[0].clientX - xOffset;
-			initialY = e.touches[0].clientY - yOffset;
+			// e.target.initialX =
+			// 	e.touches[0].clientX - e.target.xOffset;
+			// e.target.initialY =
+			// 	e.touches[0].clientY - e.target.yOffset;
+			// initialX = e.touches[0].clientX - xOffset;
+			// initialY = e.touches[0].clientY - yOffset;
 		} else {
-			initialX = e.clientX - xOffset;
-			initialY = e.clientY - yOffset;
+			console.log(e.clientX, e.target.getAttribute("data-yOffset"));
+			e.target.setAttribute(
+				"data-initialX",
+				e.clientX - e.target.getAttribute("data-xOffset")
+			);
+			e.target.setAttribute(
+				"data-initialY",
+				e.clientY - e.target.getAttribute("data-yOffset")
+			);
+			// e.clientX - e.target.getAttribute("data-xOffset");
+			// e.target.initialY =
+			// 	e.clientY - e.target.getAttribute("data-yOffset");
+			// initialX = e.clientX - xOffset;
+			// initialY = e.clientY - yOffset;
 		}
-		console.log(e, dragItem);
-		if (e.target === dragItem) {
+		console.log(
+			e.target.getAttribute("data-initialX"),
+			e.target.getAttribute("data-initialY"),
+			dragItem
+		);
+		if (e.target.classList.contains("dragit")) {
 			active = true;
 		}
 	}
 
 	function dragEnd(e) {
-		initialX = currentX;
-		initialY = currentY;
-
+		e.target.setAttribute(
+			"data-initialX",
+			e.target.getAttribute("data-currentX")
+		);
+		e.target.setAttribute(
+			"data-initialY",
+			e.target.getAttribute("data-currentY")
+		);
+		// e.target.initialX = e.target.currentX;
+		// e.target.initialY = e.target.currentY;
+		// initialX = currentX;
+		// initialY = currentY;
+		// console.log(e.target.initialX);
 		active = false;
+		console.log(e.target);
 	}
 
 	function drag(e) {
 		e.preventDefault();
-
 		if (active) {
+			console.log(e.target.getAttribute("data-currentY"));
 			e.preventDefault();
 
 			if (e.type === "touchmove") {
-				currentX = e.touches[0].clientX - initialX;
-				currentY = e.touches[0].clientY - initialY;
+				// currentX = e.touches[0].clientX - initialX;
+				// currentY = e.touches[0].clientY - initialY;
+				e.target.setAttribute(
+					"data-currentX",
+					e.touches[0].clientX -
+						e.target.getAttribute("data-initialX")
+				);
+				e.target.setAttribute(
+					"data-currentY",
+					e.touches[0].clientY -
+						e.target.getAttribute("data-initialY")
+				);
+				// e.target.currentX =
+				// 	e.touches[0].clientX - e.target.initialX;
+				// e.target.currentY =
+				// 	e.touches[0].clientY - e.target.initialY;
 			} else {
-				currentX = e.clientX - initialX;
-				currentY = e.clientY - initialY;
+				e.target.setAttribute(
+					"data-currentX",
+					e.clientX - e.target.getAttribute("data-initialX")
+				);
+				e.target.setAttribute(
+					"data-currentY",
+					e.clientY - e.target.getAttribute("data-initialY")
+				);
+				// currentX = e.clientX - initialX;
+				// currentY = e.clientY - initialY;
+				// e.target.currentX = e.clientX - e.target.initialX;
+				// e.target.currentY = e.clientY - e.target.initialX;
 			}
 
-			xOffset = currentX;
-			yOffset = currentY;
-
-			setTranslate(currentX, currentY, dragItem);
+			// xOffset = currentX;
+			// yOffset = currentY;
+			e.target.setAttribute(
+				"data-xOffset",
+				e.target.getAttribute("data-currentX")
+			);
+			e.target.setAttribute(
+				"data-yOffset",
+				e.target.getAttribute("data-currentY")
+			);
+			// e.target.xOffset = e.target.currentX;
+			// e.target.yOffset = e.target.currentY;
+			if (e.target.classList.contains("dragit"))
+				setTranslate(
+					e.target.getAttribute("data-currentX"),
+					e.target.getAttribute("data-currentY"),
+					e.target
+				);
 		}
 	}
 
 	function setTranslate(xPos, yPos, el) {
+		console.log(xPos, yPos, el);
 		el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
 	}
 	const handleSaveSignature = () => {
@@ -214,6 +311,9 @@ function Pdfview() {
 	};
 	const handleClear = () => {
 		refs.clear();
+	};
+	const saveHandle = () => {
+		// const date = document.querySelector("#date");
 	};
 	return (
 		<div className='Pdfview vh-100'>
@@ -286,7 +386,20 @@ function Pdfview() {
 					<TitleBar title={"PDF View"} />
 				</div>
 				<div className='userProfile'>
+					<button
+						onClick={saveHandle}
+						className='btn btn-success me-3'>
+						Save
+					</button>
+					<div
+						onDragStart={dragging}
+						draggable={true}
+						className='Datefield'
+						name='date'>
+						Date
+					</div>
 					<img
+						name='image'
 						onDragStart={dragging}
 						draggable={true}
 						style={{ width: "30px" }}
@@ -296,6 +409,7 @@ function Pdfview() {
 					/>
 					<span onClick={handleShow}>Signature</span>
 					<img
+						name='image'
 						onDragStart={dragging}
 						draggable={true}
 						style={{ width: "30px" }}
