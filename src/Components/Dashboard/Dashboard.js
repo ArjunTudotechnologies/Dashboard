@@ -6,6 +6,7 @@ import FilesPage from "../FilesPage/FilesPage";
 import FlowChart from "../FlowChart/FlowChart";
 import FlowChartComp from "../FlowChart/FlowChartComp/FlowChartComp";
 import Pdfview from "../Pdfview/Pdfview";
+import TemplateDOC from "../TemplateDOC/TemplateDOC";
 import Users from "../Users/Users";
 import "./Dashboard.css";
 import DashScreen from "./DashScreen/DashScreen";
@@ -30,6 +31,9 @@ export default function Dashboard() {
 					</Route>
 					<Route exact path={`${path}/flowchart`}>
 						<FlowChart />
+					</Route>
+					<Route exact path={`${path}/template`}>
+						<TemplateDOC />
 					</Route>
 					<Route exact path={`${path}/:parent/:folder/:folderid`}>
 						<FilesPage />
