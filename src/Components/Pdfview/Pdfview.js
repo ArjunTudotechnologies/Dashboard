@@ -33,7 +33,50 @@ function Pdfview() {
 	};
 	React.useEffect(() => {
 		handlePdfviewerHeight();
+		const localData = localStorage.getItem("dynamicInputs");
+		if (localData?.length) {
+			PopulateStoredData(JSON.parse(localData));
+		}
 	}, []);
+	function setAttributes(el, attrs) {
+		Object.keys(attrs).forEach((key) => el.setAttribute(key, attrs[key]));
+	}
+	const PopulateStoredData = (items) => {
+		items.forEach((item) => {
+			const parent = document.createElement(`div`);
+			const child = document.createElement(`${item.type}`);
+			const Container = document.querySelector(".wrapperCanvas");
+			if (item.type == "INPUT") {
+				child.type = "date";
+				child.style.height = "max-content";
+				child.classList.add("dynamicDragItem");
+				child.value = item.value;
+				child.style.border = "1px dotted black";
+				child.style.width = "max-content";
+			} else {
+				child.src = item.src;
+				child.draggable = false;
+				child.classList.add("img-fluid");
+				child.classList.add("dynamicDragItem");
+				child.style.pointerEvents = "none";
+			}
+			setAttributes(parent, item.attrs);
+			parent.append(child);
+			Container.append(parent);
+
+			parent.addEventListener("dblclick", () => handleResize(parent));
+
+			Container.addEventListener("touchstart", dragStart, false);
+			Container.addEventListener("touchend", dragEnd, false);
+			Container.addEventListener("touchmove", drag, false);
+
+			Container.addEventListener("mousedown", dragStart, false);
+			Container.addEventListener("mouseup", dragEnd, false);
+			Container.addEventListener("mousemove", drag, false);
+		});
+
+		// const wrapper = d;
+	};
 	const handleHistoryBack = () => {
 		history.goBack();
 	};
@@ -77,6 +120,29 @@ function Pdfview() {
 	var resize = false;
 	var dragItem;
 	var wrapperID = 0;
+	const handleResize = (wrapper) => {
+		wrapper.classList.toggle("resize");
+		const Container = document.querySelector(".wrapperCanvas");
+		resize = !resize;
+
+		if (resize) {
+			Container.removeEventListener("touchstart", dragStart, false);
+			Container.removeEventListener("touchend", dragEnd, false);
+			Container.removeEventListener("touchmove", drag, false);
+
+			Container.removeEventListener("mousedown", dragStart, false);
+			Container.removeEventListener("mouseup", dragEnd, false);
+			Container.removeEventListener("mousemove", drag, false);
+		} else {
+			Container.addEventListener("touchstart", dragStart, false);
+			Container.addEventListener("touchend", dragEnd, false);
+			Container.addEventListener("touchmove", drag, false);
+
+			Container.addEventListener("mousedown", dragStart, false);
+			Container.addEventListener("mouseup", dragEnd, false);
+			Container.addEventListener("mousemove", drag, false);
+		}
+	};
 	const handleSignatureDrop = (e) => {
 		e.preventDefault();
 		console.log(e);
@@ -86,6 +152,8 @@ function Pdfview() {
 			const date = document.createElement("input");
 			date.type = "date";
 			date.style.height = "max-content";
+			date.classList.add("dynamicDragItem");
+
 			div.style.border = "1px dotted black";
 			div.style.width = "max-content";
 			// div.style.padding = "5px";
@@ -99,6 +167,7 @@ function Pdfview() {
 			image.src = e.dataTransfer.getData("base64String");
 			image.draggable = false;
 			image.classList.add("img-fluid");
+			image.classList.add("dynamicDragItem");
 			image.style.pointerEvents = "none";
 			child = image;
 		}
@@ -108,39 +177,16 @@ function Pdfview() {
 		const signTop = Container.scrollTop + Container.clientHeight / 2;
 
 		wrapper.classList.add("position-absolute");
-		wrapper.id = `wrapper-${wrapperID}`;
-		wrapperID += 1;
-		wrapper.style.width = "40px";
-		wrapper.style.height = "40px";
+		// wrapper.id = `wrapper-${wrapperID}`;
+		// wrapperID += 1;
+		wrapper.style.width = "max-content";
+		wrapper.style.height = "max-content";
 		wrapper.style.padding = "5px";
 		// wrapper.style.border = "1px dotted black";
 		wrapper.style.transform = `translateY(${signTop}px)`;
 		// yOffset = signTop;
 		wrapper.classList.add("dragit");
-		wrapper.addEventListener("dblclick", () => {
-			wrapper.classList.toggle("resize");
-			// $(wrapper).resizable();
-			// console.log(wrapper.classList);
-			resize = !resize;
-
-			if (resize) {
-				Container.removeEventListener("touchstart", dragStart, false);
-				Container.removeEventListener("touchend", dragEnd, false);
-				Container.removeEventListener("touchmove", drag, false);
-
-				Container.removeEventListener("mousedown", dragStart, false);
-				Container.removeEventListener("mouseup", dragEnd, false);
-				Container.removeEventListener("mousemove", drag, false);
-			} else {
-				Container.addEventListener("touchstart", dragStart, false);
-				Container.addEventListener("touchend", dragEnd, false);
-				Container.addEventListener("touchmove", drag, false);
-
-				Container.addEventListener("mousedown", dragStart, false);
-				Container.addEventListener("mouseup", dragEnd, false);
-				Container.addEventListener("mousemove", drag, false);
-			}
-		});
+		wrapper.addEventListener("dblclick", () => handleResize(wrapper));
 
 		//appending child to the parent
 		wrapper.appendChild(child);
@@ -149,9 +195,7 @@ function Pdfview() {
 		wrapper.setAttribute("data-currentX", "0");
 		wrapper.setAttribute("data-currentY", signTop);
 		console.log(wrapper.getAttribute("data-yOffset"));
-		// wrapper.xOffset = 0;
-		// wrapper.yOffset = 0;
-		// console.log(wrapper.xOffset);
+
 		e.target.appendChild(wrapper);
 
 		dragItem = wrapper;
@@ -166,12 +210,12 @@ function Pdfview() {
 		Container.addEventListener("mousemove", drag, false);
 	};
 
-	var currentX;
-	var currentY;
-	var initialX;
-	var initialY;
-	var xOffset = 0;
-	var yOffset = 0;
+	// var currentX;
+	// var currentY;
+	// var initialX;
+	// var initialY;
+	// var xOffset = 0;
+	// var yOffset = 0;
 	function allowDrop(ev) {
 		ev.preventDefault();
 	}
@@ -189,12 +233,6 @@ function Pdfview() {
 
 	function dragStart(e) {
 		if (e.type === "touchstart") {
-			// e.target.initialX =
-			// 	e.touches[0].clientX - e.target.xOffset;
-			// e.target.initialY =
-			// 	e.touches[0].clientY - e.target.yOffset;
-			// initialX = e.touches[0].clientX - xOffset;
-			// initialY = e.touches[0].clientY - yOffset;
 		} else {
 			console.log(e.clientX, e.target.getAttribute("data-yOffset"));
 			e.target.setAttribute(
@@ -205,11 +243,6 @@ function Pdfview() {
 				"data-initialY",
 				e.clientY - e.target.getAttribute("data-yOffset")
 			);
-			// e.clientX - e.target.getAttribute("data-xOffset");
-			// e.target.initialY =
-			// 	e.clientY - e.target.getAttribute("data-yOffset");
-			// initialX = e.clientX - xOffset;
-			// initialY = e.clientY - yOffset;
 		}
 		console.log(
 			e.target.getAttribute("data-initialX"),
@@ -230,11 +263,7 @@ function Pdfview() {
 			"data-initialY",
 			e.target.getAttribute("data-currentY")
 		);
-		// e.target.initialX = e.target.currentX;
-		// e.target.initialY = e.target.currentY;
-		// initialX = currentX;
-		// initialY = currentY;
-		// console.log(e.target.initialX);
+
 		active = false;
 		console.log(e.target);
 	}
@@ -258,10 +287,6 @@ function Pdfview() {
 					e.touches[0].clientY -
 						e.target.getAttribute("data-initialY")
 				);
-				// e.target.currentX =
-				// 	e.touches[0].clientX - e.target.initialX;
-				// e.target.currentY =
-				// 	e.touches[0].clientY - e.target.initialY;
 			} else {
 				e.target.setAttribute(
 					"data-currentX",
@@ -271,10 +296,6 @@ function Pdfview() {
 					"data-currentY",
 					e.clientY - e.target.getAttribute("data-initialY")
 				);
-				// currentX = e.clientX - initialX;
-				// currentY = e.clientY - initialY;
-				// e.target.currentX = e.clientX - e.target.initialX;
-				// e.target.currentY = e.clientY - e.target.initialX;
 			}
 
 			// xOffset = currentX;
@@ -287,8 +308,7 @@ function Pdfview() {
 				"data-yOffset",
 				e.target.getAttribute("data-currentY")
 			);
-			// e.target.xOffset = e.target.currentX;
-			// e.target.yOffset = e.target.currentY;
+
 			if (e.target.classList.contains("dragit"))
 				setTranslate(
 					e.target.getAttribute("data-currentX"),
@@ -313,7 +333,28 @@ function Pdfview() {
 		refs.clear();
 	};
 	const saveHandle = () => {
-		// const date = document.querySelector("#date");
+		const items = document.querySelectorAll(".dragit");
+		// const items = document.querySelectorAll(".dynamicDragItem");
+		let data = [];
+		items.forEach((item, ind) => {
+			const child = item.querySelector(".dynamicDragItem");
+			console.log(child);
+			let itemObj = {};
+			itemObj.type = child.tagName;
+			if (itemObj.type === "INPUT") {
+				itemObj.value = child.value;
+				// console.log(item.value);
+			} else {
+				itemObj.src = child.src;
+			}
+			const attrs = item.getAttributeNames().reduce((acc, name) => {
+				return { ...acc, [name]: item.getAttribute(name) };
+			}, {});
+			itemObj.attrs = attrs;
+			data.push(itemObj);
+		});
+		console.log(data);
+		localStorage.setItem("dynamicInputs", JSON.stringify(data));
 	};
 	return (
 		<div className='Pdfview vh-100'>
