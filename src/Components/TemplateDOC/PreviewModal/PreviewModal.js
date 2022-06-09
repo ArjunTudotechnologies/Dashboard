@@ -15,7 +15,10 @@ export default function PreviewModal(props) {
 			</Modal.Header>
 			<Modal.Body>
 				<div className='fs-5'>
-					<pre>{props.text}</pre>
+					<div dangerouslySetInnerHTML={{ __html: props.text }}></div>
+
+					{/* {(document.createElement("div").innerHTML = props.text)} */}
+					{/* <pre>{props.text}</pre> */}
 				</div>
 			</Modal.Body>
 			<Modal.Footer>

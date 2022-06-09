@@ -71,7 +71,9 @@ input[type="checkbox"] {
 	width: 40px;
 	height: 40px;
 }
-
+strong {
+	font-weight: bold !important;
+}
 @media (max-width: 600px) {
 	.search_wrapper {
 		flex-direction: column;

@@ -35,3 +35,8 @@
 	border-radius: 13px;
 	background-color: papayawhip;
 }
+.templatePage .ql-editor {
+	height: 300px;
+	overflow-y: auto;
+	background-color: white;
+}
