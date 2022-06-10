@@ -46,52 +46,72 @@ export default function DocGenerateModal(props) {
 	// });
 	// };
 	const printDocument = (texts) => {
+		const items = document.querySelectorAll(".pdfs");
+		items.forEach((item, ind) => {
+			item.parentElement.removeChild(item);
+		});
 		texts.forEach((item, ind) => {
-			// let element = (
-			// 	<div
-			// 		className='pdfs d-none'
-			// 		dangerouslySetInnerHTML={{ __html: item }}></div>
-			// );
 			let element = document.createElement("div");
 			// element.style.display = "none";
 			element.classList.add("pdfs");
+			element.classList.add("p-4");
 			element.innerHTML = item;
 			modalbody.current.append(element);
-			PdfMaking();
-			// ReactDOMServer.
-			// const comp = document.createElement("div");
-			// comp.innerHTML = item;
-			// comp.style.display = "none";
-			// const doc = new jsPDF("p", "pt", "letter");
-			// doc.html(ReactDOMServer.renderToStaticMarkup(element), {
-			// 	callback: function (doc) {
-			// 		doc.save("sample.pdf");
-			// 	},
-			// });
-			// html2canvas(ReactDOMServer.renderToString(element)).then(
-			// 	(canvas) => {
-			// 		const imgData = canvas.toDataURL("image/png");
-			// 		const pdf = new jsPDF();
-			// 		pdf.addImage(imgData, "JPEG", 0, 0);
-			// 		pdf.save(`download-${ind}.pdf`);
-			// 	}
-			// );
 		});
+		PdfMaking();
 	};
 	const PdfMaking = () => {
 		const items = document.querySelectorAll(".pdfs");
 		console.log(items);
-		let pdfList = [];
+		const pdfList = [];
 		items.forEach((item, ind) => {
+			//  html2canvas(item).then(async (canvas) => {
+			// 		const imgData = canvas.toDataURL("image/jpeg");
+			// 		const pdf = new jsPDF("p", "mm", "a4");
+			// 		pdf.addImage(imgData, "JPEG", 10, 10);
+			// 		await pdf.save(`download-${ind}.pdf`, { returnPromise: true });
+			// 		await window.open(
+			// 			pdf.output("bloburl", { filename: `download-${ind}.pdf` }),
+			// 			"_blank"
+			// 		);
+			// 		pdf.output("bol");
+			// 		pdfList.push(pdf);
+			// 		const base64 = pdf.output("datauristring");
+			// 		console.log(pdf.output("datauristring"));
+			// 		pdfList.push(pdf.output("datauristring"));
+			// 		window.open(pdf.output("bloburl"));
+			// 		pdf.save(`download-${ind}.pdf`);
+			// 	});
+			let data;
+			console.log(ind, item);
 			html2canvas(item).then((canvas) => {
-				const imgData = canvas.toDataURL("image/png");
-				const pdf = new jsPDF();
-				pdf.addImage(imgData, "JPEG", 0, 0);
-				pdfList.push(pdf);
-				// pdf.save(`download-${ind}.pdf`);
+				var pdf = new jsPDF();
+				var marginLeft = 20;
+				var marginRight = 20;
+
+				pdf.addImage(
+					canvas.toDataURL("image/jpeg"),
+					"jpeg",
+					marginLeft,
+					marginRight
+				);
+				data = pdf.output(
+					"bloburl",
+					{
+						filename: `download-${ind}.pdf`,
+					},
+					{ returnPromise: true }
+				);
+
+				window.open(data, "_blank");
 			});
 		});
-		console.log(pdfList);
+		// pdfList.forEach((item) => {
+		// 	console.log("what");
+		// 	window.open(item, "_blank");
+		// 	// window.open(item.output("bloburl"));
+		// });
+		console.log(pdfList.length);
 	};
 	useEffect(() => {
 		getUsers();
