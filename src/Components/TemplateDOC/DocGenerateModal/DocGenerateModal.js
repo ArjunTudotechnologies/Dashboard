@@ -19,11 +19,24 @@ export default function DocGenerateModal(props) {
 			.catch((err) => console.log(err));
 	};
 	const SelectedUser = (userData) => {
-		setSelectedusers((prev) => [...prev, userData]);
+		let selected = [];
+		const usersCheckbox = document.querySelectorAll(".userCheckBox");
+		usersCheckbox.forEach((user, ind) => {
+			if (user.checked) {
+				const userIndex = user.getAttribute("data-userIndex");
+				// console.log(userIndex, users[userIndex]);
+				selected = [...selected, users[userIndex].data];
+			}
+		});
+		console.log(selected);
+		setSelectedusers(selected);
+		GoNext(selected);
+		// setSelectedusers((prev) => [...prev, userData]);
 	};
-	const GoNext = () => {
+	const GoNext = (selected) => {
 		let text = [];
-		Selectedusers.map((item, ind) => {
+		// SelectedUser();
+		selected.map((item, ind) => {
 			const replacedText = props.template
 				.replaceAll(`{ Name }`, item.name)
 				.replaceAll(`{ Email }`, item.email);
@@ -47,16 +60,27 @@ export default function DocGenerateModal(props) {
 	// };
 	const printDocument = (texts) => {
 		const items = document.querySelectorAll(".pdfs");
-		items.forEach((item, ind) => {
-			item.parentElement.removeChild(item);
-		});
+		console.log(items);
+		const appendTempDIV = document.querySelector(".pdfMakingTempDiv");
+		// items.forEach((item, ind) => {
+		// 	item.parentElement.removeChild(item);
+
+		// });
+		if (items?.length) {
+			appendTempDIV.innerHTML = "";
+			// const div = document.createElement("div");
+			// div.classList.add("pdfMakingTempDiv");
+			// modalbody.current.append(div);
+		}
 		texts.forEach((item, ind) => {
 			let element = document.createElement("div");
 			// element.style.display = "none";
 			element.classList.add("pdfs");
 			element.classList.add("p-4");
 			element.innerHTML = item;
-			modalbody.current.append(element);
+			// const appendTempDIV = document.queryselector(".pdfMakingTempDiv");
+			appendTempDIV.append(element);
+			// modalbody.current.append(element);
 		});
 		PdfMaking();
 	};
@@ -136,7 +160,9 @@ export default function DocGenerateModal(props) {
 								htmlFor={`checkbox-${ind + 1}`}
 								className='d-flex align-items-center my-2'>
 								<input
-									onChange={() => SelectedUser(user.data)}
+									// onChange={() => SelectedUser(user.data)}
+									data-userIndex={ind}
+									className='userCheckBox'
 									id={`checkbox-${ind + 1}`}
 									type='checkbox'
 								/>{" "}
@@ -145,11 +171,14 @@ export default function DocGenerateModal(props) {
 						))}
 					</div>
 				</div>
+				<div
+					style={{ height: "0", overflow: "hidden" }}
+					className='pdfMakingTempDiv'></div>
 			</Modal.Body>
 			<Modal.Footer>
 				<Button onClick={props.onHide}>Close</Button>
 				{step == 1 ? (
-					<Button onClick={GoNext}>Next</Button>
+					<Button onClick={SelectedUser}>Next</Button>
 				) : (
 					<Button onClick={props.onHide}>Done</Button>
 				)}
